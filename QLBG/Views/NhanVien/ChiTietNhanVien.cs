@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using QLBG.DAL;
+using QLBG.Helpers;
 
 namespace QLBG.Views.NhanVien
 {
@@ -20,6 +21,12 @@ namespace QLBG.Views.NhanVien
         public ChiTietNhanVien(string maNVString)
         {
             InitializeComponent();
+            if(Session.QuyenAdmin == false)
+            {
+                btnXoa.Visible = false;
+                btnChonAnhChoNhanVien.Visible = false;
+                btnUpdate.Visible = false; 
+            }
             dbHelper = new DatabaseHelper();
 
             // Chuyển đổi maNV từ chuỗi sang int
@@ -177,6 +184,15 @@ namespace QLBG.Views.NhanVien
 
             if (isSuccess)
             {
+                if(Session.MaNV == maNV && quyenAdmin == false)
+                {
+                    Session.ClearAuthentication();
+                    MessageBox.Show("Bạn đã bị đăng xuất vì quyền quản trị của bạn đã bị hủy.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Access.LoginForm login = new Access.LoginForm();
+                    login.Show();
+                    this.Close();
+                    return;
+                }
                 MessageBox.Show("Cập nhật thông tin nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 EmployeeUpdated?.Invoke(this, EventArgs.Empty);
                 this.Close();
@@ -199,6 +215,15 @@ namespace QLBG.Views.NhanVien
                 bool isSuccess = dbHelper.DeleteEmployee(maNV);
                 if (isSuccess)
                 {
+                    if(Session.MaNV == maNV)
+                    {
+                        Session.ClearAuthentication();
+                        MessageBox.Show("Bạn đã bị đăng xuất vì tài khoản của bạn đã bị xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Access.LoginForm login = new Access.LoginForm();
+                        login.Show();
+                        this.Close();
+                        return;
+                    }
                     MessageBox.Show("Xóa nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     EmployeeUpdated?.Invoke(this, EventArgs.Empty);
                     this.Close();

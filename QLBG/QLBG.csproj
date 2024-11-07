@@ -253,6 +253,7 @@
     <Compile Include="DAL\DacDiemDAL.cs" />
     <Compile Include="DAL\DatabaseHelper.cs" />
     <Compile Include="DAL\DatabaseManager.cs" />
+    <Compile Include="DAL\HoaDonBanDAL.cs" />
     <Compile Include="DAL\HinhDangDAL.cs" />
     <Compile Include="DAL\KhachHangDAL.cs" />
     <Compile Include="DAL\KichThuocDAL.cs" />
@@ -445,6 +446,12 @@
     <Compile Include="Views\SanPham\TheSanPham.Designer.cs">
       <DependentUpon>TheSanPham.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ThongKeDoanhThu\ThongKeDoangThu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ThongKeDoanhThu\ThongKeDoangThu.Designer.cs">
+      <DependentUpon>ThongKeDoangThu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\TrangChu.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -544,6 +551,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SanPham\TheSanPham.resx">
       <DependentUpon>TheSanPham.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ThongKeDoanhThu\ThongKeDoangThu.resx">
+      <DependentUpon>ThongKeDoangThu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\TrangChu.resx">
       <DependentUpon>TrangChu.cs</DependentUpon>

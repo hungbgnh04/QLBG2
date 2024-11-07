@@ -216,8 +216,7 @@ namespace QLBG.Views.Access
                         bool quyenAdmin = Convert.ToBoolean(employee["QuyenAdmin"]);
 
                         // Lưu thông tin vào Session
-                        Session.MaNV = maNV;
-                        Session.QuyenAdmin = quyenAdmin;
+                        Session.SetAuthentication(maNV, quyenAdmin);
 
                         incorrectInfo.Visible = false;
                         this.Hide();
@@ -237,6 +236,7 @@ namespace QLBG.Views.Access
                 }
             }
         }
+
 
 
         private void button1_MouseEnter(object sender, EventArgs e) // btnLogin_MouseEnter

@@ -96,13 +96,35 @@ namespace QLBG.DAL
 
         public DataRow GetEmployeeByMaNV(int maNV)
         {
-            string query = "SELECT * FROM NhanVien WHERE MaNV=@MaNV";
+            string query = @"
+        SELECT 
+            NV.MaNV,
+            NV.TenNV,
+            NV.GioiTinh,
+            NV.NgaySinh,
+            NV.DienThoai,
+            NV.Password,
+            NV.QuyenAdmin,
+            NV.Email,
+            NV.DiaChi,
+            NV.Anh,
+            NV.MaCV,
+            CV.TenCV
+        FROM 
+            NhanVien NV
+        INNER JOIN 
+            CongViec CV ON NV.MaCV = CV.MaCV
+        WHERE 
+            NV.MaNV = @MaNV";
+
             SqlParameter[] parameters = {
-                new SqlParameter("@MaNV", maNV)
-            };
+        new SqlParameter("@MaNV", maNV)
+    };
+
             DataTable result = dbManager.ExecuteDataTable(query, parameters);
             return result.Rows.Count > 0 ? result.Rows[0] : null;
         }
+
 
         public bool UpdateEmployee(int maNV, string tenNV, bool gioiTinh, DateTime ngaySinh, string dienThoai, string email, string diaChi, string anh, int maCV, bool quyenAdmin, string password)
         {
@@ -161,5 +183,7 @@ namespace QLBG.DAL
             DataTable result = dbManager.ExecuteDataTable(query, parameters);
             return result.Rows.Count > 0 ? result.Rows[0] : null;
         }
+
+
     }
 }

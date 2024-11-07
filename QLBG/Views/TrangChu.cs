@@ -3,83 +3,135 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using DataTable = System.Data.DataTable;
+using QLBG.DAL;
+using QLBG.Helpers;
+using System.Collections.Generic;
+using System.IO;
 
 namespace QLBG.Views
 {
     public partial class TrangChu : UserControl
     {
+        private readonly HoaDonBanDAL hoaDonBanDAL;
+
         public TrangChu()
         {
             InitializeComponent();
+            hoaDonBanDAL = new HoaDonBanDAL();
         }
 
         private void HomePage_Load(object sender, EventArgs e)
         {
-            NameLb.Text = "Mai Việt Hùng";
-            IDLb.Text = "B1809276";
-            JobLb.Text = "Quản lý";
+            // Hiển thị thông tin cá nhân từ Session.MaNV
+            LoadEmployeeInfo();
 
-            MonthInvoiceLb.Text = 30000000.ToString("N0") + " VND";
-            BillTodayLb.Text = "10";
-            ProductLb.Text = "100";
-
+            // Cập nhật dữ liệu thống kê và biểu đồ
+            UpdateStatistics();
             LoadChartData();
         }
 
+        private void LoadEmployeeInfo()
+        {
+            DatabaseHelper dbHelper = new DatabaseHelper();
+            DataRow employee = dbHelper.GetEmployeeByMaNV(Session.MaNV);
+            if (employee != null)
+            {
+                // Hiển thị tên, mã và công việc
+                NameLb.Text = employee["TenNV"].ToString();
+                IDLb.Text = employee["MaNV"].ToString();
+                JobLb.Text = employee["TenCV"].ToString();
+
+                // Tải ảnh nhân viên
+                string imageName = employee["Anh"].ToString();
+                string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+                string imageDirectory = Path.Combine(projectDirectory, "Resources", "EmployeeImages");
+                string imagePath = Path.Combine(imageDirectory, imageName);
+
+                // Kiểm tra nếu ảnh nhân viên tồn tại
+                if (!string.IsNullOrEmpty(imageName) && File.Exists(imagePath))
+                {
+                    UserIcon.Image = Image.FromFile(imagePath);
+                }
+                else
+                {
+                    // Sử dụng ảnh mặc định nếu không tìm thấy ảnh nhân viên
+                    string defaultImagePath = Path.Combine(imageDirectory, "ic_user.png");
+                    if (File.Exists(defaultImagePath))
+                    {
+                        UserIcon.Image = Image.FromFile(defaultImagePath);
+                    }
+                    else
+                    {
+                        // Nếu ảnh mặc định không tồn tại, sử dụng một hình ảnh tích hợp sẵn
+                        UserIcon.Image = Properties.Resources.eye; // Thay 'eye' bằng ảnh tích hợp khác nếu cần
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy thông tin nhân viên!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void UpdateStatistics()
+        {
+            int currentMonth = DateTime.Now.Month;
+            int currentYear = DateTime.Now.Year;
+
+            decimal monthlyRevenue = hoaDonBanDAL.GetMonthlyRevenue(currentMonth, currentYear);
+            MonthInvoiceLb.Text = monthlyRevenue.ToString("N0") + " VND";
+
+            int invoiceCountToday = hoaDonBanDAL.GetInvoiceCountToday();
+            BillTodayLb.Text = invoiceCountToday.ToString();
+
+            int totalProductInStock = hoaDonBanDAL.GetTotalProductCountInStock();
+            ProductLb.Text = totalProductInStock.ToString();
+        }
+
+
         private void LoadChartData()
         {
-            DataTable salesData = GetMonthlySalesData();
+            DataTable salesData = hoaDonBanDAL.GetMonthlySalesByProductType();
 
             if (salesData != null)
             {
                 OverallChart.Datasets.Clear();
 
-                var tableDataset = new Guna.Charts.WinForms.GunaBarDataset
-                {
-                    Label = "Bàn",
-                    DataPoints = new LPointCollection(),
-                    FillColors = new ColorCollection { Color.MediumAquamarine }
-                };
-
-                var chairDataset = new Guna.Charts.WinForms.GunaBarDataset
-                {
-                    Label = "Ghế",
-                    DataPoints = new LPointCollection(),
-                    FillColors = new ColorCollection { Color.MediumVioletRed }
-                };
+                // Tạo dataset cho từng loại sản phẩm với màu ngẫu nhiên
+                var datasetsByProductType = new Dictionary<string, GunaBarDataset>();
+                Random random = new Random();
 
                 foreach (DataRow row in salesData.Rows)
                 {
-                    string month = row["Month"].ToString();
-                    double tableSales = Convert.ToDouble(row["TableSales"]);
-                    double chairSales = Convert.ToDouble(row["ChairSales"]);
+                    string productType = row["ProductType"].ToString();
+                    string month = "Tháng " + row["Month"].ToString();
+                    double revenue = Convert.ToDouble(row["Revenue"]);
 
-                    tableDataset.DataPoints.Add(month, tableSales);
-                    chairDataset.DataPoints.Add(month, chairSales);
+                    // Nếu chưa có dataset cho loại sản phẩm, tạo mới và thêm vào chart với màu ngẫu nhiên
+                    if (!datasetsByProductType.ContainsKey(productType))
+                    {
+                        var randomColor = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
+                        var dataset = new GunaBarDataset
+                        {
+                            Label = productType,
+                            FillColors = new ColorCollection { randomColor }
+                        };
+                        datasetsByProductType[productType] = dataset;
+                        OverallChart.Datasets.Add(dataset);
+                    }
+
+                    // Thêm doanh thu vào dataset tương ứng
+                    datasetsByProductType[productType].DataPoints.Add(month, revenue);
                 }
-                OverallChart.Datasets.Add(tableDataset);
-                OverallChart.Datasets.Add(chairDataset);
 
                 OverallChart.Update();
             }
-        }
-
-        private DataTable GetMonthlySalesData()
-        {
-            DataTable table = new DataTable();
-            table.Columns.Add("Month", typeof(string));
-            table.Columns.Add("TableSales", typeof(double));
-            table.Columns.Add("ChairSales", typeof(double));
-
-            Random random = new Random();
-
-            for (int i = 1; i <= 10; i++)
+            else
             {
-                table.Rows.Add("Tháng " + i, random.Next(5000000, 20000000), random.Next(5000000, 20000000));
+                MessageBox.Show("Không có dữ liệu doanh thu để hiển thị!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            return table;
         }
+
     }
 }
