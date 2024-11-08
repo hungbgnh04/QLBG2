@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using QLBG.DAL;
+using QLBG.Helpers;
 
 namespace QLBG.Views.NhanVien
 {
@@ -17,12 +18,18 @@ namespace QLBG.Views.NhanVien
         private Point dragFormPoint;
         private readonly int maNV;
         public event EventHandler EmployeeUpdated;
+
         public ChiTietNhanVien(string maNVString)
         {
             InitializeComponent();
+            if (Session.QuyenAdmin == false)
+            {
+                btnXoa.Visible = false;
+                btnChonAnhChoNhanVien.Visible = false;
+                btnUpdate.Visible = false;
+            }
             dbHelper = new DatabaseHelper();
 
-            // Chuyển đổi maNV từ chuỗi sang int
             if (int.TryParse(maNVString, out int parsedMaNV))
             {
                 maNV = parsedMaNV;
@@ -33,12 +40,10 @@ namespace QLBG.Views.NhanVien
                 this.Close();
             }
 
-            // Thiết lập sự kiện cho việc kéo thả form
             panelMain.MouseDown += DraggablePanel_MouseDown;
             panelMain.MouseMove += DraggablePanel_MouseMove;
             panelMain.MouseUp += DraggablePanel_MouseUp;
 
-            // Làm tròn các góc của form và button
             RoundCorners(this, 60);
             RoundCorners(btnUpdate, 30);
             RoundCorners(btnXoa, 30);
@@ -57,7 +62,7 @@ namespace QLBG.Views.NhanVien
             comboBoxGioiTinh.Items.Clear();
             comboBoxGioiTinh.Items.Add("Nam");
             comboBoxGioiTinh.Items.Add("Nữ");
-            comboBoxGioiTinh.SelectedIndex = -1; // Đặt mặc định là không có mục nào được chọn
+            comboBoxGioiTinh.SelectedIndex = -1;
         }
 
         private void LoadComboBoxCongViec()
@@ -66,9 +71,9 @@ namespace QLBG.Views.NhanVien
             if (dtCongViec != null && dtCongViec.Rows.Count > 0)
             {
                 comboBoxCongViec.DataSource = dtCongViec;
-                comboBoxCongViec.DisplayMember = "TenCV";  // Tên công việc
-                comboBoxCongViec.ValueMember = "MaCV";      // Mã công việc (giá trị thực sự)
-                comboBoxCongViec.SelectedIndex = -1;        // Đặt mặc định là không có mục nào được chọn
+                comboBoxCongViec.DisplayMember = "TenCV";
+                comboBoxCongViec.ValueMember = "MaCV";
+                comboBoxCongViec.SelectedIndex = -1;
             }
             else
             {
@@ -93,13 +98,11 @@ namespace QLBG.Views.NhanVien
                 comboBoxCongViec.SelectedValue = Convert.ToInt32(employee["MaCV"]);
                 checkBoxQuyenAdmin.Checked = Convert.ToBoolean(employee["QuyenAdmin"]);
 
-                // Tải ảnh nhân viên
                 string imageName = employee["Anh"].ToString();
                 string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
                 string imageDirectory = Path.Combine(projectDirectory, "Resources", "EmployeeImages");
                 string imagePath = Path.Combine(imageDirectory, imageName);
 
-                // Kiểm tra nếu ảnh nhân viên tồn tại
                 if (!string.IsNullOrEmpty(imageName) && File.Exists(imagePath))
                 {
                     pictureBoxAnhNhanVien.Image = Image.FromFile(imagePath);
@@ -107,7 +110,6 @@ namespace QLBG.Views.NhanVien
                 }
                 else
                 {
-                    // Sử dụng ảnh mặc định nếu không tìm thấy ảnh nhân viên
                     string defaultImagePath = Path.Combine(imageDirectory, "ic_user.png");
                     if (File.Exists(defaultImagePath))
                     {
@@ -115,7 +117,7 @@ namespace QLBG.Views.NhanVien
                     }
                     else
                     {
-                        pictureBoxAnhNhanVien.Image = Properties.Resources.eye; // Nếu ảnh mặc định cũng không tồn tại
+                        pictureBoxAnhNhanVien.Image = Properties.Resources.eye;
                     }
                 }
             }
@@ -125,7 +127,6 @@ namespace QLBG.Views.NhanVien
                 this.Close();
             }
         }
-
 
         private void btnChonAnhChoNhanVien_Click(object sender, EventArgs e)
         {
@@ -155,7 +156,6 @@ namespace QLBG.Views.NhanVien
             string password = textBoxMatKhau.Text;
             string anh = SaveImageToDirectory(selectedImagePath);
 
-            // Lấy email hiện tại của nhân viên từ cơ sở dữ liệu
             DataRow employee = dbHelper.GetEmployeeByMaNV(maNV);
             if (employee == null)
             {
@@ -165,18 +165,23 @@ namespace QLBG.Views.NhanVien
 
             string currentEmail = employee["Email"].ToString();
 
-            // Kiểm tra nếu email mới khác email hiện tại và đã tồn tại trong hệ thống
             if (email != currentEmail && dbHelper.CheckEmailExist(email))
             {
                 MessageBox.Show("Email đã tồn tại trong hệ thống. Vui lòng nhập email khác.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Tiến hành cập nhật nếu email không trùng hoặc là email hiện tại
             bool isSuccess = dbHelper.UpdateEmployee(maNV, tenNV, gioiTinh, ngaySinh, dienThoai, email, diaChi, anh, maCV, quyenAdmin, password);
 
             if (isSuccess)
             {
+                if (Session.MaNV == maNV && quyenAdmin == false)
+                {
+                    Session.ClearAuthentication();
+                    MessageBox.Show("Quyền quản trị của bạn đã bị hủy.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                    return;
+                }
                 MessageBox.Show("Cập nhật thông tin nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 EmployeeUpdated?.Invoke(this, EventArgs.Empty);
                 this.Close();
@@ -186,8 +191,6 @@ namespace QLBG.Views.NhanVien
                 MessageBox.Show("Cập nhật thông tin nhân viên thất bại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
@@ -199,6 +202,15 @@ namespace QLBG.Views.NhanVien
                 bool isSuccess = dbHelper.DeleteEmployee(maNV);
                 if (isSuccess)
                 {
+                    if (Session.MaNV == maNV)
+                    {
+                        Session.ClearAuthentication();
+                        MessageBox.Show("Bạn đã bị đăng xuất vì tài khoản của bạn đã bị xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Access.LoginForm login = new Access.LoginForm();
+                        login.Show();
+                        this.Close();
+                        return;
+                    }
                     MessageBox.Show("Xóa nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     EmployeeUpdated?.Invoke(this, EventArgs.Empty);
                     this.Close();
@@ -229,15 +241,15 @@ namespace QLBG.Views.NhanVien
                 return false;
             }
 
-            if (string.IsNullOrEmpty(textBoxSDT.Text))
+            if (!Helpers.Validate.IsPhoneNumberValid(textBoxSDT.Text))
             {
-                ShowWarning("Vui lòng nhập số điện thoại.", textBoxSDT);
+                ShowWarning("Số điện thoại không hợp lệ. Vui lòng nhập số điện thoại đúng định dạng (10 chữ số và bắt đầu bằng 0).", textBoxSDT);
                 return false;
             }
 
-            if (string.IsNullOrEmpty(textBoxEmail.Text))
+            if (!Helpers.Validate.IsEmailValid(textBoxEmail.Text))
             {
-                ShowWarning("Vui lòng nhập email.", textBoxEmail);
+                ShowWarning("Email không hợp lệ. Vui lòng nhập email đúng định dạng.", textBoxEmail);
                 return false;
             }
 
@@ -247,23 +259,14 @@ namespace QLBG.Views.NhanVien
                 return false;
             }
 
-            // Kiểm tra mật khẩu không được bỏ trống
-            if (string.IsNullOrEmpty(textBoxMatKhau.Text))
+            if (!Helpers.Validate.IsPasswordValid(textBoxMatKhau.Text))
             {
-                ShowWarning("Vui lòng nhập mật khẩu.", textBoxMatKhau);
-                return false;
-            }
-
-            // Kiểm tra email trùng khi cập nhật (loại bỏ bản thân)
-            if (dbHelper.CheckEmailExistForUpdate(textBoxEmail.Text, maNV))
-            {
-                ShowWarning("Email đã tồn tại trong hệ thống. Vui lòng nhập email khác.", textBoxEmail);
+                ShowWarning("Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 6 ký tự và không chứa khoảng trắng.", textBoxMatKhau);
                 return false;
             }
 
             return true;
         }
-
 
         private void ShowWarning(string message, Control control)
         {
@@ -306,7 +309,6 @@ namespace QLBG.Views.NhanVien
             control.Region = new Region(path);
         }
 
-        // Các hàm để xử lý kéo thả form
         private void DraggablePanel_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)

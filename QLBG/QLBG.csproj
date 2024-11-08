@@ -254,6 +254,7 @@
     <Compile Include="DAL\DacDiemDAL.cs" />
     <Compile Include="DAL\DatabaseHelper.cs" />
     <Compile Include="DAL\DatabaseManager.cs" />
+    <Compile Include="DAL\HoaDonBanDAL.cs" />
     <Compile Include="DAL\HinhDangDAL.cs" />
     <Compile Include="DAL\HoaDonNhapDAL.cs" />
     <Compile Include="DAL\KhachHangDAL.cs" />
@@ -459,6 +460,12 @@
     <Compile Include="Views\SanPham\TheSanPham.Designer.cs">
       <DependentUpon>TheSanPham.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ThongKeDoanhThu\ThongKeDoangThu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ThongKeDoanhThu\ThongKeDoangThu.Designer.cs">
+      <DependentUpon>ThongKeDoangThu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\TrangChu.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -565,6 +572,9 @@
     <EmbeddedResource Include="Views\SanPham\TheSanPham.resx">
       <DependentUpon>TheSanPham.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\ThongKeDoanhThu\ThongKeDoangThu.resx">
+      <DependentUpon>ThongKeDoangThu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\TrangChu.resx">
       <DependentUpon>TrangChu.cs</DependentUpon>
     </EmbeddedResource>
@@ -601,6 +611,9 @@
     <None Include="Resources\sky1.jpg" />
     <None Include="Resources\sky.jpg" />
     <None Include="Resources\icons8-search-50.png" />
+    <None Include="Resources\chair.jpg" />
+    <None Include="Resources\chair1.jpg" />
+    <None Include="Resources\effect.png" />
     <Content Include="App_Data\QLBG.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -608,9 +621,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>QLBG.mdf</DependentUpon>
     </Content>
-    <None Include="Resources\chair.jpg" />
-    <None Include="Resources\chair1.jpg" />
-    <None Include="Resources\effect.png" />
     <Content Include="Resources\EmployeeImages\KY.jpeg" />
     <None Include="Resources\eye.png" />
     <None Include="Resources\eye1.png" />
