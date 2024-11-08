@@ -1,7 +1,9 @@
 ﻿using ClosedXML.Excel;
 using Guna.UI2.WinForms;
 using QLBG.DAL;
+using QLBG.DTO;
 using QLBG.Views.NhanVien;
+using QLBG.Views.ReportRDLC;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -168,6 +170,24 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
         private void btnTao_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            HoaDonNhapDAL hoaDonNhapDAL = new HoaDonNhapDAL();
+            List<HoaDonNhapDTO> hoaDonNhapList = hoaDonNhapDAL.GetHoaDonNhapDetails();
+            DataTable dataTable = hoaDonNhapDAL.ConvertToDataTable(hoaDonNhapList);
+            if (dataTable.Rows.Count > 0)
+            {
+                frmReport reportViewerForm = new frmReport();
+                reportViewerForm.LoadReport(dataTable, "HoaDonNhap", "ReportHoaDonNhap.rdlc");
+
+                reportViewerForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Không có dữ liệu để hiển thị trong báo cáo.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

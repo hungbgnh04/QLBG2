@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -7,6 +8,8 @@ using System.Linq;
 using System.Windows.Forms;
 using ClosedXML.Excel;
 using QLBG.DAL;
+using QLBG.DTO;
+using QLBG.Views.ReportRDLC;
 
 namespace QLBG.Views.NhanVien
 {
@@ -251,6 +254,24 @@ namespace QLBG.Views.NhanVien
                 btnTimKiemTheoTen_Click(sender, e);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
+            }
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            NhanVienDAL nhanVienDAL = new NhanVienDAL();
+            List<NhanVienDTO> nhanVienList = nhanVienDAL.GetNhanVienDetails();
+            DataTable dataTable = nhanVienDAL.ConvertToDataTable(nhanVienList);
+            if (dataTable.Rows.Count > 0)
+            {
+                frmReport reportViewerForm = new frmReport();
+                reportViewerForm.LoadReport(dataTable, "NhanVien", "ReportNhanVien.rdlc");
+
+                reportViewerForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Không có dữ liệu để hiển thị trong báo cáo.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

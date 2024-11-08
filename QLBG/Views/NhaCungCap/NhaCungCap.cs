@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using ClosedXML.Excel;
 using QLBG.DAL;
+using QLBG.DTO;
+using QLBG.Views.ReportRDLC;
 
 namespace QLBG.Views.NhaCungCap
 {
@@ -160,6 +163,24 @@ namespace QLBG.Views.NhaCungCap
                 btnTimKiemTheoTen_Click(sender, e);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
+            }
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            NhaCungCapDAL nhaCungCapDAL = new NhaCungCapDAL();
+            List<NhaCungCapDTO> nhaCungCapList = nhaCungCapDAL.GetNhaCungCapDetails();
+            DataTable dataTable = nhaCungCapDAL.ConvertToDataTable(nhaCungCapList);
+            if (dataTable.Rows.Count > 0)
+            {
+                frmReport reportViewerForm = new frmReport();
+                reportViewerForm.LoadReport(dataTable, "NhaCC", "ReportNhaCC.rdlc");
+
+                reportViewerForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Không có dữ liệu để hiển thị trong báo cáo.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

@@ -28,6 +28,19 @@ namespace QLBG.DAL
             return nuocSXList;
         }
 
+        internal DataTable ConvertToDataTable(List<NuocSXDTO> nuocSXList)
+        {
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("MaNuocSX", typeof(int));
+            dataTable.Columns.Add("TenNuocSX", typeof(string));
+            foreach (var nuocSX in nuocSXList)
+            {
+                dataTable.Rows.Add(nuocSX.MaNuocSX, nuocSX.TenNuocSX);
+            }
+
+            return dataTable;
+        }
+
         public bool UpdateNuocSX(NuocSXDTO nuocSX)
         {
             string query = "UPDATE NuocSX SET TenNuocSX = @TenNuocSX WHERE MaNuocSX = @MaNuocSX";

@@ -2,8 +2,10 @@
 using Guna.UI2.WinForms;
 using QLBG.DAL;
 using QLBG.DTO;
+using QLBG.Views.ReportRDLC;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows.Forms;
 
 namespace QLBG.Views.SanPham
@@ -190,5 +192,24 @@ namespace QLBG.Views.SanPham
                 }
             }
         }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            List<ProductDTO> productList = productDAL.GetProductDetails();
+            DataTable dataTable = productDAL.ConvertToDataTable(productList);
+            if (dataTable.Rows.Count > 0)
+            {
+                frmReport reportViewerForm = new frmReport();
+                reportViewerForm.LoadReport(dataTable, "DMHangHoa", "ReportDMHangHoa.rdlc");
+                reportViewerForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Không có dữ liệu để hiển thị trong báo cáo.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+
+
     }
 }
