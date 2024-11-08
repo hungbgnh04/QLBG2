@@ -224,7 +224,7 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             }
         }
 
-        private void guna2Button1_Click(object sender, EventArgs e)
+        private void guna2Button1_Click_1(object sender, EventArgs e)
         {
             HoaDonNhapDAL hoaDonNhapDAL = new HoaDonNhapDAL();
             List<HoaDonNhapDTO> hoaDonNhapList = hoaDonNhapDAL.GetHoaDonNhapDetails();

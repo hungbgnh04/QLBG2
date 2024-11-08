@@ -123,7 +123,9 @@
     <EmbeddedResource Include="ReportRDLC\ReportDMHangHoa.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="ReportRDLC\ReportHoaDonNhap.rdlc" />
+    <EmbeddedResource Include="ReportRDLC\ReportHoaDonNhap.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="ReportRDLC\ReportNhaCC.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
