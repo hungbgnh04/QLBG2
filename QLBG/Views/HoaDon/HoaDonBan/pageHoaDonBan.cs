@@ -1,7 +1,6 @@
 ﻿using ClosedXML.Excel;
 using Guna.UI2.WinForms;
 using QLBG.DAL;
-using QLBG.Views.HoaDon.HoaDonban;
 using QLBG.Views.NhanVien;
 using System;
 using System.Data;

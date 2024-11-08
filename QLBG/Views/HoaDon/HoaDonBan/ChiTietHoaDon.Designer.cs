@@ -1,4 +1,4 @@
-﻿namespace QLBG.Views.HoaDon.HoaDonban
+﻿namespace QLBG.Views.HoaDon.HoaDonBan
 {
     partial class ChiTietHoaDon
     {
