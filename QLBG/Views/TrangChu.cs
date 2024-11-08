@@ -106,9 +106,23 @@ namespace QLBG.Views
                 {
                     string productType = row["ProductType"].ToString();
                     string month = "Tháng " + row["Month"].ToString();
-                    double revenue = Convert.ToDouble(row["Revenue"]);
 
-                    // Nếu chưa có dataset cho loại sản phẩm, tạo mới và thêm vào chart với màu ngẫu nhiên
+                    // Handle DBNull for Revenue
+                    double revenue = 0.0;
+                    if (row["Revenue"] != DBNull.Value)
+                    {
+                        revenue = Convert.ToDouble(row["Revenue"]);
+                    }
+                    else
+                    {
+                        // Optionally log the occurrence of DBNull
+                        Console.WriteLine($"Warning: Revenue is NULL for ProductType '{productType}' in {month}.");
+                    }
+
+                    // If revenue is still required to be greater than 0, you can skip adding it
+                    // if (revenue <= 0) continue;
+
+                    // If chưa có dataset cho loại sản phẩm, tạo mới và thêm vào chart với màu ngẫu nhiên
                     if (!datasetsByProductType.ContainsKey(productType))
                     {
                         var randomColor = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
@@ -132,6 +146,7 @@ namespace QLBG.Views
                 MessageBox.Show("Không có dữ liệu doanh thu để hiển thị!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
 
     }
 }

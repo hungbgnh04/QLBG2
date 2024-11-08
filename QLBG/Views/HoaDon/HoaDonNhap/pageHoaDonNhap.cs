@@ -2,7 +2,6 @@
 using Guna.UI2.WinForms;
 using QLBG.DAL;
 using QLBG.DTO;
-using QLBG.Views.NhanVien;
 using QLBG.Views.ReportRDLC;
 using System;
 using System.Collections.Generic;
@@ -11,8 +10,6 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QLBG.Views.HoaDon.HoaDonNhap
@@ -32,12 +29,52 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
         {
             dgvDanhSach.Columns.Clear();
 
-            dgvDanhSach.Columns.Add(new DataGridViewTextBoxColumn { Name = "SoHDN", HeaderText = "Số hóa đơn" });
-            dgvDanhSach.Columns.Add(new DataGridViewTextBoxColumn { Name = "TenNV", HeaderText = "Tên nhân viên" });
-            dgvDanhSach.Columns.Add(new DataGridViewTextBoxColumn { Name = "TenNCC", HeaderText = "Tên nhà cung cấp" });
-            dgvDanhSach.Columns.Add(new DataGridViewTextBoxColumn { Name = "NgayNhap", HeaderText = "Ngày Nhập" });
-            dgvDanhSach.Columns.Add(new DataGridViewTextBoxColumn { Name = "TongTien", HeaderText = "Tổng tiền" });
+            // Cột Số Hóa Đơn
+            DataGridViewTextBoxColumn soHDNColumn = new DataGridViewTextBoxColumn
+            {
+                Name = "SoHDN",
+                HeaderText = "Số hóa đơn",
+                ValueType = typeof(int)
+            };
+            dgvDanhSach.Columns.Add(soHDNColumn);
 
+            // Cột Tên Nhân Viên
+            DataGridViewTextBoxColumn tenNVColumn = new DataGridViewTextBoxColumn
+            {
+                Name = "TenNV",
+                HeaderText = "Tên nhân viên",
+                ValueType = typeof(string)
+            };
+            dgvDanhSach.Columns.Add(tenNVColumn);
+
+            // Cột Tên Nhà Cung Cấp
+            DataGridViewTextBoxColumn tenNCCColumn = new DataGridViewTextBoxColumn
+            {
+                Name = "TenNCC",
+                HeaderText = "Tên nhà cung cấp",
+                ValueType = typeof(string)
+            };
+            dgvDanhSach.Columns.Add(tenNCCColumn);
+
+            // Cột Ngày Nhập
+            DataGridViewTextBoxColumn ngayNhapColumn = new DataGridViewTextBoxColumn
+            {
+                Name = "NgayNhap",
+                HeaderText = "Ngày Nhập",
+                ValueType = typeof(DateTime)
+            };
+            dgvDanhSach.Columns.Add(ngayNhapColumn);
+
+            // Cột Tổng Tiền
+            DataGridViewTextBoxColumn tongTienColumn = new DataGridViewTextBoxColumn
+            {
+                Name = "TongTien",
+                HeaderText = "Tổng tiền",
+                ValueType = typeof(decimal)
+            };
+            dgvDanhSach.Columns.Add(tongTienColumn);
+
+            // Cột View Chi Tiết
             DataGridViewImageColumn viewImageColumn = new DataGridViewImageColumn
             {
                 Name = "View",
@@ -47,6 +84,7 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             };
             dgvDanhSach.Columns.Add(viewImageColumn);
 
+            // Đăng ký sự kiện CellContentClick
             dgvDanhSach.CellContentClick += dgvDanhSach_CellContentClick;
         }
 
@@ -65,7 +103,7 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
                         frm.OnDeleted += (s, args) => LoadData();
                         frm.ShowDialog();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         MessageBox.Show("Số hóa đơn nhập không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -79,14 +117,17 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             LoadData();
 
             lblSoLuong.Text = $"{dgvDanhSach.Rows.Count}";
+
+            // Đảm bảo các mục trong ComboBox khớp với tên cột của DataGridView
             comboBoxSortBy.Items.AddRange(new string[]
             {
-                "SoHDN", "TenNV", "NgayNhap",
-                "TenNCC", "TongTien"
+                "SoHDN", "TenNV", "NgayNhap", "TenNCC", "TongTien"
             });
             comboBoxSortBy.SelectedIndex = 0;
 
-            textBoxTimKiem.KeyDown += textBoxTimKiem_KeyDown;
+            // Đăng ký sự kiện TextChanged cho tìm kiếm
+            textBoxTimKiem.TextChanged += textBoxTimKiem_TextChanged;
+            // Đăng ký sự kiện SelectedIndexChanged cho sắp xếp
             comboBoxSortBy.SelectedIndexChanged += ComboBoxSortBy_SelectedIndexChanged;
         }
 
@@ -97,7 +138,14 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
 
             if (columnToSort != null)
             {
-                dgvDanhSach.Sort(columnToSort, System.ComponentModel.ListSortDirection.Ascending);
+                // Xác định thứ tự sắp xếp hiện tại
+                ListSortDirection direction = ListSortDirection.Ascending;
+                if (dgvDanhSach.SortOrder == SortOrder.Ascending)
+                {
+                    direction = ListSortDirection.Descending;
+                }
+
+                dgvDanhSach.Sort(columnToSort, direction);
             }
             else
             {
@@ -105,50 +153,38 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             }
         }
 
-        private void textBoxTimKiem_KeyDown(object sender, KeyEventArgs e)
+        private void textBoxTimKiem_TextChanged(object sender, EventArgs e)
         {
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            string searchTerm = textBoxTimKiem.Text.Trim().ToLower();
+
+            if (!string.IsNullOrEmpty(searchTerm))
             {
-                saveFileDialog.Filter = "Excel Files|*.xlsx";
-                saveFileDialog.Title = "Save an Excel File";
-                saveFileDialog.FileName = "HoaDonNhapData.xlsx";
+                DataTable table = HDNDAL.GetAllHoaDonNhapWithNCCAndNV();
+                var filteredRows = table.AsEnumerable().Where(row =>
+                    row["SoHDN"].ToString().ToLower().Contains(searchTerm) ||
+                    row["TenNV"].ToString().ToLower().Contains(searchTerm) ||
+                    row["TenNCC"].ToString().ToLower().Contains(searchTerm) ||
+                    row["NgayNhap"].ToString().ToLower().Contains(searchTerm) ||
+                    row["TongTien"].ToString().ToLower().Contains(searchTerm));
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                dgvDanhSach.Rows.Clear();
+
+                foreach (var row in filteredRows)
                 {
-                    using (var workbook = new XLWorkbook())
-                    {
-                        var worksheet = workbook.Worksheets.Add("HoaDonNha");
+                    int rowIndex = dgvDanhSach.Rows.Add();
+                    DataGridViewRow dgvRow = dgvDanhSach.Rows[rowIndex];
 
-                        for (int i = 0; i < dgvDanhSach.Columns.Count; i++)
-                        {
-                            if (dgvDanhSach.Columns[i].Name == "Anh" || dgvDanhSach.Columns[i].Name == "View")
-                                continue;
-
-                            worksheet.Cell(1, i + 1).Value = dgvDanhSach.Columns[i].HeaderText;
-                        }
-
-                        int excelRow = 2;
-                        foreach (DataGridViewRow row in dgvDanhSach.Rows)
-                        {
-                            if (row.IsNewRow) continue;
-
-                            int excelCol = 1;
-                            for (int j = 0; j < dgvDanhSach.Columns.Count; j++)
-                            {
-                                if (dgvDanhSach.Columns[j].Name == "Anh" || dgvDanhSach.Columns[j].Name == "View")
-                                    continue;
-
-                                var cellValue = row.Cells[j].Value;
-                                worksheet.Cell(excelRow, excelCol).Value = cellValue is DBNull ? "" : cellValue.ToString();
-                                excelCol++;
-                            }
-                            excelRow++;
-                        }
-
-                        workbook.SaveAs(saveFileDialog.FileName);
-                        MessageBox.Show("Xuất dữ liệu ra Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    dgvRow.Cells["SoHDN"].Value = row["SoHDN"];
+                    dgvRow.Cells["TenNV"].Value = row["TenNV"].ToString();
+                    dgvRow.Cells["TenNCC"].Value = row["TenNCC"].ToString();
+                    dgvRow.Cells["NgayNhap"].Value = Convert.ToDateTime(row["NgayNhap"]).ToString("dd/MM/yyyy");
+                    dgvRow.Cells["TongTien"].Value = row["TongTien"];
                 }
+                lblSoLuong.Text = $"{dgvDanhSach.Rows.Count}";
+            }
+            else
+            {
+                LoadData();
             }
         }
 
@@ -157,16 +193,17 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             DataTable table = HDNDAL.GetAllHoaDonNhapWithNCCAndNV();
             dgvDanhSach.Rows.Clear();
 
+            lblSoLuong.Text = $"{table.Rows.Count}";
             foreach (DataRow row in table.Rows)
             {
                 int rowIndex = dgvDanhSach.Rows.Add();
                 DataGridViewRow dgvRow = dgvDanhSach.Rows[rowIndex];
 
-                dgvRow.Cells["SoHDN"].Value = row["SoHDN"].ToString();
+                dgvRow.Cells["SoHDN"].Value = row["SoHDN"];
                 dgvRow.Cells["TenNV"].Value = row["TenNV"].ToString();
                 dgvRow.Cells["TenNCC"].Value = row["TenNCC"].ToString();
                 dgvRow.Cells["NgayNhap"].Value = Convert.ToDateTime(row["NgayNhap"]).ToString("dd/MM/yyyy");
-                dgvRow.Cells["TongTien"].Value = row["TongTien"].ToString();
+                dgvRow.Cells["TongTien"].Value = row["TongTien"];
             }
         }
 
@@ -191,28 +228,32 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
                     {
                         var worksheet = workbook.Worksheets.Add("HDN");
 
-                        for (int i = 0; i < dgvDanhSach.Columns.Count; i++)
+                        // Thêm tiêu đề cột
+                        int excelColIndex = 1;
+                        foreach (DataGridViewColumn column in dgvDanhSach.Columns)
                         {
-                            if (dgvDanhSach.Columns[i].Name == "Anh" || dgvDanhSach.Columns[i].Name == "View")
+                            if (column.Name == "View")
                                 continue;
 
-                            worksheet.Cell(1, i + 1).Value = dgvDanhSach.Columns[i].HeaderText;
+                            worksheet.Cell(1, excelColIndex).Value = column.HeaderText;
+                            excelColIndex++;
                         }
 
+                        // Thêm dữ liệu
                         int excelRow = 2;
                         foreach (DataGridViewRow row in dgvDanhSach.Rows)
                         {
                             if (row.IsNewRow) continue;
 
-                            int excelCol = 1;
-                            for (int j = 0; j < dgvDanhSach.Columns.Count; j++)
+                            excelColIndex = 1;
+                            foreach (DataGridViewColumn column in dgvDanhSach.Columns)
                             {
-                                if (dgvDanhSach.Columns[j].Name == "Anh" || dgvDanhSach.Columns[j].Name == "View")
+                                if (column.Name == "View")
                                     continue;
 
-                                var cellValue = row.Cells[j].Value;
-                                worksheet.Cell(excelRow, excelCol).Value = cellValue is DBNull ? "" : cellValue.ToString();
-                                excelCol++;
+                                var cellValue = row.Cells[column.Name].Value;
+                                worksheet.Cell(excelRow, excelColIndex).Value = cellValue is DBNull ? "" : cellValue.ToString();
+                                excelColIndex++;
                             }
                             excelRow++;
                         }

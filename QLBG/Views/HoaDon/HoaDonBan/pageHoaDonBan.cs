@@ -1,17 +1,12 @@
 ﻿using ClosedXML.Excel;
 using Guna.UI2.WinForms;
 using QLBG.DAL;
-using QLBG.Views.HoaDon.HoaDonban;
 using QLBG.Views.NhanVien;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QLBG.Views.HoaDon.HoaDonBan
@@ -64,7 +59,7 @@ namespace QLBG.Views.HoaDon.HoaDonBan
                         frm.OnDeleted += (s, args) => LoadData();
                         frm.ShowDialog();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         MessageBox.Show("Số hóa đơn nhập không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -78,14 +73,15 @@ namespace QLBG.Views.HoaDon.HoaDonBan
             LoadData();
 
             lblSoLuong.Text = $"{dgvDanhSach.Rows.Count}";
+
+            // Đảm bảo các mục trong ComboBox khớp với tên cột của DataGridView
             comboBoxSortBy.Items.AddRange(new string[]
             {
-                "SoHDN", "TenNV", "NgayBan",
-                "TenKH", "TongTien"
+                "SoHDB", "TenNV", "TenKhach", "NgayBan", "TongTien"
             });
             comboBoxSortBy.SelectedIndex = 0;
 
-            textBoxTimKiem.KeyDown += textBoxTimKiem_KeyDown;
+            textBoxTimKiem.TextChanged += textBoxTimKiem_TextChanged;
             comboBoxSortBy.SelectedIndexChanged += ComboBoxSortBy_SelectedIndexChanged;
         }
 
@@ -104,50 +100,38 @@ namespace QLBG.Views.HoaDon.HoaDonBan
             }
         }
 
-        private void textBoxTimKiem_KeyDown(object sender, KeyEventArgs e)
+        private void textBoxTimKiem_TextChanged(object sender, EventArgs e)
         {
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            string searchTerm = textBoxTimKiem.Text.Trim().ToLower();
+
+            if (!string.IsNullOrEmpty(searchTerm))
             {
-                saveFileDialog.Filter = "Excel Files|*.xlsx";
-                saveFileDialog.Title = "Save an Excel File";
-                saveFileDialog.FileName = "HoaDonBanData.xlsx";
+                DataTable table = HDNDAL.GetAllInvoiceWithAttributeName();
+                var filteredRows = table.AsEnumerable().Where(row =>
+                    row["SoHDB"].ToString().ToLower().Contains(searchTerm) ||
+                    row["TenNV"].ToString().ToLower().Contains(searchTerm) ||
+                    row["TenKhach"].ToString().ToLower().Contains(searchTerm) ||
+                    row["NgayBan"].ToString().ToLower().Contains(searchTerm) ||
+                    row["TongTien"].ToString().ToLower().Contains(searchTerm));
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                dgvDanhSach.Rows.Clear();
+
+                foreach (var row in filteredRows)
                 {
-                    using (var workbook = new XLWorkbook())
-                    {
-                        var worksheet = workbook.Worksheets.Add("HoaDonBan");
+                    int rowIndex = dgvDanhSach.Rows.Add();
+                    DataGridViewRow dgvRow = dgvDanhSach.Rows[rowIndex];
 
-                        for (int i = 0; i < dgvDanhSach.Columns.Count; i++)
-                        {
-                            if (dgvDanhSach.Columns[i].Name == "Anh" || dgvDanhSach.Columns[i].Name == "View")
-                                continue;
-
-                            worksheet.Cell(1, i + 1).Value = dgvDanhSach.Columns[i].HeaderText;
-                        }
-
-                        int excelRow = 2;
-                        foreach (DataGridViewRow row in dgvDanhSach.Rows)
-                        {
-                            if (row.IsNewRow) continue;
-
-                            int excelCol = 1;
-                            for (int j = 0; j < dgvDanhSach.Columns.Count; j++)
-                            {
-                                if (dgvDanhSach.Columns[j].Name == "Anh" || dgvDanhSach.Columns[j].Name == "View")
-                                    continue;
-
-                                var cellValue = row.Cells[j].Value;
-                                worksheet.Cell(excelRow, excelCol).Value = cellValue is DBNull ? "" : cellValue.ToString();
-                                excelCol++;
-                            }
-                            excelRow++;
-                        }
-
-                        workbook.SaveAs(saveFileDialog.FileName);
-                        MessageBox.Show("Xuất dữ liệu ra Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    dgvRow.Cells["SoHDB"].Value = row["SoHDB"].ToString();
+                    dgvRow.Cells["TenNV"].Value = row["TenNV"].ToString();
+                    dgvRow.Cells["TenKhach"].Value = row["TenKhach"].ToString();
+                    dgvRow.Cells["NgayBan"].Value = Convert.ToDateTime(row["NgayBan"]).ToString("dd/MM/yyyy");
+                    dgvRow.Cells["TongTien"].Value = row["TongTien"].ToString();
                 }
+                lblSoLuong.Text = $"{dgvDanhSach.Rows.Count}";
+            }
+            else
+            {
+                LoadData();
             }
         }
 
@@ -156,6 +140,7 @@ namespace QLBG.Views.HoaDon.HoaDonBan
             DataTable table = HDNDAL.GetAllInvoiceWithAttributeName();
             dgvDanhSach.Rows.Clear();
 
+            lblSoLuong.Text = $"{table.Rows.Count}";
             foreach (DataRow row in table.Rows)
             {
                 int rowIndex = dgvDanhSach.Rows.Add();

@@ -322,5 +322,6 @@ namespace QLBG.DAL
                                 "INNER JOIN NhaSanXuat ON DMHangHoa.MaNSX = NhaSanXuat.MaNSX";
             return DatabaseManager.Instance.ExecuteQuery(query);
         }
+
     }
 }

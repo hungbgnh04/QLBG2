@@ -62,6 +62,7 @@
             this.JobLb = new System.Windows.Forms.Label();
             this.NameLb = new System.Windows.Forms.Label();
             this.UserIcon = new Guna.UI2.WinForms.Guna2CirclePictureBox();
+            this.gunaPieDataset1 = new Guna.Charts.WinForms.GunaPieDataset();
             this.guna2ShadowPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).BeginInit();
             this.guna2ShadowPanel3.SuspendLayout();
@@ -207,7 +208,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(260, 24);
             this.label10.TabIndex = 0;
-            this.label10.Text = "Số lượng sản phẩm đã bán";
+            this.label10.Text = "Số lượng sản phẩm ồn kho";
             // 
             // ProductLb
             // 
@@ -319,9 +320,13 @@
             this.UserIcon.Name = "UserIcon";
             this.UserIcon.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
             this.UserIcon.Size = new System.Drawing.Size(208, 208);
-            this.UserIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.UserIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.UserIcon.TabIndex = 0;
             this.UserIcon.TabStop = false;
+            // 
+            // gunaPieDataset1
+            // 
+            this.gunaPieDataset1.Label = "Pie1";
             // 
             // TrangChu
             // 
@@ -368,5 +373,6 @@
         private System.Windows.Forms.Label JobLb;
         private System.Windows.Forms.Label NameLb;
         private Guna.UI2.WinForms.Guna2CirclePictureBox UserIcon;
+        private Guna.Charts.WinForms.GunaPieDataset gunaPieDataset1;
     }
 }
