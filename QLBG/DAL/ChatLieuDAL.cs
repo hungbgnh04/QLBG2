@@ -28,6 +28,18 @@ namespace QLBG.DAL
             return chatLieuList;
         }
 
+        internal DataTable ConvertToDataTable(List<ChatLieuDTO> chatLieuList)
+        {
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("MaChatLieu", typeof(int));
+            dataTable.Columns.Add("TenChatLieu", typeof(string));
+            foreach (var chatLieu in chatLieuList)
+            {
+                dataTable.Rows.Add(chatLieu.MaChatLieu, chatLieu.TenChatLieu);
+            }
+            return dataTable;
+        }
+
         public bool UpdateChatLieu(ChatLieuDTO chatLieu)
         {
             string query = "UPDATE ChatLieu SET TenChatLieu = @TenChatLieu WHERE MaChatLieu = @MaChatLieu";
@@ -53,7 +65,6 @@ namespace QLBG.DAL
             SqlParameter[] parameters = {
                 new SqlParameter("@TenChatLieu", newChatLieu.TenChatLieu)
             };
-
             return DatabaseManager.Instance.ExecuteNonQuery(query, parameters) > 0;
         }
 

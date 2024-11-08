@@ -28,6 +28,18 @@ namespace QLBG.DAL
             return nhaSanXuatList;
         }
 
+        internal DataTable ConvertToDataTable(List<NhaSanXuatDTO> nhaSanXuatList)
+        {
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("MaNSX", typeof(int));
+            dataTable.Columns.Add("TenNSX", typeof(string));
+            foreach (var nhaSanXuat in nhaSanXuatList)
+            {
+                dataTable.Rows.Add(nhaSanXuat.MaNSX, nhaSanXuat.TenNSX);
+            }
+            return dataTable;
+        }
+
         public bool UpdateNhaSanXuat(NhaSanXuatDTO nhaSanXuat)
         {
             string query = "UPDATE NhaSanXuat SET TenNSX = @TenNSX WHERE MaNSX = @MaNSX";

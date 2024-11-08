@@ -75,6 +75,24 @@
     <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.HashCode.1.1.1\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
       <Private>True</Private>
@@ -262,6 +280,7 @@
     <Compile Include="DAL\LoaiDAL.cs" />
     <Compile Include="DAL\MauSacDAL.cs" />
     <Compile Include="DAL\NhaCungCapDAL.cs" />
+    <Compile Include="DAL\NhanVienDAL.cs" />
     <Compile Include="DAL\NhaSanXuatDAL.cs" />
     <Compile Include="DAL\NuocSXDAL.cs" />
     <Compile Include="DAL\ProductDAL.cs" />
@@ -269,15 +288,19 @@
     <Compile Include="DTO\CongDungDTO.cs" />
     <Compile Include="DTO\DacDiemDTO.cs" />
     <Compile Include="DTO\HinhDangDTO.cs" />
+    <Compile Include="DTO\HoaDonNhapDTO.cs" />
     <Compile Include="DTO\KichThuocDTO.cs" />
     <Compile Include="DTO\LoaiDTO.cs" />
     <Compile Include="DTO\MauSacDTO.cs" />
+    <Compile Include="DTO\NhaCungCapDTO.cs" />
+    <Compile Include="DTO\NhanVienDTO.cs" />
     <Compile Include="DTO\NhaSanXuatDTO.cs" />
     <Compile Include="DTO\NuocSXDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="Helpers\App_Default.cs" />
     <Compile Include="Helpers\Session.cs" />
     <Compile Include="Helpers\Validate.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Views\Access\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -337,6 +360,12 @@
     </Compile>
     <Compile Include="Views\HoaDon\HoaDonNhap\pageHoaDonNhap.Designer.cs">
       <DependentUpon>pageHoaDonNhap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportRDLC\frmReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ReportRDLC\frmReport.Designer.cs">
+      <DependentUpon>frmReport.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\SanPham\frmChiTietSanPham.cs">
       <SubType>Form</SubType>
@@ -506,6 +535,27 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Report\ReportChatLieu.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportDMHangHoa.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportHoaDonNhap.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportNhaCC.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportNhanVien.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportNhaSX.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportNuocSX.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Access\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -535,6 +585,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\HoaDon\HoaDonNhap\pageHoaDonNhap.resx">
       <DependentUpon>pageHoaDonNhap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ReportRDLC\frmReport.resx">
+      <DependentUpon>frmReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SanPham\frmChiTietSanPham.resx">
       <DependentUpon>frmChiTietSanPham.cs</DependentUpon>
@@ -642,6 +695,19 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\supplier30.png" />
     <None Include="Resources\supplier60.png" />
     <None Include="Resources\sky1.jpg" />

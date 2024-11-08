@@ -2,8 +2,10 @@
 using Guna.UI2.WinForms;
 using QLBG.DAL;
 using QLBG.DTO;
+using QLBG.Views.ReportRDLC;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows.Forms;
 
 namespace QLBG.Views.SanPham
@@ -159,6 +161,23 @@ namespace QLBG.Views.SanPham
             if (filteredList.Count == 0)
             {
                 MessageBox.Show("Không tìm thấy kết quả nào phù hợp.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            NuocSXDAL nuocSXDAL = new NuocSXDAL();
+            List<NuocSXDTO> nuocSXList = nuocSXDAL.GetAllNuocSX();
+            DataTable dataTable = nuocSXDAL.ConvertToDataTable(nuocSXList);
+            if (dataTable.Rows.Count > 0)
+            {
+                frmReport reportViewerForm = new frmReport();
+                reportViewerForm.LoadReport(dataTable, "NuocSX", "ReportNuocSX.rdlc");
+                reportViewerForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Không có dữ liệu để hiển thị trong báo cáo.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

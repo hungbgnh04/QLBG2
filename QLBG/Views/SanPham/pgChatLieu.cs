@@ -2,8 +2,10 @@
 using Guna.UI2.WinForms;
 using QLBG.DAL;
 using QLBG.DTO;
+using QLBG.Views.ReportRDLC;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows.Forms;
 
 namespace QLBG.Views.SanPham
@@ -174,6 +176,23 @@ namespace QLBG.Views.SanPham
             if (filteredList.Count == 0)
             {
                 MessageBox.Show("Không tìm thấy kết quả nào phù hợp.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            ChatLieuDAL chatLieuDAL = new ChatLieuDAL();
+            List<ChatLieuDTO> chatLieuList = chatLieuDAL.GetAllChatLieu();
+            DataTable dataTable = chatLieuDAL.ConvertToDataTable(chatLieuList);
+            if (dataTable.Rows.Count > 0)
+            {
+                frmReport reportViewerForm = new frmReport();
+                reportViewerForm.LoadReport(dataTable, "ChatLieu", "ReportChatLieu.rdlc");
+                reportViewerForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Không có dữ liệu để hiển thị trong báo cáo.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

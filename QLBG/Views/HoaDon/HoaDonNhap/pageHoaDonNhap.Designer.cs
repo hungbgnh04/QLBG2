@@ -44,6 +44,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblSoLuong = new System.Windows.Forms.Label();
             this.dgvDanhSach = new Guna.UI2.WinForms.Guna2DataGridView();
+            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2ShadowPanel1.SuspendLayout();
             this.guna2Panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDanhSach)).BeginInit();
@@ -65,6 +66,7 @@
             // 
             // guna2Panel1
             // 
+            this.guna2Panel1.Controls.Add(this.guna2Button1);
             this.guna2Panel1.Controls.Add(this.btnTimKiemTheoTen);
             this.guna2Panel1.Controls.Add(this.textBoxTimKiem);
             this.guna2Panel1.Controls.Add(this.label1);
@@ -139,10 +141,10 @@
             this.btnTao.FillColor = System.Drawing.Color.CornflowerBlue;
             this.btnTao.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnTao.ForeColor = System.Drawing.Color.White;
-            this.btnTao.Location = new System.Drawing.Point(1424, 27);
+            this.btnTao.Location = new System.Drawing.Point(1317, 29);
             this.btnTao.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnTao.Name = "btnTao";
-            this.btnTao.Size = new System.Drawing.Size(202, 56);
+            this.btnTao.Size = new System.Drawing.Size(152, 56);
             this.btnTao.TabIndex = 5;
             this.btnTao.Text = "Thêm hóa đơn";
             this.btnTao.Click += new System.EventHandler(this.btnTao_Click);
@@ -160,7 +162,7 @@
             this.btnExportToExcel.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnExportToExcel.ForeColor = System.Drawing.Color.Black;
             this.btnExportToExcel.Image = global::QLBG.Properties.Resources.icons8_print_30;
-            this.btnExportToExcel.Location = new System.Drawing.Point(1253, 36);
+            this.btnExportToExcel.Location = new System.Drawing.Point(1146, 38);
             this.btnExportToExcel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnExportToExcel.Name = "btnExportToExcel";
             this.btnExportToExcel.Size = new System.Drawing.Size(156, 36);
@@ -283,6 +285,24 @@
             this.dgvDanhSach.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.dgvDanhSach.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.White;
             // 
+            // guna2Button1
+            // 
+            this.guna2Button1.BorderRadius = 10;
+            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button1.FillColor = System.Drawing.Color.CornflowerBlue;
+            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2Button1.ForeColor = System.Drawing.Color.White;
+            this.guna2Button1.Location = new System.Drawing.Point(1492, 29);
+            this.guna2Button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.guna2Button1.Name = "guna2Button1";
+            this.guna2Button1.Size = new System.Drawing.Size(134, 56);
+            this.guna2Button1.TabIndex = 8;
+            this.guna2Button1.Text = "Report";
+            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click_1);
+            // 
             // pageHoaDonNhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -313,5 +333,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblSoLuong;
         private Guna.UI2.WinForms.Guna2DataGridView dgvDanhSach;
+        private Guna.UI2.WinForms.Guna2Button guna2Button1;
     }
 }

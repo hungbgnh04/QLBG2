@@ -33,10 +33,10 @@
             this.guna2VScrollBar1 = new Guna.UI2.WinForms.Guna2VScrollBar();
             this.SanPhamPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.TimBtn = new Guna.UI2.WinForms.Guna2Button();
             this.guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
             this.ThemBtn = new Guna.UI2.WinForms.Guna2Button();
-            this.pgChatLieu = new System.Windows.Forms.TabPage();
             this.pgNhaSX = new System.Windows.Forms.TabPage();
             this.pgNuocSX = new System.Windows.Forms.TabPage();
             this.pgKichCo = new System.Windows.Forms.TabPage();
@@ -45,7 +45,7 @@
             this.pgHinhDang = new System.Windows.Forms.TabPage();
             this.pgDacDiem = new System.Windows.Forms.TabPage();
             this.pgCongDung = new System.Windows.Forms.TabPage();
-            this.guna2ContextMenuStrip1 = new Guna.UI2.WinForms.Guna2ContextMenuStrip();
+            this.pgChatLieu = new System.Windows.Forms.TabPage();
             this.guna2TabControl1.SuspendLayout();
             this.pgSanPham.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -54,7 +54,6 @@
             // guna2TabControl1
             // 
             this.guna2TabControl1.Controls.Add(this.pgSanPham);
-            this.guna2TabControl1.Controls.Add(this.pgChatLieu);
             this.guna2TabControl1.Controls.Add(this.pgNhaSX);
             this.guna2TabControl1.Controls.Add(this.pgNuocSX);
             this.guna2TabControl1.Controls.Add(this.pgKichCo);
@@ -63,6 +62,7 @@
             this.guna2TabControl1.Controls.Add(this.pgHinhDang);
             this.guna2TabControl1.Controls.Add(this.pgDacDiem);
             this.guna2TabControl1.Controls.Add(this.pgCongDung);
+            this.guna2TabControl1.Controls.Add(this.pgChatLieu);
             this.guna2TabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2TabControl1.ItemSize = new System.Drawing.Size(170, 60);
             this.guna2TabControl1.Location = new System.Drawing.Point(0, 0);
@@ -130,6 +130,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.guna2Button1);
             this.panel1.Controls.Add(this.TimBtn);
             this.panel1.Controls.Add(this.guna2TextBox1);
             this.panel1.Controls.Add(this.ThemBtn);
@@ -138,6 +139,23 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1722, 80);
             this.panel1.TabIndex = 9;
+            // 
+            // guna2Button1
+            // 
+            this.guna2Button1.BorderRadius = 20;
+            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(41)))), ((int)(((byte)(123)))));
+            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.guna2Button1.ForeColor = System.Drawing.Color.White;
+            this.guna2Button1.Location = new System.Drawing.Point(1539, 16);
+            this.guna2Button1.Name = "guna2Button1";
+            this.guna2Button1.Size = new System.Drawing.Size(180, 45);
+            this.guna2Button1.TabIndex = 2;
+            this.guna2Button1.Text = "Report";
+            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // TimBtn
             // 
@@ -155,7 +173,7 @@
             this.TimBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.TimBtn.ForeColor = System.Drawing.Color.Black;
             this.TimBtn.Image = global::QLBG.Properties.Resources.icons8_search_50;
-            this.TimBtn.Location = new System.Drawing.Point(1646, 5);
+            this.TimBtn.Location = new System.Drawing.Point(1467, 12);
             this.TimBtn.Name = "TimBtn";
             this.TimBtn.Size = new System.Drawing.Size(60, 60);
             this.TimBtn.TabIndex = 0;
@@ -177,7 +195,7 @@
             this.guna2TextBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.guna2TextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.guna2TextBox1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.Location = new System.Drawing.Point(1365, 5);
+            this.guna2TextBox1.Location = new System.Drawing.Point(1186, 12);
             this.guna2TextBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.guna2TextBox1.Name = "guna2TextBox1";
             this.guna2TextBox1.PasswordChar = '\0';
@@ -203,16 +221,6 @@
             this.ThemBtn.TabIndex = 0;
             this.ThemBtn.Text = "Thêm sản phẩm";
             this.ThemBtn.Click += new System.EventHandler(this.ThemBtn_Click);
-            // 
-            // pgChatLieu
-            // 
-            this.pgChatLieu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
-            this.pgChatLieu.Location = new System.Drawing.Point(4, 64);
-            this.pgChatLieu.Name = "pgChatLieu";
-            this.pgChatLieu.Padding = new System.Windows.Forms.Padding(3);
-            this.pgChatLieu.Size = new System.Drawing.Size(1728, 956);
-            this.pgChatLieu.TabIndex = 1;
-            this.pgChatLieu.Text = "Chất liệu";
             // 
             // pgNhaSX
             // 
@@ -293,20 +301,15 @@
             this.pgCongDung.TabIndex = 9;
             this.pgCongDung.Text = "Công dụng";
             // 
-            // guna2ContextMenuStrip1
+            // pgChatLieu
             // 
-            this.guna2ContextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.guna2ContextMenuStrip1.Name = "guna2ContextMenuStrip1";
-            this.guna2ContextMenuStrip1.RenderStyle.ArrowColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(143)))), ((int)(((byte)(255)))));
-            this.guna2ContextMenuStrip1.RenderStyle.BorderColor = System.Drawing.Color.Gainsboro;
-            this.guna2ContextMenuStrip1.RenderStyle.ColorTable = null;
-            this.guna2ContextMenuStrip1.RenderStyle.RoundedEdges = true;
-            this.guna2ContextMenuStrip1.RenderStyle.SelectionArrowColor = System.Drawing.Color.White;
-            this.guna2ContextMenuStrip1.RenderStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
-            this.guna2ContextMenuStrip1.RenderStyle.SelectionForeColor = System.Drawing.Color.White;
-            this.guna2ContextMenuStrip1.RenderStyle.SeparatorColor = System.Drawing.Color.Gainsboro;
-            this.guna2ContextMenuStrip1.RenderStyle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            this.guna2ContextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            this.pgChatLieu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
+            this.pgChatLieu.Location = new System.Drawing.Point(4, 64);
+            this.pgChatLieu.Name = "pgChatLieu";
+            this.pgChatLieu.Padding = new System.Windows.Forms.Padding(3);
+            this.pgChatLieu.Size = new System.Drawing.Size(1728, 956);
+            this.pgChatLieu.TabIndex = 1;
+            this.pgChatLieu.Text = "Chất liệu";
             // 
             // SanPham
             // 
@@ -342,6 +345,6 @@
         private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
         private Guna.UI2.WinForms.Guna2Button TimBtn;
         private Guna.UI2.WinForms.Guna2Button ThemBtn;
-        private Guna.UI2.WinForms.Guna2ContextMenuStrip guna2ContextMenuStrip1;
+        private Guna.UI2.WinForms.Guna2Button guna2Button1;
     }
 }

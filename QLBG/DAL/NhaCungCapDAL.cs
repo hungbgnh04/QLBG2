@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
+using QLBG.DTO;
 
 namespace QLBG.DAL
 {
@@ -23,9 +24,47 @@ namespace QLBG.DAL
             return dbManager.ExecuteDataTable(query, null);
         }
 
-        /// <summary>
-        /// Lấy thông tin nhà cung cấp theo mã.
-        /// </summary>
+        public List<NhaCungCapDTO> GetNhaCungCapDetails()
+        {
+            List<NhaCungCapDTO> nhaCungCapList = new List<NhaCungCapDTO>();
+
+            string query = "SELECT MaNCC, TenNCC, DiaChi, DienThoai FROM NhaCungCap";
+            DataTable dataTable = DatabaseManager.Instance.ExecuteQuery(query);
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                NhaCungCapDTO nhaCungCap = new NhaCungCapDTO
+                {
+                    MaNCC = (int)row["MaNCC"],
+                    TenNCC = row["TenNCC"].ToString(),
+                    DiaChi = row["DiaChi"].ToString(),
+                    DienThoai = row["DienThoai"].ToString()
+                };
+                nhaCungCapList.Add(nhaCungCap);
+            }
+
+            return nhaCungCapList;
+        }
+
+        internal DataTable ConvertToDataTable(List<NhaCungCapDTO> nhaCungCapList)
+        {
+            DataTable dataTable = new DataTable();
+
+            // Thêm các cột vào DataTable
+            dataTable.Columns.Add("MaNCC", typeof(int));
+            dataTable.Columns.Add("TenNCC", typeof(string));
+            dataTable.Columns.Add("DiaChi", typeof(string));
+            dataTable.Columns.Add("DienThoai", typeof(string));
+
+            // Điền dữ liệu từ List<NhaCungCapDTO> vào DataTable
+            foreach (var nhaCungCap in nhaCungCapList)
+            {
+                dataTable.Rows.Add(nhaCungCap.MaNCC, nhaCungCap.TenNCC, nhaCungCap.DiaChi, nhaCungCap.DienThoai);
+            }
+
+            return dataTable;
+        }
+
         public DataRow GetNhaCungCapById(int maNCC)
         {
             string query = "SELECT MaNCC, TenNCC, DiaChi, DienThoai FROM NhaCungCap WHERE MaNCC = @MaNCC";
