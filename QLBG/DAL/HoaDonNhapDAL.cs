@@ -125,7 +125,13 @@ namespace QLBG.DAL
 
         public DataRow GetHoaDonNhapById(int soHDN)
         {
-            string query = "SELECT SoHDN, MaNV, NgayNhap, MaNCC, TongTien FROM HoaDonNhap WHERE SoHDN = @SoHDN";
+            string query = "SELECT HoaDonNhap.SoHDN, HoaDonNhap.NgayNhap, HoaDonNhap.TongTien, NhanVien.MaNV, NhanVien.TenNV, " +
+                            "NhaCungCap.TenNCC, NhaCungCap.DiaChi, NhaCungCap.DienThoai " +
+                            "FROM HoaDonNhap " +
+                            "INNER JOIN NhanVien ON HoaDonNhap.MaNV = NhanVien.MaNV " +
+                            "INNER JOIN NhaCungCap ON HoaDonNhap.MaNCC = NhaCungCap.MaNCC " +
+                            "WHERE SoHDN = @SoHDN";
+
             SqlParameter parameter = new SqlParameter("@SoHDN", soHDN);
 
             DataTable dataTable = DatabaseManager.Instance.ExecuteQuery(query, parameter);
@@ -192,6 +198,24 @@ namespace QLBG.DAL
             DataTable dataTable = DatabaseManager.Instance.ExecuteQuery(query, parameter);
 
             return dataTable;
+        }
+
+        internal int GetSoHDN(int maNV, int maNCC, DateTime ngayNhap)
+        {
+            string query = "SELECT SoHDN FROM HoaDonNhap WHERE MaNV = @MaNV AND MaNCC = @MaNCC";
+            SqlParameter[] parameters = {
+                new SqlParameter("@MaNV", maNV),
+                new SqlParameter("@MaNCC", maNCC),
+                new SqlParameter("@NgayNhap", ngayNhap)
+            };
+
+            DataTable dataTable = DatabaseManager.Instance.ExecuteQuery(query, parameters);
+            int result = -1;
+            if (dataTable.Rows.Count > 0)
+            {
+                result = (int)dataTable.Rows[0]["SoHDN"];
+            }
+            return result;
         }
     }
 }

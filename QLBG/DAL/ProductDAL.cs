@@ -307,18 +307,19 @@ namespace QLBG.DAL
 
         public DataTable GetProductWithAllAttribute()
         {
-            string query = "SELECT DMHangHoa.MaHang, DMHangHoa.TenHang, Loai.TenLoai, KichThuoc.TenKichThuoc, HinhDang.TenHinhDang, " +
-                                "ChatLieu.TenChatLieu, NuocSX.TenNuocSX, DacDiem.TenDacDiem, Mau.TenMau, CongDung.TenCongDung, NSX.TenNSX " +
+            string query = "SELECT DMHangHoa.MaHang, DMHangHoa.TenHangHoa, Loai.TenLoai, KichThuoc.TenKichThuoc, HinhDang.TenHinhDang, " +
+                                "ChatLieu.TenChatLieu, NuocSX.TenNuocSX, DacDiem.TenDacDiem, MauSac.TenMau, CongDung.TenCongDung, " +
+                                "NhaSanXuat.TenNSX, DMHangHoa.DonGiaBan " +
                             "FROM DMHangHoa " +
-                                "INNER JOIN Loai ON DMHangHoa.MaLoai = Loai.MaLoai" +
-                                "INNER JOIN KichThuoc ON DMHangHoa.MaKichThuoc = KichThuoc.MaKichThuoc" +
-                                "INNER JOIN HinhDang ON DMHangHoa.MaHinhDang = HinhDang.MaHinhDang" +
-                                "INNER JOIN ChatLieu ON DMHangHoa.MaChatLieu = ChatLieu.MaChatLieu" +
-                                "INNER JOIN NuocSX ON DMHangHoa.MaNuocSX = NuocSX.MaNuocSX" +
-                                "INNER JOIN DacDiem ON DMHangHoa.MaDacDiem = DacDiem.MaDacDiem" +
-                                "INNER JOIN Mau ON DMHangHoa.MaMau = Mau.MaMau" +
-                                "INNER JOIN CongDung ON DMHangHoa.MaCongDung = CongDung.MaCongDung" +
-                                "INNER JOIN NSX ON DMHangHoa.MaNSX = NSX.MaNSX";
+                                "INNER JOIN Loai ON DMHangHoa.MaLoai = Loai.MaLoai " +
+                                "INNER JOIN KichThuoc ON DMHangHoa.MaKichThuoc = KichThuoc.MaKichThuoc " +
+                                "INNER JOIN HinhDang ON DMHangHoa.MaHinhDang = HinhDang.MaHinhDang " +
+                                "INNER JOIN ChatLieu ON DMHangHoa.MaChatLieu = ChatLieu.MaChatLieu " +
+                                "INNER JOIN NuocSX ON DMHangHoa.MaNuocSX = NuocSX.MaNuocSX " +
+                                "INNER JOIN DacDiem ON DMHangHoa.MaDacDiem = DacDiem.MaDacDiem " +
+                                "INNER JOIN MauSac ON DMHangHoa.MaMau = MauSac.MaMau " +
+                                "INNER JOIN CongDung ON DMHangHoa.MaCongDung = CongDung.MaCongDung " +
+                                "INNER JOIN NhaSanXuat ON DMHangHoa.MaNSX = NhaSanXuat.MaNSX";
             return DatabaseManager.Instance.ExecuteQuery(query);
         }
     }

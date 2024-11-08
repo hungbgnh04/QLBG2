@@ -75,5 +75,26 @@ namespace QLBG.DAL
 
             return DatabaseManager.Instance.ExecuteNonQuery(query, parameters) > 0;
         }
+
+        internal DataTable GetChiTietHoaDonNhapBySoHDN(int soHDN)
+        {
+            string query = "SELECT DMHangHoa.MaHang, DMHangHoa.TenHangHoa, ChiTietHoaDonNhap.SoLuong, ChiTietHoaDonNhap.DonGia, " +
+                            "ChiTietHoaDonNhap.GiamGia, ChiTietHoaDonNhap.ThanhTien " +
+                            "FROM ChiTietHoaDonNhap " +
+                            "INNER JOIN DMHangHoa ON ChiTietHoaDonNhap.MaHang = DMHangHoa.MaHang " +
+                            "WHERE SoHDN = @SoHDN";
+            SqlParameter[] parameters = {
+                new SqlParameter("@SoHDN", soHDN)
+            };
+
+            DataTable dataTable = DatabaseManager.Instance.ExecuteQuery(query, parameters);
+
+            if (dataTable.Rows.Count > 0)
+            {
+                return dataTable;
+            }
+
+            return null;
+        }
     }
 }

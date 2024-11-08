@@ -61,6 +61,9 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
                     try
                     {
                         int SoHDN = Int32.Parse(dgvDanhSach.Rows[e.RowIndex].Cells["SoHDN"].Value.ToString());
+                        ChiTietHoaDon frm = new ChiTietHoaDon(SoHDN);
+                        frm.OnDeleted += (s, args) => LoadData();
+                        frm.ShowDialog();
                     }
                     catch (Exception ex)
                     {
@@ -169,7 +172,56 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
 
         private void btnTao_Click(object sender, EventArgs e)
         {
+            frmTaoHoaDon frm = new frmTaoHoaDon();
+            frm.HoaDonAdded += (s, args) => LoadData();
+            frm.ShowDialog();
+        }
 
+        private void btnExportToExcel_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Save an Excel File";
+                saveFileDialog.FileName = "HoaDonNhap.xlsx";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (var workbook = new XLWorkbook())
+                    {
+                        var worksheet = workbook.Worksheets.Add("HDN");
+
+                        for (int i = 0; i < dgvDanhSach.Columns.Count; i++)
+                        {
+                            if (dgvDanhSach.Columns[i].Name == "Anh" || dgvDanhSach.Columns[i].Name == "View")
+                                continue;
+
+                            worksheet.Cell(1, i + 1).Value = dgvDanhSach.Columns[i].HeaderText;
+                        }
+
+                        int excelRow = 2;
+                        foreach (DataGridViewRow row in dgvDanhSach.Rows)
+                        {
+                            if (row.IsNewRow) continue;
+
+                            int excelCol = 1;
+                            for (int j = 0; j < dgvDanhSach.Columns.Count; j++)
+                            {
+                                if (dgvDanhSach.Columns[j].Name == "Anh" || dgvDanhSach.Columns[j].Name == "View")
+                                    continue;
+
+                                var cellValue = row.Cells[j].Value;
+                                worksheet.Cell(excelRow, excelCol).Value = cellValue is DBNull ? "" : cellValue.ToString();
+                                excelCol++;
+                            }
+                            excelRow++;
+                        }
+
+                        workbook.SaveAs(saveFileDialog.FileName);
+                        MessageBox.Show("Xuất dữ liệu ra Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
         }
 
         private void guna2Button1_Click(object sender, EventArgs e)
