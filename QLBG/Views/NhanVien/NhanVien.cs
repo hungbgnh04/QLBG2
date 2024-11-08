@@ -73,17 +73,15 @@ namespace QLBG.Views.NhanVien
             guna2DataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "DiaChi", HeaderText = "Địa Chỉ" });
             guna2DataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "TenCV", HeaderText = "Công Việc" });
 
-            // Thêm cột hình ảnh "Xem Chi Tiết"
             DataGridViewImageColumn viewImageColumn = new DataGridViewImageColumn
             {
                 Name = "View",
                 HeaderText = "Xem Chi Tiết thông tin",
-                Image = global::QLBG.Properties.Resources.eye, // Đảm bảo hình ảnh được thêm vào tài nguyên dự án
+                Image = global::QLBG.Properties.Resources.eye, 
                 ImageLayout = DataGridViewImageCellLayout.Zoom
             };
             guna2DataGridView1.Columns.Add(viewImageColumn);
 
-            // Đăng ký sự kiện CellContentClick
             guna2DataGridView1.CellContentClick += guna2DataGridView1_CellContentClick;
         }
 
@@ -95,13 +93,11 @@ namespace QLBG.Views.NhanVien
 
                 if (columnName == "View")
                 {
-                    // Lấy thông tin nhân viên từ hàng được nhấp
                     string maNV = guna2DataGridView1.Rows[e.RowIndex].Cells["MaNV"].Value?.ToString();
                     if (!string.IsNullOrEmpty(maNV))
                     {
-                        // Hiển thị chi tiết nhân viên (ví dụ: mở một form chi tiết)
                         ChiTietNhanVien chiTietForm = new ChiTietNhanVien(maNV);
-                        chiTietForm.EmployeeUpdated += (s, args) => LoadEmployeeData(); // Đăng ký sự kiện
+                        chiTietForm.EmployeeUpdated += (s, args) => LoadEmployeeData();
                         chiTietForm.ShowDialog();
                     }
                     else
@@ -111,7 +107,6 @@ namespace QLBG.Views.NhanVien
                 }
                 else
                 {
-                    // Xử lý các cột khác nếu cần
                     string cellValue = guna2DataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString() ?? "null";
 
                     MessageBox.Show($"Clicked on column '{columnName}' at row {e.RowIndex}. Value: {cellValue}",
@@ -194,7 +189,6 @@ namespace QLBG.Views.NhanVien
 
                         for (int i = 0; i < guna2DataGridView1.Columns.Count; i++)
                         {
-                            // Bỏ qua cột hình ảnh "Anh" và cột "View"
                             if (guna2DataGridView1.Columns[i].Name == "Anh" || guna2DataGridView1.Columns[i].Name == "View")
                                 continue;
 

@@ -513,12 +513,6 @@
     <Compile Include="Views\SanPham\TheSanPham.Designer.cs">
       <DependentUpon>TheSanPham.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\ThongKeDoanhThu\ThongKeDoangThu.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\ThongKeDoanhThu\ThongKeDoangThu.Designer.cs">
-      <DependentUpon>ThongKeDoangThu.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\TrangChu.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -661,9 +655,6 @@
     <EmbeddedResource Include="Views\SanPham\TheSanPham.resx">
       <DependentUpon>TheSanPham.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\ThongKeDoanhThu\ThongKeDoangThu.resx">
-      <DependentUpon>ThongKeDoangThu.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\TrangChu.resx">
       <DependentUpon>TrangChu.cs</DependentUpon>
     </EmbeddedResource>
@@ -695,6 +686,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\QLBG.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\QLBG_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>QLBG.mdf</DependentUpon>
+    </Content>
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -716,13 +714,6 @@
     <None Include="Resources\chair.jpg" />
     <None Include="Resources\chair1.jpg" />
     <None Include="Resources\effect.png" />
-    <Content Include="App_Data\QLBG.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Data\QLBG_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>QLBG.mdf</DependentUpon>
-    </Content>
     <Content Include="Resources\EmployeeImages\KY.jpeg" />
     <None Include="Resources\eye.png" />
     <None Include="Resources\eye1.png" />

@@ -50,7 +50,24 @@ namespace QLBG.Views.Access
             base.OnLoad(e);
             RoundCorners(this, 60);
             RoundCorners(btnUpdatePass, 60);
+            PopulateAdminCredentials();
         }
+
+        private void PopulateAdminCredentials()
+        {
+            DataRow adminAccount = dbHelper.GetRandomAdminAccount();
+            if (adminAccount != null)
+            {
+                textBox1.Text = adminAccount["Email"].ToString();
+                textBox2.Text = adminAccount["Password"].ToString();
+            }
+            else
+            {
+                textBox1.Text = "";
+                textBox2.Text = "";
+            }
+        }
+
 
         private void RoundCorners(Control control, int radius)
         {

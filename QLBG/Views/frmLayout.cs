@@ -30,7 +30,6 @@ namespace QLBG.Views
         private KhachHang.KhachHang khachHang;
         private CongViec.CongViec congViec;
         private NhaCungCap.NhaCungCap nhaCungCap;
-        private ThongKeDoanhThu.ThongKeDoangThu thongKeDoanhThu;
 
         private Timer sessionTimer;
         private DatabaseHelper dbHelper;
@@ -48,7 +47,6 @@ namespace QLBG.Views
             congViec = new CongViec.CongViec();
             nhaCungCap = new NhaCungCap.NhaCungCap();
             dbHelper = new DatabaseHelper();
-            thongKeDoanhThu = new ThongKeDoanhThu.ThongKeDoangThu();
 
             // Đặt các tooltip cho các nút
             ToolTip.SetToolTip(UserIcon, "Thông tin cá nhân");
@@ -56,7 +54,6 @@ namespace QLBG.Views
             ToolTip.SetToolTip(BillBtn, "Hóa đơn");
             ToolTip.SetToolTip(ProductBtn, "Danh sách sản phẩm");
             ToolTip.SetToolTip(CustomerBtn, "Danh sách khách hàng");
-            ToolTip.SetToolTip(OverallBtn, "Thống kê doanh thu theo khoảng thời gian");
             ToolTip.SetToolTip(EmployeeBtn, "Danh sách nhân viên");
             ToolTip.SetToolTip(SupplierBtn, "Danh sách nhà cung cấp");
             ToolTip.SetToolTip(LogoutBtn, "Đăng xuất");
@@ -113,13 +110,6 @@ namespace QLBG.Views
                 ReleaseCapture();
                 SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
             }
-        }
-
-        private void RevenueBtn_Click(object sender, EventArgs e)
-        {
-            moveEffect(sender);
-            HomeLabel.Text = "Thống kê doanh thu theo khoảng thời gian";
-            ShowControl(thongKeDoanhThu);
         }
 
         private void EmployeeBtn_Click(object sender, EventArgs e)

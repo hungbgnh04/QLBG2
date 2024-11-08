@@ -29,7 +29,7 @@ namespace QLBG
             else
             {
                 // Mở form đăng nhập nếu không có token hoặc phiên đã hết hạn
-                Application.Run(new frmLayout());
+                Application.Run(new LoginForm());
             }
         }
 

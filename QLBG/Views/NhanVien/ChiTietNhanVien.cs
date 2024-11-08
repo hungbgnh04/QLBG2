@@ -204,11 +204,7 @@ namespace QLBG.Views.NhanVien
                 {
                     if (Session.MaNV == maNV)
                     {
-                        Session.ClearAuthentication();
-                        MessageBox.Show("Bạn đã bị đăng xuất vì tài khoản của bạn đã bị xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        Access.LoginForm login = new Access.LoginForm();
-                        login.Show();
-                        this.Close();
+                        MessageBox.Show("Bạn không thể xóa chính mình.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
                     MessageBox.Show("Xóa nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

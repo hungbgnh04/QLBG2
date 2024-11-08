@@ -184,6 +184,17 @@ namespace QLBG.DAL
             return result.Rows.Count > 0 ? result.Rows[0] : null;
         }
 
+        public DataRow GetRandomAdminAccount()
+        {
+            string query = @"
+            SELECT TOP 1 Email, Password
+            FROM NhanVien
+            WHERE QuyenAdmin = 1
+            ORDER BY NEWID()";
+
+            DataTable result = dbManager.ExecuteDataTable(query, null);
+            return result.Rows.Count > 0 ? result.Rows[0] : null;
+        }
 
     }
 }
