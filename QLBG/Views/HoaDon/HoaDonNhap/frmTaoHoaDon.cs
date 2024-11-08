@@ -1,5 +1,7 @@
-﻿using QLBG.DAL;
+﻿using DocumentFormat.OpenXml.Office2019.Excel.RichData;
+using QLBG.DAL;
 using QLBG.DTO;
+using QLBG.Helpers;
 using QLBG.Views.SanPham;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,8 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
         private HoaDonNhapDAL HoaDonDAL;
         private ProductDAL SanPhamDAL;
         private ChiTietHoaDonNhapDAL ChiTietHoaDonDAL;
+
+        public EventHandler HoaDonAdded;
 
         public frmTaoHoaDon()
         {
@@ -123,7 +127,7 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { Name = "MaSP", HeaderText = "Mã sản phẩm", ReadOnly = true });
             dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { Name = "TenSP", HeaderText = "Tên sản phẩm", ReadOnly = true });
             dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { Name = "SoLuong", HeaderText = "Số lượng", ReadOnly = false });
-            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { Name = "DonGia", HeaderText = "Đơn giá", ReadOnly = false });
+            dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { Name = "DonGia", HeaderText = "Đơn giá", ReadOnly = true });
             dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { Name = "GiamGia", HeaderText = "Giảm giá (%)", ReadOnly = false });
             dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { Name = "ThanhTien", HeaderText = "Thành tiền", ReadOnly = true });
 
@@ -148,9 +152,13 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
 
         private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
+            }
+            else
+            {
+                dgvSanPham_CellEndEdit(dgvSanPham, new DataGridViewCellEventArgs(dgvSanPham.CurrentCell.ColumnIndex, dgvSanPham.CurrentCell.RowIndex));
             }
         }
 
@@ -160,8 +168,17 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
                 e.ColumnIndex == dgvSanPham.Columns["DonGia"].Index ||
                 e.ColumnIndex == dgvSanPham.Columns["GiamGia"].Index)
             {
+
                 DataGridViewRow row = dgvSanPham.Rows[e.RowIndex];
                 int soLuong = int.TryParse(row.Cells["SoLuong"].Value?.ToString(), out int sl) ? sl : 0;
+
+                if (soLuong < 0)
+                {
+                    MessageBox.Show("Số lượng không thể nhỏ hơn 0", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    row.Cells["SoLuong"].Value = 0;
+                    return;
+                }
+
                 decimal donGia = decimal.TryParse(row.Cells["DonGia"].Value?.ToString(), out decimal dg) ? dg : 0;
                 decimal giamGia = decimal.TryParse(row.Cells["GiamGia"].Value?.ToString(), out decimal gg) ? gg : 0;
 
@@ -217,58 +234,144 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
         private void TimBtn_Click(object sender, EventArgs e)
         {
             DataTable dt = SanPhamDAL.GetProductWithAllAttribute();
-            string search = txtTimSp.Text;
-            var tokens = search.Split(' ');
-            dgvSanPham.Rows.Clear();
-            foreach (string token in tokens)
+            string search = txtTimSp.Text.Trim();
+            var tokens = search.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            DataTable filteredDt = dt.Clone(); // Clone structure of dt
+
+            foreach (DataRow row in dt.Rows)
             {
-                for (int i = 0; i < dt.Rows.Count; i++)
+                bool match = tokens.All(token =>
+                    row["TenHangHoa"].ToString().ToLower().Contains(token.ToLower()) ||
+                    row["MaHang"].ToString().ToLower().Contains(token.ToLower()) ||
+                    row["TenLoai"].ToString().ToLower().Contains(token.ToLower()) ||
+                    row["TenKichThuoc"].ToString().ToLower().Contains(token.ToLower()) ||
+                    row["TenHinhDang"].ToString().ToLower().Contains(token.ToLower()) ||
+                    row["TenChatLieu"].ToString().ToLower().Contains(token.ToLower()) ||
+                    row["TenNuocSX"].ToString().ToLower().Contains(token.ToLower()) ||
+                    row["TenDacDiem"].ToString().ToLower().Contains(token.ToLower()) ||
+                    row["TenMau"].ToString().ToLower().Contains(token.ToLower()) ||
+                    row["TenCongDung"].ToString().ToLower().Contains(token.ToLower()) ||
+                    row["TenNSX"].ToString().ToLower().Contains(token.ToLower())
+                );
+
+                if (match)
                 {
-                    if (dt.Rows[i]["TenHangHoa"].ToString().Contains(token))
+                    filteredDt.ImportRow(row);
+                }
+            }
+
+            SanPhamPanel.Controls.Clear();
+
+            foreach (DataRow row in filteredDt.Rows)
+            {
+                TheSanPham productItem = new TheSanPham();
+                productItem.TenLb.Text = row["TenHangHoa"].ToString();
+                productItem.MaSP = int.Parse(row["MaHang"].ToString());
+                productItem.HangLb.Text = row["TenNSX"].ToString();
+                productItem.FIllColor = Color.White;
+                productItem.Click += ProductItem_OnProductItemClick;
+
+                SanPhamPanel.Controls.Add(productItem);
+            }
+        }
+
+        private void btnTao_Click(object sender, EventArgs e)
+        {
+            var maNCC = dgvDanhSach.Rows[0].Cells["MaNCC"].Value;
+            var maNV = Session.MaNV;
+            var ngayNhap = DateTime.Now;
+            decimal tongTien = 0;
+
+            if (dgvSanPham.Rows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn sản phẩm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (maNCC == null)
+            {
+                MessageBox.Show("Vui lòng chọn nhà cung cấp", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+            int soHDN = 0;
+
+            if (dgvSanPham.Rows.Count > 0)
+            {
+                foreach (DataGridViewRow row in dgvSanPham.Rows)
+                {
+                    var maSP = row.Cells["MaSP"].Value;
+                    var donGia = row.Cells["DonGia"].Value;
+                    var giamGia = row.Cells["GiamGia"].Value;
+                    var thanhTien = row.Cells["ThanhTien"].Value;
+
+                    if (maSP == null || row.Cells["SoLuong"].Value == null || donGia == null || giamGia == null || thanhTien == null)
                     {
-                        dgvSanPham.Rows.Add(dt.Rows[i]["MaHang"], dt.Rows[i]["TenHangHoa"], 1, dt.Rows[i]["DonGiaBan"], 0, dt.Rows[i]["DonGiaBan"]);
+                        MessageBox.Show("Vui lòng nhập đủ thông tin sản phẩm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
                     }
-                    if (dt.Rows[i]["MaHang"].ToString().Contains(token))
+
+                    if (!int.TryParse(row.Cells["SoLuong"].Value?.ToString(), out int sl) || sl <= 0)
                     {
-                        dgvSanPham.Rows.Add(dt.Rows[i]["MaHang"], dt.Rows[i]["TenHangHoa"], 1, dt.Rows[i]["DonGiaBan"], 0, dt.Rows[i]["DonGiaBan"]);
+                        MessageBox.Show("Số lượng sản phẩm không hợp lệ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
                     }
-                    if (dt.Rows[i]["TenLoai"].ToString().Contains(token))
+
+                    var sp = SanPhamDAL.GetProductById(int.Parse(maSP.ToString()));
+                    sp.SoLuong += sl;
+                    SanPhamDAL.UpdateProduct(sp);
+
+                    tongTien += decimal.Parse(thanhTien.ToString());
+                }
+
+                if (HoaDonDAL.InsertHoaDonNhap(int.Parse(maNV.ToString()), ngayNhap, int.Parse(maNCC.ToString()), tongTien))
+                {
+                    soHDN = HoaDonDAL.GetSoHDN(int.Parse(maNV.ToString()), int.Parse(maNCC.ToString()), ngayNhap);
+                    if (soHDN < 0)
                     {
-                        dgvSanPham.Rows.Add(dt.Rows[i]["MaHang"], dt.Rows[i]["TenHangHoa"], 1, dt.Rows[i]["DonGiaBan"], 0, dt.Rows[i]["DonGiaBan"]);
+                        MessageBox.Show("Lỗi tạo hóa đơn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
-                    if (dt.Rows[i]["TenKichThuoc"].ToString().Contains(token))
+
+                }
+                else
+                {
+                    MessageBox.Show("Tạo hóa đơn thất bại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+
+                foreach(DataGridViewRow row in dgvSanPham.Rows)
+                {
+                    var maSP = row.Cells["MaSP"].Value;
+                    var donGia = row.Cells["DonGia"].Value;
+                    var giamGia = row.Cells["GiamGia"].Value;
+                    var thanhTien = row.Cells["ThanhTien"].Value;
+
+                    if (maSP == null || row.Cells["SoLuong"].Value == null || donGia == null || giamGia == null || thanhTien == null)
                     {
-                        dgvSanPham.Rows.Add(dt.Rows[i]["MaHang"], dt.Rows[i]["TenHangHoa"], 1, dt.Rows[i]["DonGiaBan"], 0, dt.Rows[i]["DonGiaBan"]);
+                        MessageBox.Show("Vui lòng nhập đủ thông tin sản phẩm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
                     }
-                    if (dt.Rows[i]["TenHinhDang"].ToString().Contains(token))
+
+                    if (!int.TryParse(row.Cells["SoLuong"].Value?.ToString(), out int sl) || sl <= 0)
                     {
-                        dgvSanPham.Rows.Add(dt.Rows[i]["MaHang"], dt.Rows[i]["TenHangHoa"], 1, dt.Rows[i]["DonGiaBan"], 0, dt.Rows[i]["DonGiaBan"]);
+                        MessageBox.Show("Số lượng sản phẩm không hợp lệ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
                     }
-                    if (dt.Rows[i]["TenChatLieu"].ToString().Contains(token))
+
+                    if (ChiTietHoaDonDAL.InsertChiTietHoaDonNhap(int.Parse(soHDN.ToString()), int.Parse(maSP.ToString()), sl, decimal.Parse(donGia.ToString()), decimal.Parse(giamGia.ToString()), decimal.Parse(thanhTien.ToString())))
                     {
-                        dgvSanPham.Rows.Add(dt.Rows[i]["MaHang"], dt.Rows[i]["TenHangHoa"], 1, dt.Rows[i]["DonGiaBan"], 0, dt.Rows[i]["DonGiaBan"]);
+                        MessageBox.Show("Tạo hóa đơn thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
                     }
-                    if (dt.Rows[i]["TenNuocSX"].ToString().Contains(token))
+                    else
                     {
-                        dgvSanPham.Rows.Add(dt.Rows[i]["MaHang"], dt.Rows[i]["TenHangHoa"], 1, dt.Rows[i]["DonGiaBan"], 0, dt.Rows[i]["DonGiaBan"]);
-                    }
-                    if (dt.Rows[i]["TenDacDiem"].ToString().Contains(token))
-                    {
-                        dgvSanPham.Rows.Add(dt.Rows[i]["MaHang"], dt.Rows[i]["TenHangHoa"], 1, dt.Rows[i]["DonGiaBan"], 0, dt.Rows[i]["DonGiaBan"]);
-                    }
-                    if (dt.Rows[i]["TenMau"].ToString().Contains(token))
-                    {
-                        dgvSanPham.Rows.Add(dt.Rows[i]["MaHang"], dt.Rows[i]["TenHangHoa"], 1, dt.Rows[i]["DonGiaBan"], 0, dt.Rows[i]["DonGiaBan"]);
-                    }
-                    if (dt.Rows[i]["TenCongDung"].ToString().Contains(token))
-                    {
-                        dgvSanPham.Rows.Add(dt.Rows[i]["MaHang"], dt.Rows[i]["TenHangHoa"], 1, dt.Rows[i]["DonGiaBan"], 0, dt.Rows[i]["DonGiaBan"]);
-                    }
-                    if (dt.Rows[i]["TenNSX"].ToString().Contains(token))
-                    {
-                        dgvSanPham.Rows.Add(dt.Rows[i]["MaHang"], dt.Rows[i]["TenHangHoa"], 1, dt.Rows[i]["DonGiaBan"], 0, dt.Rows[i]["DonGiaBan"]);
+                        MessageBox.Show("Tạo hóa đơn thất bại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
+
+                HoaDonAdded?.Invoke(this, EventArgs.Empty);
             }
         }
     }
