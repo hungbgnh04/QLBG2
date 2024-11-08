@@ -16,7 +16,6 @@ namespace QLBG.Views.Access
     public partial class LoginForm : Form
     {
         private string emailToChangePass = "";
-        private int stateOTPKind = 0;
         private int countDownOTPSecond = 60;
         private Thread thread;
         private string OTPCode;
@@ -463,7 +462,6 @@ namespace QLBG.Views.Access
                 pnlForgotPassword.Visible = false;
                 string noticeText = $"We have just sent the OTP code to email address {textBox7.Text}, please enter the code to change new password.";
                 initOTPPanelSetting(noticeText);
-                stateOTPKind = 1;
                 emailToChangePass = textBox7.Text;
             }
             else
@@ -599,31 +597,28 @@ namespace QLBG.Views.Access
 
         }
 
-        private void btnOTP_Click(object sender, EventArgs e)
+        private async void btnOTP_Click(object sender, EventArgs e) // Thêm async
         {
-            if (stateOTPKind == 1)
+            // Khởi tạo OTP
+            OTPCode = randDomOTP();
+
+            // Gửi OTP đến email và xử lý kết quả
+            bool isSent = await SendEmailAsync(textBox7.Text, OTPCode); // Dùng await thay vì .Result
+            if (isSent)
             {
-                string noticeText = $"We have just sent the OTP code to email address {textBox7.Text}, please enter the code to change new password.";
-                initOTPPanelSetting(noticeText);
-                stateOTPKind = 1;
+                string noticeText = $"We have just sent the OTP code to email address {textBox7.Text}, please enter the code to change the password.";
+                initThread();
+
+                // Lưu email để xác nhận mật khẩu
                 emailToChangePass = textBox7.Text;
             }
-            else if (stateOTPKind == 2)
+            else
             {
-                OTPCode = randDomOTP();
-                bool isSent = SendEmailAsync(emailToChangePass, OTPCode).Result;
-                if (isSent)
-                {
-                    string noticeText = $"We have just sent the OTP code to email address {emailToChangePass}, please enter the code to verify.";
-                    initOTPPanelSetting(noticeText);
-                    stateOTPKind = 2;
-                }
-                else
-                {
-                    MessageBox.Show("Failed to send OTP email. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MessageBox.Show("Failed to send OTP email. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
 
         private void btnAcceptCheckOTP_MouseHover(object sender, EventArgs e)
         {

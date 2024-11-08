@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using QLBG.DAL;
+using QLBG.Helpers;
 
 namespace QLBG.Views.NhanVien
 {
@@ -16,20 +17,15 @@ namespace QLBG.Views.NhanVien
         private Point dragCursorPoint;
         private Point dragFormPoint;
 
-        // Sự kiện để thông báo khi nhân viên mới được thêm
         public event EventHandler NhanVienAdded;
 
         public ThemNhanVien()
         {
             InitializeComponent();
             dbHelper = new DatabaseHelper();
-
-            // Thiết lập sự kiện cho việc kéo thả form
             panelMain.MouseDown += DraggablePanel_MouseDown;
             panelMain.MouseMove += DraggablePanel_MouseMove;
             panelMain.MouseUp += DraggablePanel_MouseUp;
-
-            // Làm tròn các góc của form và button
             RoundCorners(this, 60);
             RoundCorners(btnTao, 30);
             RoundCorners(btnThoat, 30);
@@ -41,14 +37,12 @@ namespace QLBG.Views.NhanVien
             comboBoxGioiTinh.Items.Add("Nam");
             comboBoxGioiTinh.Items.Add("Nữ");
             comboBoxGioiTinh.SelectedIndex = -1;
-
             LoadCongViecData();
         }
 
         private void LoadCongViecData()
         {
             DataTable dtCongViec = dbHelper.GetAllCongViec();
-
             if (dtCongViec != null && dtCongViec.Rows.Count > 0)
             {
                 comboBoxCongViec.DataSource = dtCongViec;
@@ -120,21 +114,21 @@ namespace QLBG.Views.NhanVien
                 return false;
             }
 
-            if (string.IsNullOrEmpty(textBoxSDT.Text))
+            if (!QLBG.Helpers.Validate.IsPhoneNumberValid(textBoxSDT.Text))
             {
-                ShowWarning("Vui lòng nhập số điện thoại.", textBoxSDT);
+                ShowWarning("Số điện thoại không hợp lệ. Vui lòng nhập số điện thoại đúng định dạng (10 chữ số và bắt đầu bằng 0).", textBoxSDT);
                 return false;
             }
 
-            if (string.IsNullOrEmpty(textBoxMatKhau.Text))
+            if (!QLBG.Helpers.Validate.IsPasswordValid(textBoxMatKhau.Text))
             {
-                ShowWarning("Vui lòng nhập mật khẩu.", textBoxMatKhau);
+                ShowWarning("Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 6 ký tự và không chứa khoảng trắng.", textBoxMatKhau);
                 return false;
             }
 
-            if (string.IsNullOrEmpty(textBoxEmail.Text))
+            if (!QLBG.Helpers.Validate.IsEmailValid(textBoxEmail.Text))
             {
-                ShowWarning("Vui lòng nhập email.", textBoxEmail);
+                ShowWarning("Email không hợp lệ. Vui lòng nhập email đúng định dạng.", textBoxEmail);
                 return false;
             }
 
@@ -152,6 +146,7 @@ namespace QLBG.Views.NhanVien
 
             return true;
         }
+
 
         private void ShowWarning(string message, Control control)
         {
@@ -198,7 +193,7 @@ namespace QLBG.Views.NhanVien
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
-            this.Close(); // Đóng form
+            this.Close();
         }
 
         private void RoundCorners(Control control, int radius)
@@ -213,7 +208,6 @@ namespace QLBG.Views.NhanVien
             control.Region = new Region(path);
         }
 
-        // Các hàm để xử lý kéo thả form
         private void DraggablePanel_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)

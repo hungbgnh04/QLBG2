@@ -12,6 +12,7 @@ namespace QLBG.Views.NhanVien
 {
     public partial class NhanVien : UserControl
     {
+
         private readonly DatabaseHelper dbHelper;
 
         public NhanVien()

@@ -591,6 +591,9 @@
     <None Include="Resources\sky1.jpg" />
     <None Include="Resources\sky.jpg" />
     <None Include="Resources\icons8-search-50.png" />
+    <None Include="Resources\chair.jpg" />
+    <None Include="Resources\chair1.jpg" />
+    <None Include="Resources\effect.png" />
     <Content Include="App_Data\QLBG.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -598,9 +601,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>QLBG.mdf</DependentUpon>
     </Content>
-    <None Include="Resources\chair.jpg" />
-    <None Include="Resources\chair1.jpg" />
-    <None Include="Resources\effect.png" />
     <Content Include="Resources\EmployeeImages\KY.jpeg" />
     <None Include="Resources\eye.png" />
     <None Include="Resources\eye1.png" />
