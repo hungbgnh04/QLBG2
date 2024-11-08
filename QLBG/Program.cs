@@ -19,7 +19,7 @@ namespace QLBG
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new QLBG.Views.frmLayout());
+            Application.Run(new QLBG.Views.HoaDon.HoaDonNhap.frmTaoHoaDon());
         }
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]

@@ -59,14 +59,6 @@ namespace QLBG.Views.SanPham
             var nhaSanXuat = nhaSanXuatDAL.GetNhaSanXuatById(maNSX);
             return nhaSanXuat?.TenNSX ?? "Unknown";
         }
-
-        private void TheSanPham_Resize(object sender, EventArgs e)
-        {
-            TenLb.Width = HangLb.Width = (int)(this.Width * 0.893);
-            HangLb.Location = new Point((this.Width - HangLb.Width) / 2, (int)(this.Height - HangLb.Height - 5));
-            TenLb.Location = new Point((this.Width - HangLb.Width) / 2, HangLb.Height - TenLb.Height - 5);
-        }
-
         private void TenLb_Click_1(object sender, EventArgs e)
         {
             this.OnClick(e);

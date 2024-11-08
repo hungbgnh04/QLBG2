@@ -248,12 +248,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\ChatLieuDAL.cs" />
+    <Compile Include="DAL\ChiTietHoaDonNhapDLA.cs" />
     <Compile Include="DAL\CongDungDAL.cs" />
     <Compile Include="DAL\CongViecDAL.cs" />
     <Compile Include="DAL\DacDiemDAL.cs" />
     <Compile Include="DAL\DatabaseHelper.cs" />
     <Compile Include="DAL\DatabaseManager.cs" />
     <Compile Include="DAL\HinhDangDAL.cs" />
+    <Compile Include="DAL\HoaDonNhapDAL.cs" />
     <Compile Include="DAL\KhachHangDAL.cs" />
     <Compile Include="DAL\KichThuocDAL.cs" />
     <Compile Include="DAL\LoaiDAL.cs" />
@@ -298,6 +300,18 @@
     </Compile>
     <Compile Include="Views\CongViec\ThemCongViec.Designer.cs">
       <DependentUpon>ThemCongViec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HoaDon\HoaDonNhap\frmTaoHoaDon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\HoaDon\HoaDonNhap\frmTaoHoaDon.Designer.cs">
+      <DependentUpon>frmTaoHoaDon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HoaDon\HoaDonNhap\pageHoaDonNhap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\HoaDon\HoaDonNhap\pageHoaDonNhap.Designer.cs">
+      <DependentUpon>pageHoaDonNhap.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\SanPham\frmChiTietSanPham.cs">
       <SubType>Form</SubType>
@@ -472,6 +486,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CongViec\ThemCongViec.resx">
       <DependentUpon>ThemCongViec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\HoaDon\HoaDonNhap\frmTaoHoaDon.resx">
+      <DependentUpon>frmTaoHoaDon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\HoaDon\HoaDonNhap\pageHoaDonNhap.resx">
+      <DependentUpon>pageHoaDonNhap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SanPham\frmChiTietSanPham.resx">
       <DependentUpon>frmChiTietSanPham.cs</DependentUpon>

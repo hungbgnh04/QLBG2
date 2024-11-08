@@ -12,14 +12,27 @@ namespace QLBG.Views.HoaDon
 {
     public partial class HoaDon : UserControl
     {
+        private HoaDonNhap.pageHoaDonNhap pgHDN;
+
         public HoaDon()
         {
             InitializeComponent();
+            pgHDN = new HoaDonNhap.pageHoaDonNhap();
+            pgHoaDonNhap.Controls.Add(pgHDN);
+            pgHDN.Dock = DockStyle.Fill;
         }
 
         private void pgHoaDonBan_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void guna2TabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (guna2TabControl1.SelectedIndex == 1)
+            {
+                pgHDN.LoadData();
+            }
         }
     }
 }

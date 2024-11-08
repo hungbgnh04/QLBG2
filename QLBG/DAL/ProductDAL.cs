@@ -166,5 +166,22 @@ namespace QLBG.DAL
             int result = DatabaseManager.Instance.ExecuteNonQuery(query, parameters);
             return result > 0;
         }
+
+        public DataTable GetProductWithAllAttribute()
+        {
+            string query = "SELECT DMHangHoa.MaHang, DMHangHoa.TenHang, Loai.TenLoai, KichThuoc.TenKichThuoc, HinhDang.TenHinhDang, " +
+                                "ChatLieu.TenChatLieu, NuocSX.TenNuocSX, DacDiem.TenDacDiem, Mau.TenMau, CongDung.TenCongDung, NSX.TenNSX " +
+                            "FROM DMHangHoa " +
+                                "INNER JOIN Loai ON DMHangHoa.MaLoai = Loai.MaLoai" +
+                                "INNER JOIN KichThuoc ON DMHangHoa.MaKichThuoc = KichThuoc.MaKichThuoc" +
+                                "INNER JOIN HinhDang ON DMHangHoa.MaHinhDang = HinhDang.MaHinhDang" +
+                                "INNER JOIN ChatLieu ON DMHangHoa.MaChatLieu = ChatLieu.MaChatLieu" +
+                                "INNER JOIN NuocSX ON DMHangHoa.MaNuocSX = NuocSX.MaNuocSX" +
+                                "INNER JOIN DacDiem ON DMHangHoa.MaDacDiem = DacDiem.MaDacDiem" +
+                                "INNER JOIN Mau ON DMHangHoa.MaMau = Mau.MaMau" +
+                                "INNER JOIN CongDung ON DMHangHoa.MaCongDung = CongDung.MaCongDung" +
+                                "INNER JOIN NSX ON DMHangHoa.MaNSX = NSX.MaNSX";
+            return DatabaseManager.Instance.ExecuteQuery(query);
+        }
     }
 }
