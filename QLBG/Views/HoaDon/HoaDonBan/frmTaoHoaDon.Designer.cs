@@ -58,6 +58,7 @@
             this.guna2ShadowPanel1 = new Guna.UI2.WinForms.Guna2ShadowPanel();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.btnTim = new Guna.UI2.WinForms.Guna2Button();
             this.txtTim = new Guna.UI2.WinForms.Guna2TextBox();
             this.dgvTim = new Guna.UI2.WinForms.Guna2DataGridView();
             this.btnTao = new Guna.UI2.WinForms.Guna2Button();
@@ -70,7 +71,6 @@
             this.guna2Panel3 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.dgvDanhSach = new Guna.UI2.WinForms.Guna2DataGridView();
-            this.btnTim = new Guna.UI2.WinForms.Guna2Button();
             this.TimBtn = new Guna.UI2.WinForms.Guna2Button();
             this.HeaderPanel.SuspendLayout();
             this.SanPhamPanel.SuspendLayout();
@@ -294,6 +294,23 @@
             this.guna2HtmlLabel1.TabIndex = 8;
             this.guna2HtmlLabel1.Text = "Chọn khách hàng";
             this.guna2HtmlLabel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnTim
+            // 
+            this.btnTim.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnTim.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnTim.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnTim.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnTim.FillColor = System.Drawing.Color.Transparent;
+            this.btnTim.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnTim.ForeColor = System.Drawing.Color.White;
+            this.btnTim.Image = global::QLBG.Properties.Resources.icons8_search_50;
+            this.btnTim.Location = new System.Drawing.Point(810, 30);
+            this.btnTim.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnTim.Name = "btnTim";
+            this.btnTim.Size = new System.Drawing.Size(45, 48);
+            this.btnTim.TabIndex = 7;
+            this.btnTim.Click += new System.EventHandler(this.btnTim_Click);
             // 
             // txtTim
             // 
@@ -624,23 +641,6 @@
             this.dgvDanhSach.ThemeStyle.RowsStyle.Height = 40;
             this.dgvDanhSach.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.dgvDanhSach.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.White;
-            // 
-            // btnTim
-            // 
-            this.btnTim.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnTim.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnTim.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnTim.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnTim.FillColor = System.Drawing.Color.Transparent;
-            this.btnTim.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnTim.ForeColor = System.Drawing.Color.White;
-            this.btnTim.Image = global::QLBG.Properties.Resources.icons8_search_50;
-            this.btnTim.Location = new System.Drawing.Point(810, 30);
-            this.btnTim.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnTim.Name = "btnTim";
-            this.btnTim.Size = new System.Drawing.Size(45, 48);
-            this.btnTim.TabIndex = 7;
-            this.btnTim.Click += new System.EventHandler(this.btnTim_Click);
             // 
             // TimBtn
             // 

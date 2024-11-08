@@ -49,9 +49,12 @@ namespace QLBG.Views.HoaDon.HoaDonban
             lbTenNv.Text = dataHD["TenNV"].ToString();
             lbTongTien.Text = lbTongKet.Text = dataHD["TongTien"].ToString();
 
-            foreach (DataRow row in dataCTHD.Rows)
+            if (dataCTHD != null && dataCTHD.Rows.Count > 0)
             {
-                dgvSanPham.Rows.Add(row["MaHang"], row["TenHangHoa"], row["SoLuong"], row["DonGia"], row["GiamGia"], row["ThanhTien"]);
+                foreach (DataRow row in dataCTHD.Rows)
+                {
+                    dgvSanPham.Rows.Add(row["MaHang"], row["TenHangHoa"], row["SoLuong"], row["DonGia"], row["GiamGia"], row["ThanhTien"]);
+                }
             }
         }
 
