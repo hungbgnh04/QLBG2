@@ -20,7 +20,7 @@ namespace QLBG.Views
             hoaDonBanDAL = new HoaDonBanDAL();
         }
 
-        private void HomePage_Load(object sender, EventArgs e)
+        public void HomePage_Load(object sender, EventArgs e)
         {
             // Hiển thị thông tin cá nhân từ Session.MaNV
             LoadEmployeeInfo();

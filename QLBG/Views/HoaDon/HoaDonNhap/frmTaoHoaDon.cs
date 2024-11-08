@@ -103,7 +103,7 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             ProductDTO product = SanPhamDAL.GetProductById(maSP);
 
             decimal thanhTien = product.DonGiaBan;
-            dgvSanPham.Rows.Add(product.MaHang, product.TenHangHoa, 1, product.DonGiaBan, 0, thanhTien);
+            dgvSanPham.Rows.Add(product.MaHang, product.TenHangHoa, 1, product.DonGiaNhap, 0, thanhTien);
         }
 
         private void InitDGV()
@@ -131,8 +131,28 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { Name = "GiamGia", HeaderText = "Giảm giá (%)", ReadOnly = false });
             dgvSanPham.Columns.Add(new DataGridViewTextBoxColumn { Name = "ThanhTien", HeaderText = "Thành tiền", ReadOnly = true });
 
+            DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn
+            {
+                Name = "Delete",
+                HeaderText = "Xóa",
+                Text = "Xóa",
+                UseColumnTextForButtonValue = true
+            };
+            dgvSanPham.Columns.Add(deleteColumn);
+
+
+            dgvSanPham.CellClick += dgvSanPham_CellClick;
+
             dgvSanPham.EditingControlShowing += dgvSanPham_EditingControlShowing;
             dgvSanPham.CellEndEdit += dgvSanPham_CellEndEdit;
+        }
+
+        private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvSanPham.Columns[e.ColumnIndex].Name == "Delete")
+            {
+                dgvSanPham.Rows.RemoveAt(e.RowIndex);
+            }
         }
 
         private void dgvSanPham_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -236,7 +256,7 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             DataTable dt = SanPhamDAL.GetProductWithAllAttribute();
             string search = txtTimSp.Text.Trim();
             var tokens = search.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            DataTable filteredDt = dt.Clone(); // Clone structure of dt
+            DataTable filteredDt = dt.Clone(); 
 
             foreach (DataRow row in dt.Rows)
             {
@@ -277,6 +297,11 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
 
         private void btnTao_Click(object sender, EventArgs e)
         {
+            if (dgvDanhSach.Rows.Count <= 0)
+            {
+                MessageBox.Show("Vui lòng chọn nhà cung cấp", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             var maNCC = dgvDanhSach.Rows[0].Cells["MaNCC"].Value;
             var maNV = Session.MaNV;
             var ngayNhap = DateTime.Now;
@@ -360,18 +385,16 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
                         return;
                     }
 
-                    if (ChiTietHoaDonDAL.InsertChiTietHoaDonNhap(int.Parse(soHDN.ToString()), int.Parse(maSP.ToString()), sl, decimal.Parse(donGia.ToString()), decimal.Parse(giamGia.ToString()), decimal.Parse(thanhTien.ToString())))
-                    {
-                        MessageBox.Show("Tạo hóa đơn thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Close();
-                    }
-                    else
+                    if (!ChiTietHoaDonDAL.InsertChiTietHoaDonNhap(int.Parse(soHDN.ToString()), int.Parse(maSP.ToString()), sl, decimal.Parse(donGia.ToString()), decimal.Parse(giamGia.ToString()), decimal.Parse(thanhTien.ToString())))
                     {
                         MessageBox.Show("Tạo hóa đơn thất bại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
                     }
                 }
 
+                MessageBox.Show("Tạo hóa đơn thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 HoaDonAdded?.Invoke(this, EventArgs.Empty);
+                this.Close();
             }
         }
     }

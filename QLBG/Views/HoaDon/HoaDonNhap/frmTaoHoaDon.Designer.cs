@@ -47,6 +47,12 @@
             this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.guna2ShadowForm1 = new Guna.UI2.WinForms.Guna2ShadowForm(this.components);
             this.SanPhamPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.theSanPham1 = new QLBG.Views.SanPham.TheSanPham();
+            this.theSanPham2 = new QLBG.Views.SanPham.TheSanPham();
+            this.theSanPham7 = new QLBG.Views.SanPham.TheSanPham();
+            this.theSanPham3 = new QLBG.Views.SanPham.TheSanPham();
+            this.theSanPham4 = new QLBG.Views.SanPham.TheSanPham();
+            this.theSanPham6 = new QLBG.Views.SanPham.TheSanPham();
             this.guna2VScrollBar1 = new Guna.UI2.WinForms.Guna2VScrollBar();
             this.TimBtn = new Guna.UI2.WinForms.Guna2Button();
             this.txtTimSp = new Guna.UI2.WinForms.Guna2TextBox();
@@ -66,12 +72,6 @@
             this.guna2Panel3 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.dgvDanhSach = new Guna.UI2.WinForms.Guna2DataGridView();
-            this.theSanPham1 = new QLBG.Views.SanPham.TheSanPham();
-            this.theSanPham2 = new QLBG.Views.SanPham.TheSanPham();
-            this.theSanPham7 = new QLBG.Views.SanPham.TheSanPham();
-            this.theSanPham3 = new QLBG.Views.SanPham.TheSanPham();
-            this.theSanPham4 = new QLBG.Views.SanPham.TheSanPham();
-            this.theSanPham6 = new QLBG.Views.SanPham.TheSanPham();
             this.HeaderPanel.SuspendLayout();
             this.SanPhamPanel.SuspendLayout();
             this.guna2ShadowPanel1.SuspendLayout();
@@ -121,7 +121,7 @@
             this.HomeLabel.Name = "HomeLabel";
             this.HomeLabel.Size = new System.Drawing.Size(1919, 70);
             this.HomeLabel.TabIndex = 2;
-            this.HomeLabel.Text = "TẠO SẢN PHẨM";
+            this.HomeLabel.Text = "TẠO HÓA ĐƠN";
             this.HomeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // guna2DragControl1
@@ -147,6 +147,72 @@
             this.SanPhamPanel.Name = "SanPhamPanel";
             this.SanPhamPanel.Size = new System.Drawing.Size(1021, 922);
             this.SanPhamPanel.TabIndex = 2;
+            // 
+            // theSanPham1
+            // 
+            this.theSanPham1.BackColor = System.Drawing.Color.Transparent;
+            this.theSanPham1.FIllColor = System.Drawing.Color.White;
+            this.theSanPham1.Location = new System.Drawing.Point(25, 25);
+            this.theSanPham1.Margin = new System.Windows.Forms.Padding(25);
+            this.theSanPham1.MaSP = 0;
+            this.theSanPham1.Name = "theSanPham1";
+            this.theSanPham1.Size = new System.Drawing.Size(280, 400);
+            this.theSanPham1.TabIndex = 0;
+            // 
+            // theSanPham2
+            // 
+            this.theSanPham2.BackColor = System.Drawing.Color.Transparent;
+            this.theSanPham2.FIllColor = System.Drawing.Color.White;
+            this.theSanPham2.Location = new System.Drawing.Point(355, 25);
+            this.theSanPham2.Margin = new System.Windows.Forms.Padding(25);
+            this.theSanPham2.MaSP = 0;
+            this.theSanPham2.Name = "theSanPham2";
+            this.theSanPham2.Size = new System.Drawing.Size(280, 400);
+            this.theSanPham2.TabIndex = 1;
+            // 
+            // theSanPham7
+            // 
+            this.theSanPham7.BackColor = System.Drawing.Color.Transparent;
+            this.theSanPham7.FIllColor = System.Drawing.Color.White;
+            this.theSanPham7.Location = new System.Drawing.Point(685, 25);
+            this.theSanPham7.Margin = new System.Windows.Forms.Padding(25);
+            this.theSanPham7.MaSP = 0;
+            this.theSanPham7.Name = "theSanPham7";
+            this.theSanPham7.Size = new System.Drawing.Size(280, 400);
+            this.theSanPham7.TabIndex = 6;
+            // 
+            // theSanPham3
+            // 
+            this.theSanPham3.BackColor = System.Drawing.Color.Transparent;
+            this.theSanPham3.FIllColor = System.Drawing.Color.White;
+            this.theSanPham3.Location = new System.Drawing.Point(25, 475);
+            this.theSanPham3.Margin = new System.Windows.Forms.Padding(25);
+            this.theSanPham3.MaSP = 0;
+            this.theSanPham3.Name = "theSanPham3";
+            this.theSanPham3.Size = new System.Drawing.Size(280, 400);
+            this.theSanPham3.TabIndex = 2;
+            // 
+            // theSanPham4
+            // 
+            this.theSanPham4.BackColor = System.Drawing.Color.Transparent;
+            this.theSanPham4.FIllColor = System.Drawing.Color.White;
+            this.theSanPham4.Location = new System.Drawing.Point(355, 475);
+            this.theSanPham4.Margin = new System.Windows.Forms.Padding(25);
+            this.theSanPham4.MaSP = 0;
+            this.theSanPham4.Name = "theSanPham4";
+            this.theSanPham4.Size = new System.Drawing.Size(280, 400);
+            this.theSanPham4.TabIndex = 3;
+            // 
+            // theSanPham6
+            // 
+            this.theSanPham6.BackColor = System.Drawing.Color.Transparent;
+            this.theSanPham6.FIllColor = System.Drawing.Color.White;
+            this.theSanPham6.Location = new System.Drawing.Point(685, 475);
+            this.theSanPham6.Margin = new System.Windows.Forms.Padding(25);
+            this.theSanPham6.MaSP = 0;
+            this.theSanPham6.Name = "theSanPham6";
+            this.theSanPham6.Size = new System.Drawing.Size(280, 400);
+            this.theSanPham6.TabIndex = 5;
             // 
             // guna2VScrollBar1
             // 
@@ -597,72 +663,6 @@
             this.dgvDanhSach.ThemeStyle.RowsStyle.Height = 40;
             this.dgvDanhSach.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.dgvDanhSach.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.White;
-            // 
-            // theSanPham1
-            // 
-            this.theSanPham1.BackColor = System.Drawing.Color.Transparent;
-            this.theSanPham1.FIllColor = System.Drawing.Color.White;
-            this.theSanPham1.Location = new System.Drawing.Point(25, 25);
-            this.theSanPham1.Margin = new System.Windows.Forms.Padding(25);
-            this.theSanPham1.MaSP = 0;
-            this.theSanPham1.Name = "theSanPham1";
-            this.theSanPham1.Size = new System.Drawing.Size(280, 400);
-            this.theSanPham1.TabIndex = 0;
-            // 
-            // theSanPham2
-            // 
-            this.theSanPham2.BackColor = System.Drawing.Color.Transparent;
-            this.theSanPham2.FIllColor = System.Drawing.Color.White;
-            this.theSanPham2.Location = new System.Drawing.Point(355, 25);
-            this.theSanPham2.Margin = new System.Windows.Forms.Padding(25);
-            this.theSanPham2.MaSP = 0;
-            this.theSanPham2.Name = "theSanPham2";
-            this.theSanPham2.Size = new System.Drawing.Size(280, 400);
-            this.theSanPham2.TabIndex = 1;
-            // 
-            // theSanPham7
-            // 
-            this.theSanPham7.BackColor = System.Drawing.Color.Transparent;
-            this.theSanPham7.FIllColor = System.Drawing.Color.White;
-            this.theSanPham7.Location = new System.Drawing.Point(685, 25);
-            this.theSanPham7.Margin = new System.Windows.Forms.Padding(25);
-            this.theSanPham7.MaSP = 0;
-            this.theSanPham7.Name = "theSanPham7";
-            this.theSanPham7.Size = new System.Drawing.Size(280, 400);
-            this.theSanPham7.TabIndex = 6;
-            // 
-            // theSanPham3
-            // 
-            this.theSanPham3.BackColor = System.Drawing.Color.Transparent;
-            this.theSanPham3.FIllColor = System.Drawing.Color.White;
-            this.theSanPham3.Location = new System.Drawing.Point(25, 475);
-            this.theSanPham3.Margin = new System.Windows.Forms.Padding(25);
-            this.theSanPham3.MaSP = 0;
-            this.theSanPham3.Name = "theSanPham3";
-            this.theSanPham3.Size = new System.Drawing.Size(280, 400);
-            this.theSanPham3.TabIndex = 2;
-            // 
-            // theSanPham4
-            // 
-            this.theSanPham4.BackColor = System.Drawing.Color.Transparent;
-            this.theSanPham4.FIllColor = System.Drawing.Color.White;
-            this.theSanPham4.Location = new System.Drawing.Point(355, 475);
-            this.theSanPham4.Margin = new System.Windows.Forms.Padding(25);
-            this.theSanPham4.MaSP = 0;
-            this.theSanPham4.Name = "theSanPham4";
-            this.theSanPham4.Size = new System.Drawing.Size(280, 400);
-            this.theSanPham4.TabIndex = 3;
-            // 
-            // theSanPham6
-            // 
-            this.theSanPham6.BackColor = System.Drawing.Color.Transparent;
-            this.theSanPham6.FIllColor = System.Drawing.Color.White;
-            this.theSanPham6.Location = new System.Drawing.Point(685, 475);
-            this.theSanPham6.Margin = new System.Windows.Forms.Padding(25);
-            this.theSanPham6.MaSP = 0;
-            this.theSanPham6.Name = "theSanPham6";
-            this.theSanPham6.Size = new System.Drawing.Size(280, 400);
-            this.theSanPham6.TabIndex = 5;
             // 
             // frmTaoHoaDon
             // 

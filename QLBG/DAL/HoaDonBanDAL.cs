@@ -76,6 +76,8 @@ namespace QLBG.DAL
                 SELECT 
                     CTHDB.SoHDB,
                     HH.TenHangHoa,
+                    HH.MaHang,
+                    HH.DonGiaBan as DonGia,
                     CTHDB.SoLuong,
                     CTHDB.GiamGia,
                     CTHDB.ThanhTien
@@ -159,6 +161,46 @@ namespace QLBG.DAL
                     MONTH(HDB.NgayBan), L.TenLoai";
 
             return dbManager.ExecuteDataTable(query, null);
+        }
+
+        public DataTable GetAllInvoiceWithAttributeName()
+        {
+            string query = "SELECT HoaDonBan.SoHDB, NhanVien.TenNV, KhachHang.TenKhach, HoaDonBan.NgayBan, HoaDonBan.TongTien " +
+                           "FROM HoaDonBan " +
+                           "JOIN KhachHang ON HoaDonBan.MaKhach = KhachHang.MaKhach " +
+                           "JOIN NhanVien ON HoaDonBan.MaNV = NhanVien.MaNV";
+
+            DataTable dataTable = DatabaseManager.Instance.ExecuteQuery(query);
+            return dataTable;
+        }
+
+        public DataRow GetInvoice(int id)
+        {
+            string query = "SELECT HoaDonBan.SoHDB, HoaDonBan.NgayBan, HoaDonBan.TongTien, NhanVien.MaNV, NhanVien.TenNV, " +
+                            "KhachHang.TenKhach, KhachHang.DiaChi, KhachHang.DienThoai " +
+                            "FROM HoaDonBan " +
+                            "INNER JOIN NhanVien ON HoaDonBan.MaNV = NhanVien.MaNV " +
+                            "INNER JOIN KhachHang ON HoaDonBan.MaKhach = KhachHang.MaKhach " +
+                            "WHERE SoHDB = @SoHDB";
+
+            SqlParameter parameter = new SqlParameter("@SoHDB", id);
+
+            DataTable dataTable = DatabaseManager.Instance.ExecuteQuery(query, parameter);
+
+            if (dataTable.Rows.Count > 0)
+            {
+                return dataTable.Rows[0];
+            }
+
+            return null;
+        }
+
+        internal bool DeleteHoaDonBan(int soHDB)
+        {
+            string query = "DELETE FROM HoaDonBan WHERE SoHDB = @SoHDB";
+            SqlParameter parameter = new SqlParameter("@SoHDB", soHDB);
+
+            return DatabaseManager.Instance.ExecuteNonQuery(query, parameter) > 0;
         }
     }
 }

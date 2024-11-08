@@ -133,6 +133,7 @@ namespace QLBG.Views
         {
             moveEffect(sender);
             ShowControl(homePage);
+            homePage.HomePage_Load(null, null);
             HomeLabel.Text = "Trang chủ";
         }
 
