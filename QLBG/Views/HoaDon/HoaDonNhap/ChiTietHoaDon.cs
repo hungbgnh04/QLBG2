@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QLBG.DTO;
 
 namespace QLBG.Views.HoaDon.HoaDonNhap
 {
@@ -20,6 +21,7 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
         private int soHDN;
         private HoaDonNhapDAL hoaDonNhapDAL;
         private ChiTietHoaDonNhapDAL chiTietHoaDonDAL;
+        private ProductDAL productDAL;
 
         public EventHandler OnDeleted;
 
@@ -30,6 +32,7 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             this.soHDN=soHDN;
             hoaDonNhapDAL = new HoaDonNhapDAL();
             chiTietHoaDonDAL = new ChiTietHoaDonNhapDAL();
+            productDAL = new ProductDAL();
         }
 
         private void ChiTietHoaDon_Load(object sender, EventArgs e)
@@ -172,9 +175,42 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            hoaDonNhapDAL.DeleteHoaDonNhap(soHDN);
-            OnDeleted?.Invoke(this, EventArgs.Empty);
-            this.Close();
+            if (MessageBox.Show("Bạn có chắc chắn muốn xóa hóa đơn này?", "Xác Nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            DataTable chitiet = chiTietHoaDonDAL.GetChiTietHoaDonNhapBySoHDN(soHDN);
+
+            List<ProductDTO> products = new List<ProductDTO>();
+
+            if (chitiet != null)
+            {
+                foreach (DataRow row in chitiet.Rows)
+                {
+                    int maHang = int.Parse(row["MaHang"].ToString());
+                    int soLuong = int.Parse(row["SoLuong"].ToString());
+                    var product = productDAL.GetProductById(maHang);
+                    product.SoLuong -= soLuong;
+                    if (product.SoLuong < 0) product.SoLuong = 0;
+                    products.Add(product);
+                }
+            }
+
+            if (hoaDonNhapDAL.DeleteHoaDonNhap(soHDN))
+            {
+                foreach (var p in products)
+                {
+                    productDAL.UpdateProduct(p);
+                }
+                OnDeleted?.Invoke(this, EventArgs.Empty);
+                this.Close();
+
+            }
+            else
+            {
+                MessageBox.Show("Xóa không thành công");
+            }
         }
 
         private void dgvSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)

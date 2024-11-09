@@ -343,7 +343,7 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
                     }
 
                     var sp = SanPhamDAL.GetProductById(int.Parse(maSP.ToString()));
-                    sp.SoLuong -= sl;
+                    sp.SoLuong += sl;
                     listSP.Add(sp);
 
                     tongTien += decimal.Parse(thanhTien.ToString());
