@@ -1,4 +1,6 @@
-﻿using System;
+﻿using QLBG.DTO;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -12,6 +14,75 @@ namespace QLBG.DAL
         {
             dbManager = DatabaseManager.Instance;
         }
+
+        public List<HoaDonBanDTO> GetHoaDonBanSummary()
+        {
+            List<HoaDonBanDTO> hoaDonBanList = new List<HoaDonBanDTO>();
+
+            string query = @"
+                SELECT 
+                    hdb.SoHDB AS SoHoaDonBan,
+                    hdb.NgayBan AS NgayBan,
+                    nv.TenNV AS TenNhanVien,
+                    kh.TenKhach AS TenKhachHang,
+                    kh.DiaChi AS DiaChiKhachHang,
+                    kh.DienThoai AS SDTKhachHang,
+                    hdb.TongTien AS TongTien
+                FROM 
+                    HoaDonBan hdb
+                JOIN 
+                    NhanVien nv ON hdb.MaNV = nv.MaNV
+                JOIN 
+                    KhachHang kh ON hdb.MaKhach = kh.MaKhach
+                ORDER BY 
+                    hdb.SoHDB";
+
+            DataTable dataTable = DatabaseManager.Instance.ExecuteQuery(query);
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                HoaDonBanDTO hoaDonBan = new HoaDonBanDTO
+                {
+                    SoHDB = (int)row["SoHoaDonBan"],
+                    NgayBan = (DateTime)row["NgayBan"],
+                    TenNhanVien = row["TenNhanVien"].ToString(),
+                    TenKhachHang = row["TenKhachHang"].ToString(),
+                    DiaChiKhachHang = row["DiaChiKhachHang"].ToString(),
+                    SDTKhachHang = row["SDTKhachHang"].ToString(),
+                    TongTien = (decimal)row["TongTien"]
+                };
+                hoaDonBanList.Add(hoaDonBan);
+            }
+
+            return hoaDonBanList;
+        }
+
+        internal DataTable ConvertToDataTable(List<HoaDonBanDTO> hoaDonBanList)
+        {
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("SoHDB", typeof(int));
+            dataTable.Columns.Add("NgayBan", typeof(DateTime));
+            dataTable.Columns.Add("TenNhanVien", typeof(string));
+            dataTable.Columns.Add("TenKhachHang", typeof(string));
+            dataTable.Columns.Add("DiaChiKhachHang", typeof(string));
+            dataTable.Columns.Add("SDTKhachHang", typeof(string));
+            dataTable.Columns.Add("TongTien", typeof(decimal));
+            foreach (var hoaDonBan in hoaDonBanList)
+            {
+                dataTable.Rows.Add(
+                    hoaDonBan.SoHDB,
+                    hoaDonBan.NgayBan,
+                    hoaDonBan.TenNhanVien,
+                    hoaDonBan.TenKhachHang,
+                    hoaDonBan.DiaChiKhachHang,
+                    hoaDonBan.SDTKhachHang,
+                    hoaDonBan.TongTien
+                );
+            }
+
+            return dataTable;
+        }
+
         public int ThemHoaDonBan(int maNV, int maKhach, DateTime ngayBan, decimal tongTien)
         {
             string query = @"

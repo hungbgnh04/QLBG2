@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QLBG.DTO;
 
 namespace QLBG.Views.HoaDon.HoaDonBan
 {
@@ -20,6 +21,7 @@ namespace QLBG.Views.HoaDon.HoaDonBan
         private int soHDB;
         private HoaDonBanDAL hoaDonBanDAL;
         private ChiTietHoaDonNhapDAL chiTietHoaDonDAL;
+        private ProductDAL productDAL;
 
         public EventHandler OnDeleted;
 
@@ -30,6 +32,7 @@ namespace QLBG.Views.HoaDon.HoaDonBan
             this.soHDB = soHDB;
             hoaDonBanDAL = new HoaDonBanDAL();
             chiTietHoaDonDAL = new ChiTietHoaDonNhapDAL();
+            productDAL = new ProductDAL();
         }
 
         private void ChiTietHoaDon_Load(object sender, EventArgs e)
@@ -160,10 +163,33 @@ namespace QLBG.Views.HoaDon.HoaDonBan
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("Bạn có chắc chắn muốn xóa hóa đơn này?", "Xác Nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
 
+            DataTable chitiet = hoaDonBanDAL.LayChiTietHoaDon(soHDB);
+
+            List<ProductDTO> products = new List<ProductDTO>();
+
+            if (chitiet != null)
+            {
+                foreach (DataRow row in chitiet.Rows)
+                {
+                    int maHang = int.Parse(row["MaHang"].ToString());
+                    int soLuong = int.Parse(row["SoLuong"].ToString());
+                    var product = productDAL.GetProductById(maHang);
+                    product.SoLuong += soLuong;
+                    products.Add(product);
+                }
+            }
 
             if (hoaDonBanDAL.DeleteHoaDonBan(soHDB))
             {
+                foreach(var p in products)
+                {
+                    productDAL.UpdateProduct(p);
+                }
                 OnDeleted?.Invoke(this, EventArgs.Empty);
                 this.Close();
 

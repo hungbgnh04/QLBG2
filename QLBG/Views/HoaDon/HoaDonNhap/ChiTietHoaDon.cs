@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QLBG.DTO;
 
 namespace QLBG.Views.HoaDon.HoaDonNhap
 {
@@ -20,6 +21,7 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
         private int soHDN;
         private HoaDonNhapDAL hoaDonNhapDAL;
         private ChiTietHoaDonNhapDAL chiTietHoaDonDAL;
+        private ProductDAL productDAL;
 
         public EventHandler OnDeleted;
 
@@ -30,6 +32,7 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             this.soHDN=soHDN;
             hoaDonNhapDAL = new HoaDonNhapDAL();
             chiTietHoaDonDAL = new ChiTietHoaDonNhapDAL();
+            productDAL = new ProductDAL();
         }
 
         private void ChiTietHoaDon_Load(object sender, EventArgs e)
@@ -43,20 +46,40 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             var dataHD = hoaDonNhapDAL.GetHoaDonNhapById(soHDN);
             DataTable dataCTHD = chiTietHoaDonDAL.GetChiTietHoaDonNhapBySoHDN(soHDN);
 
-            SHDLb.Text = SHDHeaderLb.Text = dataHD["SoHDN"].ToString();
-            lbTenNCC.Text = dataHD["TenNCC"].ToString();
-            lbDiaChi.Text = dataHD["DiaChi"].ToString();
-            lbSDT.Text = dataHD["DienThoai"].ToString();
-            lbNgayNhap.Text = dataHD["NgayNhap"].ToString();
-            llbMaNv.Text = dataHD["MaNV"].ToString();
-            lbTenNv.Text = dataHD["TenNV"].ToString();
-            lbTongTien.Text = lbTongKet.Text = dataHD["TongTien"].ToString();
+            if (dataHD == null)
+            {
+                MessageBox.Show("Không tìm thấy thông tin hóa đơn nhập.");
+                return;
+            }
+
+            if (dataCTHD == null || dataCTHD.Rows.Count == 0)
+            {
+                MessageBox.Show("Không tìm thấy chi tiết hóa đơn nhập.");
+                return;
+            }
+
+            // Kiểm tra từng cột trong dataHD có null không trước khi gán giá trị
+            SHDLb.Text = SHDHeaderLb.Text = dataHD["SoHDN"]?.ToString() ?? "";
+            lbTenNCC.Text = dataHD["TenNCC"]?.ToString() ?? "";
+            lbDiaChi.Text = dataHD["DiaChi"]?.ToString() ?? "";
+            lbSDT.Text = dataHD["DienThoai"]?.ToString() ?? "";
+            lbNgayNhap.Text = dataHD["NgayNhap"]?.ToString() ?? "";
+            llbMaNv.Text = dataHD["MaNV"]?.ToString() ?? "";
+            lbTenNv.Text = dataHD["TenNV"]?.ToString() ?? "";
+            lbTongTien.Text = lbTongKet.Text = dataHD["TongTien"]?.ToString() ?? "";
 
 
             if (dataCTHD != null && dataCTHD.Rows.Count > 0)
             foreach (DataRow row in dataCTHD.Rows)
             {
-                dgvSanPham.Rows.Add(row["MaHang"], row["TenHangHoa"], row["SoLuong"], row["DonGia"], row["GiamGia"], row["ThanhTien"]);
+                dgvSanPham.Rows.Add(
+                    row["MaHang"]?.ToString() ?? "",
+                    row["TenHangHoa"]?.ToString() ?? "",
+                    row["SoLuong"]?.ToString() ?? "",
+                    row["DonGia"]?.ToString() ?? "",
+                    row["GiamGia"]?.ToString() ?? "",
+                    row["ThanhTien"]?.ToString() ?? ""
+                );
             }
         }
 
@@ -172,9 +195,42 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            hoaDonNhapDAL.DeleteHoaDonNhap(soHDN);
-            OnDeleted?.Invoke(this, EventArgs.Empty);
-            this.Close();
+            if (MessageBox.Show("Bạn có chắc chắn muốn xóa hóa đơn này?", "Xác Nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            DataTable chitiet = chiTietHoaDonDAL.GetChiTietHoaDonNhapBySoHDN(soHDN);
+
+            List<ProductDTO> products = new List<ProductDTO>();
+
+            if (chitiet != null)
+            {
+                foreach (DataRow row in chitiet.Rows)
+                {
+                    int maHang = int.Parse(row["MaHang"].ToString());
+                    int soLuong = int.Parse(row["SoLuong"].ToString());
+                    var product = productDAL.GetProductById(maHang);
+                    product.SoLuong -= soLuong;
+                    if (product.SoLuong < 0) product.SoLuong = 0;
+                    products.Add(product);
+                }
+            }
+
+            if (hoaDonNhapDAL.DeleteHoaDonNhap(soHDN))
+            {
+                foreach (var p in products)
+                {
+                    productDAL.UpdateProduct(p);
+                }
+                OnDeleted?.Invoke(this, EventArgs.Empty);
+                this.Close();
+
+            }
+            else
+            {
+                MessageBox.Show("Xóa không thành công");
+            }
         }
 
         private void dgvSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
