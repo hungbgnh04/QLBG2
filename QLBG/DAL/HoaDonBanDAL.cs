@@ -12,8 +12,6 @@ namespace QLBG.DAL
         {
             dbManager = DatabaseManager.Instance;
         }
-
-        // Thêm hóa đơn bán hàng mới
         public int ThemHoaDonBan(int maNV, int maKhach, DateTime ngayBan, decimal tongTien)
         {
             string query = @"

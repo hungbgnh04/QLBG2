@@ -160,6 +160,8 @@ namespace QLBG.Views.HoaDon.HoaDonBan
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
+
+
             if (hoaDonBanDAL.DeleteHoaDonBan(soHDB))
             {
                 OnDeleted?.Invoke(this, EventArgs.Empty);
