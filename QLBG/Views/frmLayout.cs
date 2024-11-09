@@ -56,6 +56,7 @@ namespace QLBG.Views
             ToolTip.SetToolTip(CustomerBtn, "Danh sách khách hàng");
             ToolTip.SetToolTip(EmployeeBtn, "Danh sách nhân viên");
             ToolTip.SetToolTip(SupplierBtn, "Danh sách nhà cung cấp");
+            ToolTip.SetToolTip(JobBtn, "Danh sách công việc");
             ToolTip.SetToolTip(LogoutBtn, "Đăng xuất");
 
             // Thiết lập Timer cho phiên tự động đăng xuất

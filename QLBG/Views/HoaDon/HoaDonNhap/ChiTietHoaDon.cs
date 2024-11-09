@@ -65,6 +65,8 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             lbTenNv.Text = dataHD["TenNV"]?.ToString() ?? "";
             lbTongTien.Text = lbTongKet.Text = dataHD["TongTien"]?.ToString() ?? "";
 
+
+            if (dataCTHD != null && dataCTHD.Rows.Count > 0)
             foreach (DataRow row in dataCTHD.Rows)
             {
                 dgvSanPham.Rows.Add(
