@@ -9,6 +9,7 @@ using QLBG.DAL;
 using QLBG.Views.NhanVien;
 using System.Data;
 using System.IO;
+using System.Drawing.Drawing2D;
 
 namespace QLBG.Views
 {
@@ -37,6 +38,8 @@ namespace QLBG.Views
         public frmLayout()
         {
             InitializeComponent();
+
+            RoundCorners(this, 40);
 
             // Khởi tạo các form con
             homePage = new TrangChu();
@@ -72,6 +75,18 @@ namespace QLBG.Views
                 EmployeeBtn.Visible = false;
                 JobBtn.Visible = false;
             }
+        }
+
+        private void RoundCorners(Control control, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.StartFigure();
+            path.AddArc(new System.Drawing.Rectangle(0, 0, radius, radius), 180, 90);
+            path.AddArc(new System.Drawing.Rectangle(control.Width - radius, 0, radius, radius), 270, 90);
+            path.AddArc(new System.Drawing.Rectangle(control.Width - radius, control.Height - radius, radius, radius), 0, 90);
+            path.AddArc(new System.Drawing.Rectangle(0, control.Height - radius, radius, radius), 90, 90);
+            path.CloseFigure();
+            control.Region = new Region(path);
         }
 
         private void MenuForm_Load(object sender, EventArgs e)
