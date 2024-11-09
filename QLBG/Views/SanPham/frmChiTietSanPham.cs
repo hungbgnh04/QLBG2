@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -43,6 +44,7 @@ namespace QLBG.Views.SanPham
         public frmChiTietSanPham(int id, Mode mode)
         {
             InitializeComponent();
+            RoundCorners(this, 40);
             this.id = id;
             this.mode = mode;
             string projectDirectory = Directory.GetParent(Application.StartupPath).Parent.FullName;
@@ -60,6 +62,18 @@ namespace QLBG.Views.SanPham
             LoadCongDungToComboBox();
             LoadData();
 
+        }
+
+        private void RoundCorners(Control control, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.StartFigure();
+            path.AddArc(new System.Drawing.Rectangle(0, 0, radius, radius), 180, 90);
+            path.AddArc(new System.Drawing.Rectangle(control.Width - radius, 0, radius, radius), 270, 90);
+            path.AddArc(new System.Drawing.Rectangle(control.Width - radius, control.Height - radius, radius, radius), 0, 90);
+            path.AddArc(new System.Drawing.Rectangle(0, control.Height - radius, radius, radius), 90, 90);
+            path.CloseFigure();
+            control.Region = new Region(path);
         }
 
         private void Init()
