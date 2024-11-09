@@ -144,9 +144,9 @@ namespace QLBG.DAL
             return null;
         }
 
-        public bool InsertHoaDonNhap(int MaNV, DateTime NgayNhap, int MaNCC, decimal TongTien)
+        public int InsertHoaDonNhap(int MaNV, DateTime NgayNhap, int MaNCC, decimal TongTien)
         {
-            string query = "INSERT INTO HoaDonNhap (MaNV, NgayNhap, MaNCC, TongTien) VALUES (@MaNV, @NgayNhap, @MaNCC, @TongTien)";
+            string query = "INSERT INTO HoaDonNhap (MaNV, NgayNhap, MaNCC, TongTien) VALUES (@MaNV, @NgayNhap, @MaNCC, @TongTien); SELECT SCOPE_IDENTITY();";
             SqlParameter[] parameters = {
                 new SqlParameter("@MaNV", MaNV),
                 new SqlParameter("@NgayNhap", NgayNhap),
@@ -154,7 +154,9 @@ namespace QLBG.DAL
                 new SqlParameter("@TongTien", TongTien)
             };
 
-            return DatabaseManager.Instance.ExecuteNonQuery(query, parameters) > 0;
+            var result = DatabaseManager.Instance.ExecuteScalar(query, parameters);
+
+            return result != null ? Convert.ToInt32(result) : -1;
         }
 
         public bool UpdateHoaDonNhap(int SoHDN, int MaNV, DateTime NgayNhap, int MaNCC, decimal TongTien)

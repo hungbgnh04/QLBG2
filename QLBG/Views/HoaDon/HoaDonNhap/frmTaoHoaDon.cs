@@ -315,15 +315,14 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
 
             if (maNCC == null)
             {
-                MessageBox.Show("Vui lòng chọn nhà cung cấp", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn nhà chung cấp", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-
-            int soHDN = 0;
-
             if (dgvSanPham.Rows.Count > 0)
             {
+                var listSP = new List<ProductDTO>();
+
                 foreach (DataGridViewRow row in dgvSanPham.Rows)
                 {
                     var maSP = row.Cells["MaSP"].Value;
@@ -344,40 +343,35 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
                     }
 
                     var sp = SanPhamDAL.GetProductById(int.Parse(maSP.ToString()));
-                    sp.SoLuong += sl;
-                    SanPhamDAL.UpdateProduct(sp);
+                    sp.SoLuong -= sl;
+                    listSP.Add(sp);
 
                     tongTien += decimal.Parse(thanhTien.ToString());
                 }
 
-                if (HoaDonDAL.InsertHoaDonNhap(int.Parse(maNV.ToString()), ngayNhap, int.Parse(maNCC.ToString()), tongTien))
+
+                foreach (var sp in listSP)
                 {
-                    soHDN = HoaDonDAL.GetSoHDN(int.Parse(maNV.ToString()), int.Parse(maNCC.ToString()), ngayNhap);
-                    if (soHDN < 0)
+                    if (!SanPhamDAL.UpdateProduct(sp))
                     {
-                        MessageBox.Show("Lỗi tạo hóa đơn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        MessageBox.Show("Cập nhật sản phẩm lỗi");
                     }
-
                 }
-                else
+
+                int soHDN = HoaDonDAL.InsertHoaDonNhap(int.Parse(maNV.ToString()), ngayNhap, int.Parse(maNCC.ToString()), tongTien);
+                if (soHDN <= 0)
                 {
-                    MessageBox.Show("Tạo hóa đơn thất bại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Lỗi tạo hóa đơn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
 
-                foreach(DataGridViewRow row in dgvSanPham.Rows)
+                foreach (DataGridViewRow row in dgvSanPham.Rows)
                 {
                     var maSP = row.Cells["MaSP"].Value;
-                    var donGia = row.Cells["DonGia"].Value;
                     var giamGia = row.Cells["GiamGia"].Value;
+                    var donGia = row.Cells["DonGia"].Value;
                     var thanhTien = row.Cells["ThanhTien"].Value;
-
-                    if (maSP == null || row.Cells["SoLuong"].Value == null || donGia == null || giamGia == null || thanhTien == null)
-                    {
-                        MessageBox.Show("Vui lòng nhập đủ thông tin sản phẩm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
 
                     if (!int.TryParse(row.Cells["SoLuong"].Value?.ToString(), out int sl) || sl <= 0)
                     {
@@ -385,7 +379,7 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
                         return;
                     }
 
-                    if (!ChiTietHoaDonDAL.InsertChiTietHoaDonNhap(int.Parse(soHDN.ToString()), int.Parse(maSP.ToString()), sl, decimal.Parse(donGia.ToString()), decimal.Parse(giamGia.ToString()), decimal.Parse(thanhTien.ToString())))
+                    if (!ChiTietHoaDonDAL.InsertChiTietHoaDonNhap(soHDN, int.Parse(maSP.ToString()), sl, decimal.Parse(donGia.ToString()), decimal.Parse(giamGia.ToString()), decimal.Parse(thanhTien.ToString())))
                     {
                         MessageBox.Show("Tạo hóa đơn thất bại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
