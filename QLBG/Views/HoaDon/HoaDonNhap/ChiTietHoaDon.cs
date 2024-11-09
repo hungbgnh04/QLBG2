@@ -46,20 +46,40 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             var dataHD = hoaDonNhapDAL.GetHoaDonNhapById(soHDN);
             DataTable dataCTHD = chiTietHoaDonDAL.GetChiTietHoaDonNhapBySoHDN(soHDN);
 
-            SHDLb.Text = SHDHeaderLb.Text = dataHD["SoHDN"].ToString();
-            lbTenNCC.Text = dataHD["TenNCC"].ToString();
-            lbDiaChi.Text = dataHD["DiaChi"].ToString();
-            lbSDT.Text = dataHD["DienThoai"].ToString();
-            lbNgayNhap.Text = dataHD["NgayNhap"].ToString();
-            llbMaNv.Text = dataHD["MaNV"].ToString();
-            lbTenNv.Text = dataHD["TenNV"].ToString();
-            lbTongTien.Text = lbTongKet.Text = dataHD["TongTien"].ToString();
+            if (dataHD == null)
+            {
+                MessageBox.Show("Không tìm thấy thông tin hóa đơn nhập.");
+                return;
+            }
+
+            if (dataCTHD == null || dataCTHD.Rows.Count == 0)
+            {
+                MessageBox.Show("Không tìm thấy chi tiết hóa đơn nhập.");
+                return;
+            }
+
+            // Kiểm tra từng cột trong dataHD có null không trước khi gán giá trị
+            SHDLb.Text = SHDHeaderLb.Text = dataHD["SoHDN"]?.ToString() ?? "";
+            lbTenNCC.Text = dataHD["TenNCC"]?.ToString() ?? "";
+            lbDiaChi.Text = dataHD["DiaChi"]?.ToString() ?? "";
+            lbSDT.Text = dataHD["DienThoai"]?.ToString() ?? "";
+            lbNgayNhap.Text = dataHD["NgayNhap"]?.ToString() ?? "";
+            llbMaNv.Text = dataHD["MaNV"]?.ToString() ?? "";
+            lbTenNv.Text = dataHD["TenNV"]?.ToString() ?? "";
+            lbTongTien.Text = lbTongKet.Text = dataHD["TongTien"]?.ToString() ?? "";
 
 
             if (dataCTHD != null && dataCTHD.Rows.Count > 0)
             foreach (DataRow row in dataCTHD.Rows)
             {
-                dgvSanPham.Rows.Add(row["MaHang"], row["TenHangHoa"], row["SoLuong"], row["DonGia"], row["GiamGia"], row["ThanhTien"]);
+                dgvSanPham.Rows.Add(
+                    row["MaHang"]?.ToString() ?? "",
+                    row["TenHangHoa"]?.ToString() ?? "",
+                    row["SoLuong"]?.ToString() ?? "",
+                    row["DonGia"]?.ToString() ?? "",
+                    row["GiamGia"]?.ToString() ?? "",
+                    row["ThanhTien"]?.ToString() ?? ""
+                );
             }
         }
 

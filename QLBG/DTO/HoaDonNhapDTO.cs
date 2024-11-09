@@ -8,27 +8,13 @@ namespace QLBG.DTO
 {
     public class HoaDonNhapDTO
     {
-        public int SoHDN { get; set; }                
-        public DateTime NgayNhap { get; set; }      
-        public decimal TongTien { get; set; }       
-        public string TenNhanVien { get; set; }      
-        public string TenNhaCungCap { get; set; }     
-
-        public List<ChiTietHoaDonNhapDTO> ChiTietHoaDonNhap { get; set; } 
-
-        public HoaDonNhapDTO()
-        {
-            ChiTietHoaDonNhap = new List<ChiTietHoaDonNhapDTO>();
-        }
+        public int SoHDN { get; set; }            // Số hóa đơn nhập
+        public DateTime NgayNhap { get; set; }     // Ngày nhập
+        public int MaNV { get; set; }              // Mã nhân viên
+        public string TenNhanVien { get; set; }    // Tên nhân viên
+        public int MaNCC { get; set; }             // Mã nhà cung cấp
+        public string TenNhaCungCap { get; set; }  // Tên nhà cung cấp
+        public decimal TongTien { get; set; }      // Tổng tiền
     }
 
-    public class ChiTietHoaDonNhapDTO
-    {
-        public int MaHang { get; set; }              
-        public string TenHangHoa { get; set; }        
-        public int SoLuong { get; set; }            
-        public decimal DonGia { get; set; }          
-        public decimal GiamGia { get; set; }         
-        public decimal ThanhTien { get; set; }       
-    }
 }

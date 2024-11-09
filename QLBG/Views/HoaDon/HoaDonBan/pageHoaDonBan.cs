@@ -1,8 +1,11 @@
 ﻿using ClosedXML.Excel;
 using Guna.UI2.WinForms;
 using QLBG.DAL;
+using QLBG.DTO;
 using QLBG.Views.NhanVien;
+using QLBG.Views.ReportRDLC;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -205,6 +208,24 @@ namespace QLBG.Views.HoaDon.HoaDonBan
                         MessageBox.Show("Xuất dữ liệu ra Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
+            }
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            HoaDonBanDAL hoaDonBanDAL = new HoaDonBanDAL();
+            List<HoaDonBanDTO> hoaDonBanList = hoaDonBanDAL.GetHoaDonBanSummary();
+            DataTable dataTable = hoaDonBanDAL.ConvertToDataTable(hoaDonBanList);
+            if (dataTable.Rows.Count > 0)
+            {
+                frmReport reportViewerForm = new frmReport();
+                reportViewerForm.LoadReport(dataTable, "HoaDonBan", "ReportHoaDonBan.rdlc");
+
+                reportViewerForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Không có dữ liệu để hiển thị trong báo cáo.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
