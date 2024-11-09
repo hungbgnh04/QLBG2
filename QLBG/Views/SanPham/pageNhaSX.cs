@@ -174,7 +174,6 @@ namespace QLBG.Views.SanPham
             NhaSanXuatDAL nhaSanXuatDAL = new NhaSanXuatDAL();
             List<NhaSanXuatDTO> nhaSanXuatList = nhaSanXuatDAL.GetAllNhaSanXuat();
             DataTable dataTable = nhaSanXuatDAL.ConvertToDataTable(nhaSanXuatList);
-            MessageBox.Show("Số hàng trong DataTable: " + dataTable.Rows.Count, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (dataTable.Rows.Count > 0)
             {
                 frmReport reportViewerForm = new frmReport();

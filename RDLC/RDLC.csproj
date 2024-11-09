@@ -98,6 +98,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DMHangHoa.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Dataset\HoaDonBan.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HoaDonBan.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\HoaDonNhap.cs">
+      <DependentUpon>HoaDonNhap.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Dataset\HoaDonNhap.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -147,6 +155,9 @@
     <EmbeddedResource Include="ReportRDLC\ReportDMHangHoa.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="ReportRDLC\ReportHoaDonBan.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="ReportRDLC\ReportHoaDonNhap.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -183,6 +194,17 @@
     </None>
     <None Include="Dataset\DMHangHoa.xss">
       <DependentUpon>DMHangHoa.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\HoaDonBan.xsc">
+      <DependentUpon>HoaDonBan.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\HoaDonBan.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>HoaDonBan.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Dataset\HoaDonBan.xss">
+      <DependentUpon>HoaDonBan.xsd</DependentUpon>
     </None>
     <None Include="Dataset\HoaDonNhap.xsc">
       <DependentUpon>HoaDonNhap.xsd</DependentUpon>

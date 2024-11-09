@@ -17,69 +17,69 @@ namespace QLBG.DAL
             return dataTable;
         }
 
-        public List<HoaDonNhapDTO> GetHoaDonNhapDetails()
-        {
-            List<HoaDonNhapDTO> hoaDonNhapList = new List<HoaDonNhapDTO>();
+        //public List<HoaDonNhapDTO> GetHoaDonNhapDetails()
+        //{
+        //    List<HoaDonNhapDTO> hoaDonNhapList = new List<HoaDonNhapDTO>();
 
-            string query = @"
-                SELECT 
-                    HoaDonNhap.SoHDN,
-                    HoaDonNhap.NgayNhap,
-                    HoaDonNhap.TongTien,
-                    NhanVien.TenNV AS TenNhanVien,
-                    NhaCungCap.TenNCC AS TenNhaCungCap,
-                    ChiTietHoaDonNhap.MaHang,
-                    DMHangHoa.TenHangHoa AS TenHangHoa,
-                    ChiTietHoaDonNhap.SoLuong,
-                    ChiTietHoaDonNhap.DonGia,
-                    ChiTietHoaDonNhap.GiamGia,
-                    ChiTietHoaDonNhap.ThanhTien
-                FROM 
-                    HoaDonNhap
-                JOIN 
-                    NhanVien ON HoaDonNhap.MaNV = NhanVien.MaNV
-                JOIN 
-                    NhaCungCap ON HoaDonNhap.MaNCC = NhaCungCap.MaNCC
-                JOIN 
-                    ChiTietHoaDonNhap ON HoaDonNhap.SoHDN = ChiTietHoaDonNhap.SoHDN
-                JOIN 
-                    DMHangHoa ON ChiTietHoaDonNhap.MaHang = DMHangHoa.MaHang";
+        //    string query = @"
+        //        SELECT 
+        //            HoaDonNhap.SoHDN,
+        //            HoaDonNhap.NgayNhap,
+        //            HoaDonNhap.TongTien,
+        //            NhanVien.TenNV AS TenNhanVien,
+        //            NhaCungCap.TenNCC AS TenNhaCungCap,
+        //            ChiTietHoaDonNhap.MaHang,
+        //            DMHangHoa.TenHangHoa AS TenHangHoa,
+        //            ChiTietHoaDonNhap.SoLuong,
+        //            ChiTietHoaDonNhap.DonGia,
+        //            ChiTietHoaDonNhap.GiamGia,
+        //            ChiTietHoaDonNhap.ThanhTien
+        //        FROM 
+        //            HoaDonNhap
+        //        JOIN 
+        //            NhanVien ON HoaDonNhap.MaNV = NhanVien.MaNV
+        //        JOIN 
+        //            NhaCungCap ON HoaDonNhap.MaNCC = NhaCungCap.MaNCC
+        //        JOIN 
+        //            ChiTietHoaDonNhap ON HoaDonNhap.SoHDN = ChiTietHoaDonNhap.SoHDN
+        //        JOIN 
+        //            DMHangHoa ON ChiTietHoaDonNhap.MaHang = DMHangHoa.MaHang";
 
-            DataTable dataTable = DatabaseManager.Instance.ExecuteQuery(query);
+        //    DataTable dataTable = DatabaseManager.Instance.ExecuteQuery(query);
 
-            foreach (DataRow row in dataTable.Rows)
-            {
-                int soHDN = (int)row["SoHDN"];
-                HoaDonNhapDTO hoaDonNhap = hoaDonNhapList.Find(h => h.SoHDN == soHDN);
+        //    foreach (DataRow row in dataTable.Rows)
+        //    {
+        //        int soHDN = (int)row["SoHDN"];
+        //        HoaDonNhapDTO hoaDonNhap = hoaDonNhapList.Find(h => h.SoHDN == soHDN);
 
-                if (hoaDonNhap == null)
-                {
-                    hoaDonNhap = new HoaDonNhapDTO
-                    {
-                        SoHDN = soHDN,
-                        NgayNhap = (DateTime)row["NgayNhap"],
-                        TongTien = (decimal)row["TongTien"],
-                        TenNhanVien = row["TenNhanVien"].ToString(),
-                        TenNhaCungCap = row["TenNhaCungCap"].ToString()
-                    };
-                    hoaDonNhapList.Add(hoaDonNhap);
-                }
+        //        if (hoaDonNhap == null)
+        //        {
+        //            hoaDonNhap = new HoaDonNhapDTO
+        //            {
+        //                SoHDN = soHDN,
+        //                NgayNhap = (DateTime)row["NgayNhap"],
+        //                TongTien = (decimal)row["TongTien"],
+        //                TenNhanVien = row["TenNhanVien"].ToString(),
+        //                TenNhaCungCap = row["TenNhaCungCap"].ToString()
+        //            };
+        //            hoaDonNhapList.Add(hoaDonNhap);
+        //        }
 
-                ChiTietHoaDonNhapDTO chiTiet = new ChiTietHoaDonNhapDTO
-                {
-                    MaHang = (int)row["MaHang"],
-                    TenHangHoa = row["TenHangHoa"].ToString(),
-                    SoLuong = (int)row["SoLuong"],
-                    DonGia = (decimal)row["DonGia"],
-                    GiamGia = (decimal)row["GiamGia"],
-                    ThanhTien = (decimal)row["ThanhTien"]
-                };
+        //        ChiTietHoaDonNhapDTO chiTiet = new ChiTietHoaDonNhapDTO
+        //        {
+        //            MaHang = (int)row["MaHang"],
+        //            TenHangHoa = row["TenHangHoa"].ToString(),
+        //            SoLuong = (int)row["SoLuong"],
+        //            DonGia = (decimal)row["DonGia"],
+        //            GiamGia = (decimal)row["GiamGia"],
+        //            ThanhTien = (decimal)row["ThanhTien"]
+        //        };
 
-                hoaDonNhap.ChiTietHoaDonNhap.Add(chiTiet);
-            }
+        //        hoaDonNhap.ChiTietHoaDonNhap.Add(chiTiet);
+        //    }
 
-            return hoaDonNhapList;
-        }
+        //    return hoaDonNhapList;
+        //}
 
         internal DataTable ConvertToDataTable(List<HoaDonNhapDTO> hoaDonNhapList)
         {
@@ -88,40 +88,63 @@ namespace QLBG.DAL
             // Thêm các cột vào DataTable
             dataTable.Columns.Add("SoHDN", typeof(int));
             dataTable.Columns.Add("NgayNhap", typeof(DateTime));
-            dataTable.Columns.Add("TongTien", typeof(decimal));
             dataTable.Columns.Add("TenNhanVien", typeof(string));
             dataTable.Columns.Add("TenNhaCungCap", typeof(string));
-            dataTable.Columns.Add("MaHang", typeof(int));
-            dataTable.Columns.Add("TenHangHoa", typeof(string));
-            dataTable.Columns.Add("SoLuong", typeof(int));
-            dataTable.Columns.Add("DonGia", typeof(decimal));
-            dataTable.Columns.Add("GiamGia", typeof(decimal));
-            dataTable.Columns.Add("ThanhTien", typeof(decimal));
+            dataTable.Columns.Add("TongTien", typeof(decimal));
 
             // Điền dữ liệu từ List<HoaDonNhapDTO> vào DataTable
             foreach (var hoaDonNhap in hoaDonNhapList)
             {
-                foreach (var chiTiet in hoaDonNhap.ChiTietHoaDonNhap)
-                {
-                    dataTable.Rows.Add(
-                        hoaDonNhap.SoHDN,
-                        hoaDonNhap.NgayNhap,
-                        hoaDonNhap.TongTien,
-                        hoaDonNhap.TenNhanVien,
-                        hoaDonNhap.TenNhaCungCap,
-                        chiTiet.MaHang,
-                        chiTiet.TenHangHoa,
-                        chiTiet.SoLuong,
-                        chiTiet.DonGia,
-                        chiTiet.GiamGia,
-                        chiTiet.ThanhTien
-                    );
-                }
+                dataTable.Rows.Add(
+                    hoaDonNhap.SoHDN,
+                    hoaDonNhap.NgayNhap,
+                    hoaDonNhap.TenNhanVien,
+                    hoaDonNhap.TenNhaCungCap,
+                    hoaDonNhap.TongTien
+                );
             }
 
             return dataTable;
         }
 
+
+        public List<HoaDonNhapDTO> GetHoaDonNhapSummary()
+        {
+            List<HoaDonNhapDTO> hoaDonNhapList = new List<HoaDonNhapDTO>();
+
+            string query = @"
+                SELECT 
+                    hdn.SoHDN AS SoHoaDonNhap,
+                    hdn.NgayNhap AS NgayNhap,
+                    nv.TenNV AS TenNhanVien,
+                    ncc.TenNCC AS TenNhaCungCap,
+                    hdn.TongTien AS TongTien
+                FROM 
+                    HoaDonNhap hdn
+                JOIN 
+                    NhanVien nv ON hdn.MaNV = nv.MaNV
+                JOIN 
+                    NhaCungCap ncc ON hdn.MaNCC = ncc.MaNCC
+                ORDER BY 
+                    hdn.SoHDN";
+
+            DataTable dataTable = DatabaseManager.Instance.ExecuteQuery(query);
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                HoaDonNhapDTO hoaDonNhap = new HoaDonNhapDTO
+                {
+                    SoHDN = (int)row["SoHoaDonNhap"],
+                    NgayNhap = (DateTime)row["NgayNhap"],
+                    TenNhanVien = row["TenNhanVien"].ToString(),
+                    TenNhaCungCap = row["TenNhaCungCap"].ToString(),
+                    TongTien = (decimal)row["TongTien"]
+                };
+                hoaDonNhapList.Add(hoaDonNhap);
+            }
+
+            return hoaDonNhapList;
+        }
 
         public DataRow GetHoaDonNhapById(int soHDN)
         {

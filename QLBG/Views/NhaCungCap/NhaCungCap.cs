@@ -175,7 +175,6 @@ namespace QLBG.Views.NhaCungCap
             {
                 frmReport reportViewerForm = new frmReport();
                 reportViewerForm.LoadReport(dataTable, "NhaCC", "ReportNhaCC.rdlc");
-
                 reportViewerForm.Show();
             }
             else

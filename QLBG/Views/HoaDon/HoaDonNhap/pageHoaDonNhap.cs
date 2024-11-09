@@ -268,13 +268,12 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
         private void guna2Button1_Click_1(object sender, EventArgs e)
         {
             HoaDonNhapDAL hoaDonNhapDAL = new HoaDonNhapDAL();
-            List<HoaDonNhapDTO> hoaDonNhapList = hoaDonNhapDAL.GetHoaDonNhapDetails();
+            List<HoaDonNhapDTO> hoaDonNhapList = hoaDonNhapDAL.GetHoaDonNhapSummary();
             DataTable dataTable = hoaDonNhapDAL.ConvertToDataTable(hoaDonNhapList);
             if (dataTable.Rows.Count > 0)
             {
                 frmReport reportViewerForm = new frmReport();
                 reportViewerForm.LoadReport(dataTable, "HoaDonNhap", "ReportHoaDonNhap.rdlc");
-
                 reportViewerForm.Show();
             }
             else

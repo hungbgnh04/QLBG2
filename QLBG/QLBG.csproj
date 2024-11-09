@@ -299,6 +299,7 @@
     <Compile Include="DTO\CongDungDTO.cs" />
     <Compile Include="DTO\DacDiemDTO.cs" />
     <Compile Include="DTO\HinhDangDTO.cs" />
+    <Compile Include="DTO\HoaDonBanDTO.cs" />
     <Compile Include="DTO\HoaDonNhapDTO.cs" />
     <Compile Include="DTO\KichThuocDTO.cs" />
     <Compile Include="DTO\LoaiDTO.cs" />
@@ -544,6 +545,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\ReportDMHangHoa.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportHoaDonBan.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\ReportHoaDonNhap.rdlc">
