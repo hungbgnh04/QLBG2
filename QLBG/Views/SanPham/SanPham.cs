@@ -6,6 +6,8 @@ using QLBG.Views.ReportRDLC;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Reflection; // Thêm thư viện này để sử dụng reflection
 using System.Windows.Forms;
 
 namespace QLBG.Views.SanPham
@@ -24,11 +26,52 @@ namespace QLBG.Views.SanPham
         pageDacDiem pageDacDiem;
         pageCongDung pageCongDung;
 
+        // Các biến cho chức năng sắp xếp
+        private string selectedAttribute;
+        private bool isAscending;
+        private List<ProductDTO> currentProductList;
+        private Dictionary<string, string> attributeMapping;
+
         public SanPham()
         {
             InitializeComponent();
             guna2TabControl1_SelectedIndexChanged(null, null);
-            LoadProducts();
+
+            // Khởi tạo mapping giữa tên hiển thị và thuộc tính thực tế
+            attributeMapping = new Dictionary<string, string>()
+            {
+                { "Mã hàng", "MaHang" },
+                { "Tên hàng hóa", "TenHangHoa" },
+                { "Đơn giá nhập", "DonGiaNhap" },
+                { "Đơn giá bán", "DonGiaBan" },
+                { "Số lượng", "SoLuong" },
+                { "Thời gian bảo hành", "ThoiGianBaoHanh" },
+                { "Loại", "TenLoai" },
+                { "Kích thước", "TenKichThuoc" },
+                { "Hình dạng", "TenHinhDang" },
+                { "Chất liệu", "TenChatLieu" },
+                { "Nước sản xuất", "TenNuocSX" },
+                { "Đặc điểm", "TenDacDiem" },
+                { "Màu sắc", "TenMau" },
+                { "Công dụng", "TenCongDung" },
+                { "Nhà sản xuất", "TenNSX" }
+                // Thêm các thuộc tính khác nếu cần
+            };
+
+            // Khởi tạo ComboBox cho thuộc tính sắp xếp
+            comboBoxSortByAttributeOfProduct.Items.AddRange(attributeMapping.Keys.ToArray());
+            comboBoxSortByAttributeOfProduct.SelectedIndex = 0; // Mặc định chọn mục đầu tiên
+
+            // Khởi tạo ComboBox cho thứ tự sắp xếp
+            comboBoxSortGreaterOrLess.Items.AddRange(new object[] { "Tăng dần", "Giảm dần" });
+            comboBoxSortGreaterOrLess.SelectedIndex = 0; // Mặc định tăng dần
+
+            // Gán giá trị mặc định cho thuộc tính và thứ tự sắp xếp
+            selectedAttribute = attributeMapping[comboBoxSortByAttributeOfProduct.SelectedItem.ToString()];
+            isAscending = comboBoxSortGreaterOrLess.SelectedItem.ToString() == "Tăng dần";
+
+            // Tải sản phẩm với sắp xếp
+            SortAndReloadProducts();
 
             pageChatLieu = new pgChatLieu();
             pgChatLieu.Controls.Add(pageChatLieu);
@@ -45,7 +88,7 @@ namespace QLBG.Views.SanPham
             pageKichCo = new pageKichCo();
             pgKichCo.Controls.Add(pageKichCo);
             pageKichCo.Dock = DockStyle.Fill;
-            
+
             pageMau = new pageMau();
             pgMauSac.Controls.Add(pageMau);
             pageMau.Dock = DockStyle.Fill;
@@ -69,16 +112,47 @@ namespace QLBG.Views.SanPham
 
         private void LoadProducts()
         {
+            currentProductList = productDAL.GetAllProducts();
+
             SanPhamPanel.Controls.Clear();
-            List<ProductDTO> productList = productDAL.GetAllProducts();
-            Console.WriteLine("Total products retrieved: " + productList.Count);
-            foreach (var product in productList)
+            foreach (var product in currentProductList)
             {
-                Console.WriteLine("Product ID: " + product.MaHang);
                 TheSanPham theSanPham = new TheSanPham();
                 theSanPham.LoadProductData(product);
                 theSanPham.Click += theSanPham1_Click;
-                SanPhamPanel.Controls.Add(theSanPham); 
+                SanPhamPanel.Controls.Add(theSanPham);
+            }
+        }
+
+        private void SortAndReloadProducts()
+        {
+            if (currentProductList == null || currentProductList.Count == 0)
+            {
+                currentProductList = productDAL.GetAllProducts();
+            }
+
+            // Sử dụng reflection để sắp xếp theo thuộc tính được chọn
+            PropertyInfo propInfo = typeof(ProductDTO).GetProperty(selectedAttribute);
+            if (propInfo != null)
+            {
+                if (isAscending)
+                {
+                    currentProductList = currentProductList.OrderBy(p => propInfo.GetValue(p, null)).ToList();
+                }
+                else
+                {
+                    currentProductList = currentProductList.OrderByDescending(p => propInfo.GetValue(p, null)).ToList();
+                }
+            }
+
+            SanPhamPanel.Controls.Clear();
+
+            foreach (var product in currentProductList)
+            {
+                TheSanPham theSanPham = new TheSanPham();
+                theSanPham.LoadProductData(product);
+                theSanPham.Click += theSanPham1_Click;
+                SanPhamPanel.Controls.Add(theSanPham);
             }
         }
 
@@ -116,15 +190,8 @@ namespace QLBG.Views.SanPham
                 MessageBox.Show("Không tìm thấy sản phẩm nào.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            SanPhamPanel.Controls.Clear();
-            foreach (var product in productList)
-            {
-                Console.WriteLine("Product ID: " + product.MaHang);
-                TheSanPham theSanPham = new TheSanPham();
-                theSanPham.LoadProductData(product);
-                theSanPham.Click += theSanPham1_Click;
-                SanPhamPanel.Controls.Add(theSanPham);
-            }
+            currentProductList = productList; // Lưu danh sách sản phẩm hiện tại
+            SortAndReloadProducts(); // Áp dụng sắp xếp
         }
 
         private void guna2TextBox1_KeyUp(object sender, KeyEventArgs e)
@@ -209,7 +276,25 @@ namespace QLBG.Views.SanPham
             }
         }
 
+        private void comboBoxSortByAttributeOfProduct_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string displayedAttribute = comboBoxSortByAttributeOfProduct.SelectedItem.ToString();
+            if (attributeMapping.ContainsKey(displayedAttribute))
+            {
+                selectedAttribute = attributeMapping[displayedAttribute];
+            }
+            else
+            {
+                selectedAttribute = "MaHang";
+            }
+            SortAndReloadProducts();
+        }
 
-
+        private void comboBoxSortGreaterOrLess_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedOrder = comboBoxSortGreaterOrLess.SelectedItem.ToString();
+            isAscending = selectedOrder == "Tăng dần";
+            SortAndReloadProducts();
+        }
     }
 }

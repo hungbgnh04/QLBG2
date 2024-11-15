@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
+using DocumentFormat.OpenXml.Math;
 using QLBG.DAL;
 using QLBG.Helpers;
 
@@ -18,7 +19,7 @@ namespace QLBG.Views.NhanVien
         private Point dragFormPoint;
         private readonly int maNV;
         public event EventHandler EmployeeUpdated;
-
+        public static event EventHandler HomePageUpdated;
         public ChiTietNhanVien(string maNVString)
         {
             InitializeComponent();
@@ -184,6 +185,7 @@ namespace QLBG.Views.NhanVien
                 }
                 MessageBox.Show("Cập nhật thông tin nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 EmployeeUpdated?.Invoke(this, EventArgs.Empty);
+                HomePageUpdated?.Invoke(this, EventArgs.Empty);
                 this.Close();
             }
             else
@@ -199,14 +201,14 @@ namespace QLBG.Views.NhanVien
                                      MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirmResult == DialogResult.Yes)
             {
+                if (Session.MaNV == maNV)
+                {
+                    MessageBox.Show("Bạn không thể xóa chính mình.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
                 bool isSuccess = dbHelper.DeleteEmployee(maNV);
                 if (isSuccess)
                 {
-                    if (Session.MaNV == maNV)
-                    {
-                        MessageBox.Show("Bạn không thể xóa chính mình.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
                     MessageBox.Show("Xóa nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     EmployeeUpdated?.Invoke(this, EventArgs.Empty);
                     this.Close();

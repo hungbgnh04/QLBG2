@@ -24,8 +24,6 @@ namespace QLBG.Views.KhachHang
         {
             base.OnLoad(e);
             LoadKhachHangData();
-
-            // Khởi tạo ComboBox cho sắp xếp
             comboBoxSortBy.Items.AddRange(new string[]
             {
                 "MaKhach", "TenKhach", "DiaChi", "DienThoai"

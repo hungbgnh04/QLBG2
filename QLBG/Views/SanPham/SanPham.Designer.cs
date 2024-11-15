@@ -46,6 +46,10 @@
             this.pgDacDiem = new System.Windows.Forms.TabPage();
             this.pgCongDung = new System.Windows.Forms.TabPage();
             this.pgChatLieu = new System.Windows.Forms.TabPage();
+            this.comboBoxSortByAttributeOfProduct = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.comboBoxSortGreaterOrLess = new Guna.UI2.WinForms.Guna2ComboBox();
             this.guna2TabControl1.SuspendLayout();
             this.pgSanPham.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -66,9 +70,10 @@
             this.guna2TabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2TabControl1.ItemSize = new System.Drawing.Size(170, 60);
             this.guna2TabControl1.Location = new System.Drawing.Point(0, 0);
+            this.guna2TabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2TabControl1.Name = "guna2TabControl1";
             this.guna2TabControl1.SelectedIndex = 0;
-            this.guna2TabControl1.Size = new System.Drawing.Size(1736, 1024);
+            this.guna2TabControl1.Size = new System.Drawing.Size(1157, 666);
             this.guna2TabControl1.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
             this.guna2TabControl1.TabButtonHoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
             this.guna2TabControl1.TabButtonHoverState.Font = new System.Drawing.Font("Segoe UI Semibold", 12F);
@@ -96,10 +101,11 @@
             this.pgSanPham.Controls.Add(this.guna2VScrollBar1);
             this.pgSanPham.Controls.Add(this.SanPhamPanel);
             this.pgSanPham.Controls.Add(this.panel1);
-            this.pgSanPham.Location = new System.Drawing.Point(4, 64);
+            this.pgSanPham.Location = new System.Drawing.Point(4, 124);
+            this.pgSanPham.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pgSanPham.Name = "pgSanPham";
-            this.pgSanPham.Padding = new System.Windows.Forms.Padding(3);
-            this.pgSanPham.Size = new System.Drawing.Size(1728, 956);
+            this.pgSanPham.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pgSanPham.Size = new System.Drawing.Size(1149, 538);
             this.pgSanPham.TabIndex = 0;
             this.pgSanPham.Text = "Sản phẩm";
             // 
@@ -107,14 +113,15 @@
             // 
             this.guna2VScrollBar1.AutoRoundedCorners = true;
             this.guna2VScrollBar1.BindingContainer = this.SanPhamPanel;
-            this.guna2VScrollBar1.BorderRadius = 12;
+            this.guna2VScrollBar1.BorderRadius = 8;
             this.guna2VScrollBar1.FillColor = System.Drawing.Color.Transparent;
             this.guna2VScrollBar1.InUpdate = false;
             this.guna2VScrollBar1.LargeChange = 10;
-            this.guna2VScrollBar1.Location = new System.Drawing.Point(1699, 83);
+            this.guna2VScrollBar1.Location = new System.Drawing.Point(1132, 54);
+            this.guna2VScrollBar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2VScrollBar1.Name = "guna2VScrollBar1";
-            this.guna2VScrollBar1.ScrollbarSize = 26;
-            this.guna2VScrollBar1.Size = new System.Drawing.Size(26, 833);
+            this.guna2VScrollBar1.ScrollbarSize = 18;
+            this.guna2VScrollBar1.Size = new System.Drawing.Size(18, 541);
             this.guna2VScrollBar1.TabIndex = 8;
             this.guna2VScrollBar1.ThumbColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(41)))), ((int)(((byte)(123)))));
             this.guna2VScrollBar1.ThumbStyle = Guna.UI2.WinForms.Enums.ThumbStyle.Inset;
@@ -122,22 +129,28 @@
             // SanPhamPanel
             // 
             this.SanPhamPanel.AutoScroll = true;
-            this.SanPhamPanel.Location = new System.Drawing.Point(3, 83);
+            this.SanPhamPanel.Location = new System.Drawing.Point(2, 54);
+            this.SanPhamPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.SanPhamPanel.Name = "SanPhamPanel";
-            this.SanPhamPanel.Padding = new System.Windows.Forms.Padding(20);
-            this.SanPhamPanel.Size = new System.Drawing.Size(1722, 833);
+            this.SanPhamPanel.Padding = new System.Windows.Forms.Padding(13, 13, 13, 13);
+            this.SanPhamPanel.Size = new System.Drawing.Size(1148, 541);
             this.SanPhamPanel.TabIndex = 0;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.comboBoxSortGreaterOrLess);
+            this.panel1.Controls.Add(this.guna2HtmlLabel2);
+            this.panel1.Controls.Add(this.guna2HtmlLabel1);
+            this.panel1.Controls.Add(this.comboBoxSortByAttributeOfProduct);
             this.panel1.Controls.Add(this.guna2Button1);
             this.panel1.Controls.Add(this.TimBtn);
             this.panel1.Controls.Add(this.guna2TextBox1);
             this.panel1.Controls.Add(this.ThemBtn);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Location = new System.Drawing.Point(2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1722, 80);
+            this.panel1.Size = new System.Drawing.Size(1145, 52);
             this.panel1.TabIndex = 9;
             // 
             // guna2Button1
@@ -150,9 +163,10 @@
             this.guna2Button1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(41)))), ((int)(((byte)(123)))));
             this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.guna2Button1.ForeColor = System.Drawing.Color.White;
-            this.guna2Button1.Location = new System.Drawing.Point(1539, 16);
+            this.guna2Button1.Location = new System.Drawing.Point(1026, 10);
+            this.guna2Button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.Size = new System.Drawing.Size(180, 45);
+            this.guna2Button1.Size = new System.Drawing.Size(120, 29);
             this.guna2Button1.TabIndex = 2;
             this.guna2Button1.Text = "Report";
             this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
@@ -173,9 +187,10 @@
             this.TimBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.TimBtn.ForeColor = System.Drawing.Color.Black;
             this.TimBtn.Image = global::QLBG.Properties.Resources.icons8_search_50;
-            this.TimBtn.Location = new System.Drawing.Point(1467, 12);
+            this.TimBtn.Location = new System.Drawing.Point(978, 8);
+            this.TimBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.TimBtn.Name = "TimBtn";
-            this.TimBtn.Size = new System.Drawing.Size(60, 60);
+            this.TimBtn.Size = new System.Drawing.Size(40, 39);
             this.TimBtn.TabIndex = 0;
             this.TimBtn.Click += new System.EventHandler(this.TimBtn_Click);
             // 
@@ -195,13 +210,12 @@
             this.guna2TextBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.guna2TextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.guna2TextBox1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.Location = new System.Drawing.Point(1186, 12);
-            this.guna2TextBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.guna2TextBox1.Location = new System.Drawing.Point(791, 8);
             this.guna2TextBox1.Name = "guna2TextBox1";
             this.guna2TextBox1.PasswordChar = '\0';
             this.guna2TextBox1.PlaceholderText = "TÌm kiếm sản phẩm";
             this.guna2TextBox1.SelectedText = "";
-            this.guna2TextBox1.Size = new System.Drawing.Size(280, 60);
+            this.guna2TextBox1.Size = new System.Drawing.Size(187, 39);
             this.guna2TextBox1.TabIndex = 1;
             this.guna2TextBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.guna2TextBox1_KeyUp);
             // 
@@ -215,9 +229,10 @@
             this.ThemBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(41)))), ((int)(((byte)(123)))));
             this.ThemBtn.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.ThemBtn.ForeColor = System.Drawing.Color.White;
-            this.ThemBtn.Location = new System.Drawing.Point(17, 16);
+            this.ThemBtn.Location = new System.Drawing.Point(11, 10);
+            this.ThemBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ThemBtn.Name = "ThemBtn";
-            this.ThemBtn.Size = new System.Drawing.Size(180, 45);
+            this.ThemBtn.Size = new System.Drawing.Size(120, 29);
             this.ThemBtn.TabIndex = 0;
             this.ThemBtn.Text = "Thêm sản phẩm";
             this.ThemBtn.Click += new System.EventHandler(this.ThemBtn_Click);
@@ -225,103 +240,164 @@
             // pgNhaSX
             // 
             this.pgNhaSX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
-            this.pgNhaSX.Location = new System.Drawing.Point(4, 64);
+            this.pgNhaSX.Location = new System.Drawing.Point(4, 124);
+            this.pgNhaSX.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pgNhaSX.Name = "pgNhaSX";
-            this.pgNhaSX.Padding = new System.Windows.Forms.Padding(3);
-            this.pgNhaSX.Size = new System.Drawing.Size(1728, 956);
+            this.pgNhaSX.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pgNhaSX.Size = new System.Drawing.Size(1149, 538);
             this.pgNhaSX.TabIndex = 2;
             this.pgNhaSX.Text = "Nhà sản xuất";
             // 
             // pgNuocSX
             // 
             this.pgNuocSX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
-            this.pgNuocSX.Location = new System.Drawing.Point(4, 64);
+            this.pgNuocSX.Location = new System.Drawing.Point(4, 124);
+            this.pgNuocSX.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pgNuocSX.Name = "pgNuocSX";
-            this.pgNuocSX.Padding = new System.Windows.Forms.Padding(3);
-            this.pgNuocSX.Size = new System.Drawing.Size(1728, 956);
+            this.pgNuocSX.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pgNuocSX.Size = new System.Drawing.Size(1149, 538);
             this.pgNuocSX.TabIndex = 3;
             this.pgNuocSX.Text = "Nước sản xuất";
             // 
             // pgKichCo
             // 
             this.pgKichCo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
-            this.pgKichCo.Location = new System.Drawing.Point(4, 64);
+            this.pgKichCo.Location = new System.Drawing.Point(4, 124);
+            this.pgKichCo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pgKichCo.Name = "pgKichCo";
-            this.pgKichCo.Padding = new System.Windows.Forms.Padding(3);
-            this.pgKichCo.Size = new System.Drawing.Size(1728, 956);
+            this.pgKichCo.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pgKichCo.Size = new System.Drawing.Size(1149, 538);
             this.pgKichCo.TabIndex = 4;
             this.pgKichCo.Text = "Kích cỡ";
             // 
             // pgMauSac
             // 
             this.pgMauSac.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
-            this.pgMauSac.Location = new System.Drawing.Point(4, 64);
+            this.pgMauSac.Location = new System.Drawing.Point(4, 124);
+            this.pgMauSac.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pgMauSac.Name = "pgMauSac";
-            this.pgMauSac.Padding = new System.Windows.Forms.Padding(3);
-            this.pgMauSac.Size = new System.Drawing.Size(1728, 956);
+            this.pgMauSac.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pgMauSac.Size = new System.Drawing.Size(1149, 538);
             this.pgMauSac.TabIndex = 5;
             this.pgMauSac.Text = "Màu sắc";
             // 
             // pgLoai
             // 
             this.pgLoai.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
-            this.pgLoai.Location = new System.Drawing.Point(4, 64);
+            this.pgLoai.Location = new System.Drawing.Point(4, 124);
+            this.pgLoai.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pgLoai.Name = "pgLoai";
-            this.pgLoai.Padding = new System.Windows.Forms.Padding(3);
-            this.pgLoai.Size = new System.Drawing.Size(1728, 956);
+            this.pgLoai.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pgLoai.Size = new System.Drawing.Size(1149, 538);
             this.pgLoai.TabIndex = 6;
             this.pgLoai.Text = "Loại";
             // 
             // pgHinhDang
             // 
             this.pgHinhDang.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
-            this.pgHinhDang.Location = new System.Drawing.Point(4, 64);
+            this.pgHinhDang.Location = new System.Drawing.Point(4, 124);
+            this.pgHinhDang.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pgHinhDang.Name = "pgHinhDang";
-            this.pgHinhDang.Size = new System.Drawing.Size(1728, 956);
+            this.pgHinhDang.Size = new System.Drawing.Size(1149, 538);
             this.pgHinhDang.TabIndex = 7;
             this.pgHinhDang.Text = "Hình dạng";
             // 
             // pgDacDiem
             // 
             this.pgDacDiem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
-            this.pgDacDiem.Location = new System.Drawing.Point(4, 64);
+            this.pgDacDiem.Location = new System.Drawing.Point(4, 124);
+            this.pgDacDiem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pgDacDiem.Name = "pgDacDiem";
-            this.pgDacDiem.Padding = new System.Windows.Forms.Padding(3);
-            this.pgDacDiem.Size = new System.Drawing.Size(1728, 956);
+            this.pgDacDiem.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pgDacDiem.Size = new System.Drawing.Size(1149, 538);
             this.pgDacDiem.TabIndex = 8;
             this.pgDacDiem.Text = "Đặc điểm";
             // 
             // pgCongDung
             // 
             this.pgCongDung.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
-            this.pgCongDung.Location = new System.Drawing.Point(4, 64);
+            this.pgCongDung.Location = new System.Drawing.Point(4, 124);
+            this.pgCongDung.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pgCongDung.Name = "pgCongDung";
-            this.pgCongDung.Padding = new System.Windows.Forms.Padding(3);
-            this.pgCongDung.Size = new System.Drawing.Size(1728, 956);
+            this.pgCongDung.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pgCongDung.Size = new System.Drawing.Size(1149, 538);
             this.pgCongDung.TabIndex = 9;
             this.pgCongDung.Text = "Công dụng";
             // 
             // pgChatLieu
             // 
             this.pgChatLieu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
-            this.pgChatLieu.Location = new System.Drawing.Point(4, 64);
+            this.pgChatLieu.Location = new System.Drawing.Point(4, 124);
+            this.pgChatLieu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pgChatLieu.Name = "pgChatLieu";
-            this.pgChatLieu.Padding = new System.Windows.Forms.Padding(3);
-            this.pgChatLieu.Size = new System.Drawing.Size(1728, 956);
+            this.pgChatLieu.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pgChatLieu.Size = new System.Drawing.Size(1149, 538);
             this.pgChatLieu.TabIndex = 1;
             this.pgChatLieu.Text = "Chất liệu";
             // 
+            // comboBoxSortByAttributeOfProduct
+            // 
+            this.comboBoxSortByAttributeOfProduct.BackColor = System.Drawing.Color.Transparent;
+            this.comboBoxSortByAttributeOfProduct.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.comboBoxSortByAttributeOfProduct.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSortByAttributeOfProduct.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.comboBoxSortByAttributeOfProduct.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.comboBoxSortByAttributeOfProduct.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.comboBoxSortByAttributeOfProduct.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.comboBoxSortByAttributeOfProduct.ItemHeight = 30;
+            this.comboBoxSortByAttributeOfProduct.Location = new System.Drawing.Point(487, 8);
+            this.comboBoxSortByAttributeOfProduct.Name = "comboBoxSortByAttributeOfProduct";
+            this.comboBoxSortByAttributeOfProduct.Size = new System.Drawing.Size(140, 36);
+            this.comboBoxSortByAttributeOfProduct.TabIndex = 3;
+            this.comboBoxSortByAttributeOfProduct.SelectedIndexChanged += new System.EventHandler(this.comboBoxSortByAttributeOfProduct_SelectedIndexChanged);
+            // 
+            // guna2HtmlLabel1
+            // 
+            this.guna2HtmlLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel1.Location = new System.Drawing.Point(218, 29);
+            this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
+            this.guna2HtmlLabel1.Size = new System.Drawing.Size(42, 15);
+            this.guna2HtmlLabel1.TabIndex = 4;
+            this.guna2HtmlLabel1.Text = "Sắp xếp";
+            // 
+            // guna2HtmlLabel2
+            // 
+            this.guna2HtmlLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel2.Location = new System.Drawing.Point(444, 24);
+            this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
+            this.guna2HtmlLabel2.Size = new System.Drawing.Size(24, 15);
+            this.guna2HtmlLabel2.TabIndex = 5;
+            this.guna2HtmlLabel2.Text = "theo";
+            // 
+            // comboBoxSortGreaterOrLess
+            // 
+            this.comboBoxSortGreaterOrLess.BackColor = System.Drawing.Color.Transparent;
+            this.comboBoxSortGreaterOrLess.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.comboBoxSortGreaterOrLess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSortGreaterOrLess.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.comboBoxSortGreaterOrLess.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.comboBoxSortGreaterOrLess.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.comboBoxSortGreaterOrLess.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.comboBoxSortGreaterOrLess.ItemHeight = 30;
+            this.comboBoxSortGreaterOrLess.Location = new System.Drawing.Point(279, 8);
+            this.comboBoxSortGreaterOrLess.Name = "comboBoxSortGreaterOrLess";
+            this.comboBoxSortGreaterOrLess.Size = new System.Drawing.Size(140, 36);
+            this.comboBoxSortGreaterOrLess.TabIndex = 6;
+            this.comboBoxSortGreaterOrLess.SelectedIndexChanged += new System.EventHandler(this.comboBoxSortGreaterOrLess_SelectedIndexChanged);
+            // 
             // SanPham
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
             this.Controls.Add(this.guna2TabControl1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "SanPham";
-            this.Size = new System.Drawing.Size(1736, 1024);
+            this.Size = new System.Drawing.Size(1157, 666);
             this.guna2TabControl1.ResumeLayout(false);
             this.pgSanPham.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -346,5 +422,9 @@
         private Guna.UI2.WinForms.Guna2Button TimBtn;
         private Guna.UI2.WinForms.Guna2Button ThemBtn;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private Guna.UI2.WinForms.Guna2ComboBox comboBoxSortByAttributeOfProduct;
+        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
+        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
+        private Guna.UI2.WinForms.Guna2ComboBox comboBoxSortGreaterOrLess;
     }
 }
