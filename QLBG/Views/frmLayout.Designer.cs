@@ -133,7 +133,7 @@
             this.SupplierBtn.ForeColor = System.Drawing.Color.White;
             this.SupplierBtn.Image = global::QLBG.Properties.Resources.supplier60;
             this.SupplierBtn.ImageSize = new System.Drawing.Size(30, 30);
-            this.SupplierBtn.Location = new System.Drawing.Point(8, 559);
+            this.SupplierBtn.Location = new System.Drawing.Point(8, 569);
             this.SupplierBtn.Name = "SupplierBtn";
             this.SupplierBtn.Size = new System.Drawing.Size(80, 70);
             this.SupplierBtn.TabIndex = 6;
@@ -277,7 +277,7 @@
             this.JobBtn.ForeColor = System.Drawing.Color.White;
             this.JobBtn.Image = global::QLBG.Properties.Resources.icons8_job_30;
             this.JobBtn.ImageSize = new System.Drawing.Size(30, 30);
-            this.JobBtn.Location = new System.Drawing.Point(8, 750);
+            this.JobBtn.Location = new System.Drawing.Point(8, 786);
             this.JobBtn.Name = "JobBtn";
             this.JobBtn.Size = new System.Drawing.Size(80, 70);
             this.JobBtn.TabIndex = 4;
@@ -301,7 +301,7 @@
             this.EmployeeBtn.ForeColor = System.Drawing.Color.White;
             this.EmployeeBtn.Image = global::QLBG.Properties.Resources.icons8_employee_white_50;
             this.EmployeeBtn.ImageSize = new System.Drawing.Size(30, 30);
-            this.EmployeeBtn.Location = new System.Drawing.Point(8, 656);
+            this.EmployeeBtn.Location = new System.Drawing.Point(8, 677);
             this.EmployeeBtn.Name = "EmployeeBtn";
             this.EmployeeBtn.Size = new System.Drawing.Size(80, 70);
             this.EmployeeBtn.TabIndex = 4;

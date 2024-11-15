@@ -60,6 +60,7 @@ namespace QLBG.Views
             ToolTip.SetToolTip(EmployeeBtn, "Danh sách nhân viên");
             ToolTip.SetToolTip(SupplierBtn, "Danh sách nhà cung cấp");
             ToolTip.SetToolTip(LogoutBtn, "Đăng xuất");
+            ToolTip.SetToolTip(JobBtn, "Danh sách công việc");
 
             // Thiết lập Timer cho phiên tự động đăng xuất
             sessionTimer = new Timer();
@@ -130,6 +131,7 @@ namespace QLBG.Views
         private void EmployeeBtn_Click(object sender, EventArgs e)
         {
             moveEffect(sender);
+            EmployeeBtn.Update();
             HomeLabel.Text = "Danh sách nhân viên";
             ShowControl(nhanVien);
         }
@@ -137,6 +139,7 @@ namespace QLBG.Views
         private void HomeBtn_Click(object sender, EventArgs e)
         {
             moveEffect(sender);
+            HomeBtn.Update();
             ShowControl(homePage);
             homePage.HomePage_Load(null, null);
             HomeLabel.Text = "Trang chủ";
@@ -225,6 +228,7 @@ namespace QLBG.Views
         private void BillBtn_Click(object sender, EventArgs e)
         {
             moveEffect(sender);
+            BillBtn.Update();
             HomeLabel.Text = "Hóa đơn";
             ShowControl(hoaDon);
         }
@@ -232,6 +236,7 @@ namespace QLBG.Views
         private void ProductBtn_Click(object sender, EventArgs e)
         {
             moveEffect(sender);
+            ProductBtn.Update();
             HomeLabel.Text = "Danh sách sản phẩm";
             ShowControl(sanPham);
         }
@@ -239,6 +244,7 @@ namespace QLBG.Views
         private void CustomerBtn_Click(object sender, EventArgs e)
         {
             moveEffect(sender);
+            CustomerBtn.Update();
             HomeLabel.Text = "Danh sách khách hàng";
             ShowControl(khachHang);
         }
@@ -256,6 +262,7 @@ namespace QLBG.Views
         {
             HomeLabel.Text = "Danh sách công việc";
             moveEffect(sender);
+            JobBtn.Update();
             ShowControl(congViec);
         }
 
@@ -263,6 +270,7 @@ namespace QLBG.Views
         {
             HomeLabel.Text = "Danh sách nhà cung cấp";
             moveEffect(sender);
+            SupplierBtn.Update();
             ShowControl(nhaCungCap);
         }
 

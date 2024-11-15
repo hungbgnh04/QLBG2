@@ -33,6 +33,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.btnTimKiemTheoTen = new Guna.UI2.WinForms.Guna2Button();
             this.textBoxTenDeTimKiem = new Guna.UI2.WinForms.Guna2TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,7 +45,6 @@
             this.lblSoLuongNhanVien = new System.Windows.Forms.Label();
             this.guna2DataGridView1 = new Guna.UI2.WinForms.Guna2DataGridView();
             this.guna2ShadowPanel1 = new Guna.UI2.WinForms.Guna2ShadowPanel();
-            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2DataGridView1)).BeginInit();
             this.guna2ShadowPanel1.SuspendLayout();
@@ -69,6 +69,24 @@
             this.guna2Panel1.Size = new System.Drawing.Size(1663, 106);
             this.guna2Panel1.TabIndex = 0;
             // 
+            // guna2Button1
+            // 
+            this.guna2Button1.BorderRadius = 10;
+            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button1.FillColor = System.Drawing.Color.CornflowerBlue;
+            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2Button1.ForeColor = System.Drawing.Color.White;
+            this.guna2Button1.Location = new System.Drawing.Point(1499, 25);
+            this.guna2Button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.guna2Button1.Name = "guna2Button1";
+            this.guna2Button1.Size = new System.Drawing.Size(118, 56);
+            this.guna2Button1.TabIndex = 8;
+            this.guna2Button1.Text = "Report";
+            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
+            // 
             // btnTimKiemTheoTen
             // 
             this.btnTimKiemTheoTen.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
@@ -79,7 +97,7 @@
             this.btnTimKiemTheoTen.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnTimKiemTheoTen.ForeColor = System.Drawing.Color.White;
             this.btnTimKiemTheoTen.Image = global::QLBG.Properties.Resources.icons8_search_30;
-            this.btnTimKiemTheoTen.Location = new System.Drawing.Point(1105, 22);
+            this.btnTimKiemTheoTen.Location = new System.Drawing.Point(1106, 30);
             this.btnTimKiemTheoTen.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnTimKiemTheoTen.Name = "btnTimKiemTheoTen";
             this.btnTimKiemTheoTen.Size = new System.Drawing.Size(45, 48);
@@ -98,7 +116,7 @@
             this.textBoxTenDeTimKiem.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.textBoxTenDeTimKiem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.textBoxTenDeTimKiem.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.textBoxTenDeTimKiem.Location = new System.Drawing.Point(840, 22);
+            this.textBoxTenDeTimKiem.Location = new System.Drawing.Point(841, 30);
             this.textBoxTenDeTimKiem.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.textBoxTenDeTimKiem.Name = "textBoxTenDeTimKiem";
             this.textBoxTenDeTimKiem.PasswordChar = '\0';
@@ -128,7 +146,7 @@
             this.btnTaoNhanVien.FillColor = System.Drawing.Color.CornflowerBlue;
             this.btnTaoNhanVien.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnTaoNhanVien.ForeColor = System.Drawing.Color.White;
-            this.btnTaoNhanVien.Location = new System.Drawing.Point(1321, 17);
+            this.btnTaoNhanVien.Location = new System.Drawing.Point(1322, 25);
             this.btnTaoNhanVien.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnTaoNhanVien.Name = "btnTaoNhanVien";
             this.btnTaoNhanVien.Size = new System.Drawing.Size(159, 56);
@@ -149,7 +167,7 @@
             this.btnExportToExcel.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnExportToExcel.ForeColor = System.Drawing.Color.Black;
             this.btnExportToExcel.Image = global::QLBG.Properties.Resources.icons8_print_30;
-            this.btnExportToExcel.Location = new System.Drawing.Point(1150, 29);
+            this.btnExportToExcel.Location = new System.Drawing.Point(1151, 37);
             this.btnExportToExcel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnExportToExcel.Name = "btnExportToExcel";
             this.btnExportToExcel.Size = new System.Drawing.Size(156, 36);
@@ -168,7 +186,7 @@
             this.comboBoxSortBy.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.comboBoxSortBy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
             this.comboBoxSortBy.ItemHeight = 30;
-            this.comboBoxSortBy.Location = new System.Drawing.Point(372, 22);
+            this.comboBoxSortBy.Location = new System.Drawing.Point(372, 38);
             this.comboBoxSortBy.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboBoxSortBy.Name = "comboBoxSortBy";
             this.comboBoxSortBy.Size = new System.Drawing.Size(234, 36);
@@ -180,7 +198,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label3.Location = new System.Drawing.Point(249, 48);
+            this.label3.Location = new System.Drawing.Point(239, 44);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(128, 25);
             this.label3.TabIndex = 2;
@@ -191,7 +209,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(86, 48);
+            this.label2.Location = new System.Drawing.Point(86, 44);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(109, 25);
             this.label2.TabIndex = 1;
@@ -285,24 +303,6 @@
             this.guna2ShadowPanel1.ShadowColor = System.Drawing.Color.Black;
             this.guna2ShadowPanel1.Size = new System.Drawing.Size(1663, 955);
             this.guna2ShadowPanel1.TabIndex = 4;
-            // 
-            // guna2Button1
-            // 
-            this.guna2Button1.BorderRadius = 10;
-            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2Button1.FillColor = System.Drawing.Color.CornflowerBlue;
-            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2Button1.ForeColor = System.Drawing.Color.White;
-            this.guna2Button1.Location = new System.Drawing.Point(1498, 17);
-            this.guna2Button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.Size = new System.Drawing.Size(118, 56);
-            this.guna2Button1.TabIndex = 8;
-            this.guna2Button1.Text = "Report";
-            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // NhanVien
             // 
