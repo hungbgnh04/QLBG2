@@ -11,23 +11,23 @@ namespace QLBG.DTO
         public int MaHang { get; set; }
         public string TenHangHoa { get; set; }
         public int MaLoai { get; set; }
-        public string TenLoai { get; set; }             // Tên loại
+        public string TenLoai { get; set; }
         public int MaKichThuoc { get; set; }
-        public string TenKichThuoc { get; set; }         // Tên kích thước
+        public string TenKichThuoc { get; set; }
         public int MaHinhDang { get; set; }
-        public string TenHinhDang { get; set; }          // Tên hình dạng
+        public string TenHinhDang { get; set; }
         public int MaChatLieu { get; set; }
-        public string TenChatLieu { get; set; }          // Tên chất liệu
+        public string TenChatLieu { get; set; }
         public int MaNuocSX { get; set; }
-        public string TenNuocSX { get; set; }            // Tên nước sản xuất
+        public string TenNuocSX { get; set; } 
         public int MaDacDiem { get; set; }
-        public string TenDacDiem { get; set; }           // Tên đặc điểm
+        public string TenDacDiem { get; set; }
         public int MaMau { get; set; }
-        public string TenMau { get; set; }               // Tên màu
+        public string TenMau { get; set; }
         public int MaCongDung { get; set; }
-        public string TenCongDung { get; set; }          // Tên công dụng
+        public string TenCongDung { get; set; }
         public int MaNSX { get; set; }
-        public string TenNSX { get; set; }               // Tên nhà sản xuất
+        public string TenNSX { get; set; } 
         public int SoLuong { get; set; }
         public decimal DonGiaNhap { get; set; }
         public decimal DonGiaBan { get; set; }

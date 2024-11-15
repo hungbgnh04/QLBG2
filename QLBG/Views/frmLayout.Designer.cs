@@ -71,6 +71,7 @@
             this.CloseControl.PressedDepth = 50;
             this.CloseControl.Size = new System.Drawing.Size(61, 42);
             this.CloseControl.TabIndex = 1;
+            this.CloseControl.Click += new System.EventHandler(this.CloseControl_Click);
             // 
             // panelParent
             // 
