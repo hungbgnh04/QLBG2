@@ -10,6 +10,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -28,8 +29,6 @@ namespace QLBG.Views.SanPham
         private MauSacDAL mauSacDAL = new MauSacDAL();
         private NuocSXDAL nuocSXDAL = new NuocSXDAL();
 
-        private string imageDirectory;
-
 
         public enum Mode
         {
@@ -47,8 +46,10 @@ namespace QLBG.Views.SanPham
             RoundCorners(this, 40);
             this.id = id;
             this.mode = mode;
-            string projectDirectory = Directory.GetParent(Application.StartupPath).Parent.FullName;
-            imageDirectory = Path.Combine(projectDirectory, @"Resources\ProductImages");
+            if (mode == Mode.Add)
+            {
+                PictureBoxAnh.ImageLocation = ImageManager.GetProductImagePath("default_product.png");
+            }
             Init();
             LoadLoaiToComboBox();
             LoadKichThuocToComboBox();
@@ -61,7 +62,7 @@ namespace QLBG.Views.SanPham
             LoadNuocSXToComboBox();
             LoadCongDungToComboBox();
             LoadData();
-
+            this.DialogResult = DialogResult.Cancel;
         }
 
         private void RoundCorners(Control control, int radius)
@@ -176,18 +177,8 @@ namespace QLBG.Views.SanPham
                     txtDonGiaBan.Text = product.DonGiaBan.ToString();
                     txtThoiGianBaoHanh.Text = product.ThoiGianBaoHanh.ToString();
                     txtGhiChu.Text = product.GhiChu;
+                    PictureBoxAnh.Image = ImageManager.GetProductImage(product.Anh);
 
-
-                    string imagePath = Path.Combine(imageDirectory, product.Anh);
-
-                    if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
-                    {
-                        PictureBoxAnh.Image = Image.FromFile(imagePath);
-                    }
-                    else
-                    {
-                        PictureBoxAnh.Image = Image.FromFile(imageDirectory + @"\default_product.png");
-                    }
                 }
             }
         }
@@ -399,19 +390,6 @@ namespace QLBG.Views.SanPham
         {
             try
             {
-                if (!Directory.Exists(imageDirectory))
-                {
-                    Directory.CreateDirectory(imageDirectory);
-                }
-
-                string image = Path.GetFileName(PictureBoxAnh.ImageLocation);
-                string imagePath = Path.Combine(imageDirectory, image);
-
-                if (!File.Exists(imagePath))
-                {
-                    File.Copy(PictureBoxAnh.ImageLocation, imagePath);
-                }
-
                 int maLoai = (int)comboBoxLoaiSP.SelectedValue;
                 int maKichThuoc = (int)comboBoxKichThuoc.SelectedValue;
                 int maHinhDang = (int)comboBoxHinhDang.SelectedValue;
@@ -425,6 +403,20 @@ namespace QLBG.Views.SanPham
                 decimal donGiaNhap = decimal.Parse(txtDonGiaNhap.Text);
                 decimal donGiaBan = decimal.Parse(txtDonGiaBan.Text);
                 int thoiGianBaoHanh = int.Parse(txtThoiGianBaoHanh.Text);
+
+                string newImageName = null;
+                
+                try
+                {
+                    newImageName = ImageManager.AddProductImage(PictureBoxAnh.ImageLocation);
+
+                }
+                catch (Exception ex)
+                {
+                    productDAL.DeleteProduct(id);
+                    MessageBox.Show($"Đã xảy ra lỗi khi lưu sản phẩm. Chi tiết lỗi: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 ProductDTO product = new ProductDTO
                 {
@@ -443,20 +435,22 @@ namespace QLBG.Views.SanPham
                     DonGiaNhap = donGiaNhap,
                     DonGiaBan = donGiaBan,
                     ThoiGianBaoHanh = thoiGianBaoHanh,
-                    Anh = image,
+                    Anh = newImageName,
                     GhiChu = txtGhiChu.Text
                 };
 
-                bool isUpdated = productDAL.InsertProduct(product);
-                if (isUpdated)
+                bool isInserted = productDAL.InsertProduct(product);
+                if (isInserted)
                 {
-                    MessageBox.Show("Sản phẩm đã được cập nhật thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Sản phẩm đã được thêm thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Cập nhật sản phẩm thất bại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Thêm sản phẩm thất bại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ImageManager.DeleteProductImage(newImageName);
+                    return;
                 }
             }
             catch (FormatException ex)
@@ -472,23 +466,27 @@ namespace QLBG.Views.SanPham
 
         private void LuuBtn_Click_1(object sender, EventArgs e)
         {
-            if (!Directory.Exists(imageDirectory))
-            {
-                Directory.CreateDirectory(imageDirectory);
-            }
 
-            string image = Path.GetFileName(PictureBoxAnh.ImageLocation);
+            string image = PictureBoxAnh.ImageLocation;
 
             if (String.IsNullOrEmpty(image))
             {
                 MessageBox.Show("Vui lòng chọn ảnh sản phẩm!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            string imagePath = Path.Combine(imageDirectory, image);
 
-            if (!File.Exists(imagePath))
+            string oldImage = productDAL.GetProductById(id)?.Anh;
+
+            try
             {
-                File.Copy(PictureBoxAnh.ImageLocation, imagePath);
+                image = ImageManager.AddProductImage(image);
+                ImageManager.DeleteProductImage(oldImage);
+            }
+            catch (Exception ex)
+            {
+                productDAL.DeleteProduct(id);
+                MessageBox.Show($"Đã xảy ra lỗi khi lưu sản phẩm. Chi tiết lỗi: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             ProductDTO product = new ProductDTO
@@ -528,25 +526,37 @@ namespace QLBG.Views.SanPham
         private void btnXoa_Click(object sender, EventArgs e)
         {
             var confirmResult = MessageBox.Show("Bạn có chắc chắn muốn xóa sản phẩm này?",
-                                        "Xác nhận xóa",
-                                        MessageBoxButtons.YesNo,
-                                        MessageBoxIcon.Warning);
+                                                "Xác nhận xóa",
+                                                MessageBoxButtons.YesNo,
+                                                MessageBoxIcon.Warning);
             if (confirmResult == DialogResult.Yes)
             {
-                bool isDeleted = productDAL.DeleteProduct(id); // 'id' là mã sản phẩm hiện tại
+                ProductDTO product = productDAL.GetProductById(id);
 
-                if (isDeleted)
+                if (product != null)
                 {
-                    MessageBox.Show("Sản phẩm đã được xóa thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.DialogResult = DialogResult.OK;
-                    this.Close(); // Đóng form sau khi xóa thành công
+                    bool isDeleted = productDAL.DeleteProduct(id);
+
+                    if (isDeleted)
+                    {
+                        ImageManager.DeleteProductImage(product.Anh);
+
+                        MessageBox.Show("Sản phẩm đã được xóa thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Xóa sản phẩm thất bại. Vui lòng thử lại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Xóa sản phẩm thất bại. Vui lòng thử lại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Không tìm thấy sản phẩm để xóa.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
+
     }
 }
 

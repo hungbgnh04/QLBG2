@@ -6,8 +6,11 @@ using QLBG.Views.ReportRDLC;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Reflection; // Thêm thư viện này để sử dụng reflection
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QLBG.Views.SanPham
@@ -112,9 +115,9 @@ namespace QLBG.Views.SanPham
 
         private void LoadProducts()
         {
-            currentProductList = productDAL.GetAllProducts();
-
             SanPhamPanel.Controls.Clear();
+
+            currentProductList = productDAL.GetAllProducts();
             foreach (var product in currentProductList)
             {
                 TheSanPham theSanPham = new TheSanPham();
@@ -131,7 +134,6 @@ namespace QLBG.Views.SanPham
                 currentProductList = productDAL.GetAllProducts();
             }
 
-            // Sử dụng reflection để sắp xếp theo thuộc tính được chọn
             PropertyInfo propInfo = typeof(ProductDTO).GetProperty(selectedAttribute);
             if (propInfo != null)
             {
@@ -155,6 +157,7 @@ namespace QLBG.Views.SanPham
                 SanPhamPanel.Controls.Add(theSanPham);
             }
         }
+
 
         private void ThemBtn_Click(object sender, EventArgs e)
         {
@@ -190,8 +193,8 @@ namespace QLBG.Views.SanPham
                 MessageBox.Show("Không tìm thấy sản phẩm nào.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            currentProductList = productList; // Lưu danh sách sản phẩm hiện tại
-            SortAndReloadProducts(); // Áp dụng sắp xếp
+            currentProductList = productList;
+            SortAndReloadProducts();
         }
 
         private void guna2TextBox1_KeyUp(object sender, KeyEventArgs e)
@@ -259,6 +262,7 @@ namespace QLBG.Views.SanPham
                 }
             }
         }
+
 
         private void guna2Button1_Click(object sender, EventArgs e)
         {

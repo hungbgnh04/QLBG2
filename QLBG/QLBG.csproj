@@ -313,6 +313,7 @@
     <Compile Include="Helpers\App_Default.cs" />
     <Compile Include="Helpers\Session.cs" />
     <Compile Include="Helpers\Validate.cs" />
+    <Compile Include="ImageManager.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Views\Access\LoginForm.cs">
       <SubType>Form</SubType>

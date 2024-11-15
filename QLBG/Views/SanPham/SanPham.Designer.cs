@@ -102,7 +102,7 @@
             this.pgSanPham.Controls.Add(this.panel1);
             this.pgSanPham.Location = new System.Drawing.Point(4, 64);
             this.pgSanPham.Name = "pgSanPham";
-            this.pgSanPham.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.pgSanPham.Padding = new System.Windows.Forms.Padding(3);
             this.pgSanPham.Size = new System.Drawing.Size(1728, 957);
             this.pgSanPham.TabIndex = 0;
             this.pgSanPham.Text = "Sản phẩm";
@@ -128,7 +128,7 @@
             this.SanPhamPanel.AutoScroll = true;
             this.SanPhamPanel.Location = new System.Drawing.Point(3, 83);
             this.SanPhamPanel.Name = "SanPhamPanel";
-            this.SanPhamPanel.Padding = new System.Windows.Forms.Padding(20, 20, 20, 20);
+            this.SanPhamPanel.Padding = new System.Windows.Forms.Padding(20);
             this.SanPhamPanel.Size = new System.Drawing.Size(1722, 832);
             this.SanPhamPanel.TabIndex = 0;
             // 
@@ -289,7 +289,7 @@
             this.pgNhaSX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
             this.pgNhaSX.Location = new System.Drawing.Point(4, 64);
             this.pgNhaSX.Name = "pgNhaSX";
-            this.pgNhaSX.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.pgNhaSX.Padding = new System.Windows.Forms.Padding(3);
             this.pgNhaSX.Size = new System.Drawing.Size(1728, 957);
             this.pgNhaSX.TabIndex = 2;
             this.pgNhaSX.Text = "Nhà sản xuất";
@@ -299,7 +299,7 @@
             this.pgNuocSX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
             this.pgNuocSX.Location = new System.Drawing.Point(4, 64);
             this.pgNuocSX.Name = "pgNuocSX";
-            this.pgNuocSX.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.pgNuocSX.Padding = new System.Windows.Forms.Padding(3);
             this.pgNuocSX.Size = new System.Drawing.Size(1728, 957);
             this.pgNuocSX.TabIndex = 3;
             this.pgNuocSX.Text = "Nước sản xuất";
@@ -309,7 +309,7 @@
             this.pgKichCo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
             this.pgKichCo.Location = new System.Drawing.Point(4, 64);
             this.pgKichCo.Name = "pgKichCo";
-            this.pgKichCo.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.pgKichCo.Padding = new System.Windows.Forms.Padding(3);
             this.pgKichCo.Size = new System.Drawing.Size(1728, 957);
             this.pgKichCo.TabIndex = 4;
             this.pgKichCo.Text = "Kích cỡ";
@@ -319,7 +319,7 @@
             this.pgMauSac.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
             this.pgMauSac.Location = new System.Drawing.Point(4, 64);
             this.pgMauSac.Name = "pgMauSac";
-            this.pgMauSac.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.pgMauSac.Padding = new System.Windows.Forms.Padding(3);
             this.pgMauSac.Size = new System.Drawing.Size(1728, 957);
             this.pgMauSac.TabIndex = 5;
             this.pgMauSac.Text = "Màu sắc";
@@ -329,7 +329,7 @@
             this.pgLoai.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
             this.pgLoai.Location = new System.Drawing.Point(4, 64);
             this.pgLoai.Name = "pgLoai";
-            this.pgLoai.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.pgLoai.Padding = new System.Windows.Forms.Padding(3);
             this.pgLoai.Size = new System.Drawing.Size(1728, 957);
             this.pgLoai.TabIndex = 6;
             this.pgLoai.Text = "Loại";
@@ -348,7 +348,7 @@
             this.pgDacDiem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
             this.pgDacDiem.Location = new System.Drawing.Point(4, 64);
             this.pgDacDiem.Name = "pgDacDiem";
-            this.pgDacDiem.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.pgDacDiem.Padding = new System.Windows.Forms.Padding(3);
             this.pgDacDiem.Size = new System.Drawing.Size(1728, 957);
             this.pgDacDiem.TabIndex = 8;
             this.pgDacDiem.Text = "Đặc điểm";
@@ -358,7 +358,7 @@
             this.pgCongDung.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
             this.pgCongDung.Location = new System.Drawing.Point(4, 64);
             this.pgCongDung.Name = "pgCongDung";
-            this.pgCongDung.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.pgCongDung.Padding = new System.Windows.Forms.Padding(3);
             this.pgCongDung.Size = new System.Drawing.Size(1728, 957);
             this.pgCongDung.TabIndex = 9;
             this.pgCongDung.Text = "Công dụng";
@@ -368,7 +368,7 @@
             this.pgChatLieu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
             this.pgChatLieu.Location = new System.Drawing.Point(4, 64);
             this.pgChatLieu.Name = "pgChatLieu";
-            this.pgChatLieu.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.pgChatLieu.Padding = new System.Windows.Forms.Padding(3);
             this.pgChatLieu.Size = new System.Drawing.Size(1728, 957);
             this.pgChatLieu.TabIndex = 1;
             this.pgChatLieu.Text = "Chất liệu";

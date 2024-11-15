@@ -40,16 +40,7 @@ namespace QLBG.Views.SanPham
             MaSP = product.MaHang;
             TenLb.Text = product.TenHangHoa;
             HangLb.Text = GetManufacturerName(product.MaNSX);
-            string projectDirectory = Directory.GetParent(Application.StartupPath).Parent.FullName;
-            string imagePath = Path.Combine(projectDirectory, @"Resources\ProductImages", product.Anh);
-            if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
-            {
-                PictureBoxAnh.Image = Image.FromFile(imagePath);
-            }
-            else
-            {
-                PictureBoxAnh.Image = Image.FromFile(Path.Combine(projectDirectory, @"Resources\ProductImages\default_product.png")); 
-            }
+            PictureBoxAnh.Image = ImageManager.GetProductImage(product.Anh);
             PictureBoxAnh.SizeMode = PictureBoxSizeMode.Zoom;
         }
 
