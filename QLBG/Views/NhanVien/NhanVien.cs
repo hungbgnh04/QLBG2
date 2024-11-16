@@ -118,7 +118,7 @@ namespace QLBG.Views.NhanVien
         }
 
 
-        private void LoadEmployeeData()
+        public void LoadEmployeeData()
         {
             DataTable employees = dbHelper.GetEmployeesWithJob();
             guna2DataGridView1.Rows.Clear();
@@ -267,6 +267,11 @@ namespace QLBG.Views.NhanVien
             {
                 MessageBox.Show("Không có dữ liệu để hiển thị trong báo cáo.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void guna2Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

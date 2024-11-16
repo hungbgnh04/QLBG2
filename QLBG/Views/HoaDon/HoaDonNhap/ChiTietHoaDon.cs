@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QLBG.DTO;
+using QLBG.Helpers;
 
 namespace QLBG.Views.HoaDon.HoaDonNhap
 {
@@ -58,7 +59,6 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
                 return;
             }
 
-            // Kiểm tra từng cột trong dataHD có null không trước khi gán giá trị
             SHDLb.Text = SHDHeaderLb.Text = dataHD["SoHDN"]?.ToString() ?? "";
             lbTenNCC.Text = dataHD["TenNCC"]?.ToString() ?? "";
             lbDiaChi.Text = dataHD["DiaChi"]?.ToString() ?? "";
@@ -119,21 +119,17 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
 
         private void btnXuat_Click(object sender, EventArgs e)
         {
-            // Define the PDF file path
             string pdfFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"HoaDonNhap_{soHDN}.pdf");
 
-            // Load a Unicode font that supports Vietnamese characters
-            string fontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "tahoma.ttf"); // or specify the path to your .ttf file
+            string fontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "tahoma.ttf");
             BaseFont bf = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             iTextSharp.text.Font titleFont = new iTextSharp.text.Font(bf, 18, iTextSharp.text.Font.BOLD);
             iTextSharp.text.Font contentFont = new iTextSharp.text.Font(bf, 12, iTextSharp.text.Font.NORMAL);
 
-            // Create a PDF document
             Document pdfDoc = new Document(PageSize.A4, 25, 25, 30, 30);
             PdfWriter writer = PdfWriter.GetInstance(pdfDoc, new FileStream(pdfFilePath, FileMode.Create));
             pdfDoc.Open();
 
-            // Title
             Paragraph title = new Paragraph("Chi Tiết Hóa Đơn Nhập", titleFont)
             {
                 Alignment = Element.ALIGN_CENTER,
@@ -141,7 +137,6 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             };
             pdfDoc.Add(title);
 
-            // Invoice details
             pdfDoc.Add(new Paragraph($"Số HĐN: {SHDLb.Text}", contentFont));
             pdfDoc.Add(new Paragraph($"Nhà Cung Cấp: {lbTenNCC.Text}", contentFont));
             pdfDoc.Add(new Paragraph($"Địa Chỉ: {lbDiaChi.Text}", contentFont));
@@ -150,15 +145,13 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
             pdfDoc.Add(new Paragraph($"Mã NV: {llbMaNv.Text}", contentFont));
             pdfDoc.Add(new Paragraph($"Tên NV: {lbTenNv.Text}", contentFont));
             pdfDoc.Add(new Paragraph($"Tổng Tiền: {lbTongTien.Text}", contentFont));
-            pdfDoc.Add(new Paragraph(" ")); // Line break
+            pdfDoc.Add(new Paragraph(" "));
 
-            // Create a table for the invoice details
             PdfPTable table = new PdfPTable(dgvSanPham.Columns.Count)
             {
                 WidthPercentage = 100
             };
 
-            // Add header cells
             foreach (DataGridViewColumn column in dgvSanPham.Columns)
             {
                 PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText, contentFont))
@@ -168,7 +161,6 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
                 table.AddCell(cell);
             }
 
-            // Add rows
             foreach (DataGridViewRow row in dgvSanPham.Rows)
             {
                 foreach (DataGridViewCell cell in row.Cells)
@@ -179,13 +171,11 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
 
             pdfDoc.Add(table);
 
-            // Close the PDF document
             pdfDoc.Close();
             writer.Close();
 
             MessageBox.Show("PDF đã được xuất thành công!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // Open the PDF after exporting
             if (File.Exists(pdfFilePath))
             {
                 System.Diagnostics.Process.Start(pdfFilePath);
@@ -195,6 +185,11 @@ namespace QLBG.Views.HoaDon.HoaDonNhap
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (Session.QuyenAdmin == false)
+            {
+                MessageBox.Show("Bạn không có quyền xóa hóa đơn này", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (MessageBox.Show("Bạn có chắc chắn muốn xóa hóa đơn này?", "Xác Nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {
                 return;

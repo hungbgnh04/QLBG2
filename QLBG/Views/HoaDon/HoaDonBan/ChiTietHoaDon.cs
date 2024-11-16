@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QLBG.DTO;
+using QLBG.Helpers;
 
 namespace QLBG.Views.HoaDon.HoaDonBan
 {
@@ -163,6 +164,11 @@ namespace QLBG.Views.HoaDon.HoaDonBan
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (Session.QuyenAdmin == false)
+            {
+                MessageBox.Show("Bạn không có quyền xóa hóa đơn này", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (MessageBox.Show("Bạn có chắc chắn muốn xóa hóa đơn này?", "Xác Nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {
                 return;

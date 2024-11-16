@@ -224,20 +224,19 @@ namespace QLBG.Views.Access
 
                 if (isValid)
                 {
-                    // Lấy thông tin nhân viên đăng nhập
+    
                     DataRow employee = dbHelper.GetEmployeeByEmail(textBox1.Text);
                     if (employee != null)
                     {
                         int maNV = Convert.ToInt32(employee["MaNV"]);
                         bool quyenAdmin = Convert.ToBoolean(employee["QuyenAdmin"]);
 
-                        // Lưu thông tin vào Session
+  
                         Session.SetAuthentication(maNV, quyenAdmin);
 
                         incorrectInfo.Visible = false;
                         this.Hide();
 
-                        // Mở form chính sau khi đăng nhập thành công
                         frmLayout frmLayout = new frmLayout();
                         frmLayout.Show();
                     }

@@ -17,7 +17,6 @@ namespace QLBG.Helpers
             AuthToken = Guid.NewGuid().ToString();
             LastLoginTime = DateTime.Now;
 
-            // Lưu token vào Registry
             RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\QLBGApp");
             key.SetValue("AuthToken", AuthToken);
             key.SetValue("LastLoginTime", LastLoginTime.ToString());
@@ -38,7 +37,6 @@ namespace QLBG.Helpers
             QuyenAdmin = false;
             AuthToken = null;
 
-            // Xóa token khỏi Registry
             RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\QLBGApp");
             key.DeleteValue("AuthToken", false);
             key.DeleteValue("LastLoginTime", false);

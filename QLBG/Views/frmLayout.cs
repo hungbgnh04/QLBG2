@@ -144,6 +144,8 @@ namespace QLBG.Views
                 return;
             }
 
+            nhanVien.LoadEmployeeData();
+
             DataRow employee = dbHelper.GetEmployeeByMaNV(Session.MaNV);
             if (employee != null)
             {

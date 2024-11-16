@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using QLBG.Helpers; // Import để sử dụng Session
-using QLBG.Views;   // Import để sử dụng frmLayout và frmLogin
-using QLBG.Views.Access; // Import để sử dụng LoginForm
+using QLBG.Helpers;
+using QLBG.Views; 
+using QLBG.Views.Access; 
 
 namespace QLBG
 {
@@ -20,15 +20,12 @@ namespace QLBG
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Kiểm tra Authentication Token
             if (Session.LoadAuthToken() && Session.IsSessionValid())
             {
-                // Mở form chính nếu có token hợp lệ
                 Application.Run(new frmLayout());
             }
             else
             {
-                // Mở form đăng nhập nếu không có token hoặc phiên đã hết hạn
                 Application.Run(new LoginForm());
             }
         }
